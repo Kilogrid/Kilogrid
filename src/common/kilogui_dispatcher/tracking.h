@@ -27,12 +27,12 @@
 
 typedef struct __attribute__ ((__packed__)) {
   /** @brief */
-  kilogrid_address_t	cell_address;
+  kilogrid_address_t	module_address;
 
-  uint8_t				sc;
+  uint8_t				cell;
 
   /** @brief */
-  uint8_t  		  		cell_data[TRACKING_MSG_USER_DATA];
+  uint8_t  		  		module_data[TRACKING_MSG_USER_DATA];
 
   /** @brief */
   uint32_t				timestamp;
@@ -59,7 +59,7 @@ typedef struct __attribute__ ((__packed__)) {
 
 /**** FUNCTIONS PROTOTYPES ****/
 
-void tracking_message_received(kilogrid_address_t address, uint8_t sc, tracking_user_data_t* data);
+void tracking_message_received(kilogrid_address_t address, uint8_t cell, tracking_user_data_t* data);
 uint8_t tracking_try_send(uint8_t);
 void tracking_init(uint8_t);
 

@@ -498,23 +498,23 @@ static inline void process_CAN_message() {
 
 			break;
 
-		case CAN_CELL_BOOT:
+		case CAN_MODULE_BOOT:
 			goto_bootloader();
 			break;
 
-		case CAN_CELL_IDLE:
+		case CAN_MODULE_IDLE:
 			module_state = MODULE_IDLE;
 			break;
 
-		case CAN_CELL_SETUP:
+		case CAN_MODULE_SETUP:
 			module_state = MODULE_SETUP;
 			break;
 
-		case CAN_CELL_RUN:
+		case CAN_MODULE_RUN:
 			module_state = MODULE_RUNNING;
 			break;
 
-		case CAN_CELL_CONFIG_SIZE:
+		case CAN_MODULE_CONFIG_SIZE:
 			// size of the configuration data in bytes
 			configuration_size = CAN_message_rx.data[2];
 
@@ -531,7 +531,7 @@ static inline void process_CAN_message() {
 
 			break;
 
-		case CAN_CELL_CONFIG_TRANSFER:
+		case CAN_MODULE_CONFIG_TRANSFER:
 			if(module_state != MODULE_WAITING_FOR_CONFIGURATION_DATA ||
 			   configuration_faulty){
 				return;
@@ -616,8 +616,7 @@ void module_init(void){
 	// Setup peripherals
 	init_serial();
 	init_module_LED();
-	init_CellCAN(module_uid_x_coord, module_uid_y_coord); // TODO: replaced with following
-	// init_module_CAN(module_uid_x_coord, module_uid_y_coord);
+	init_module_CAN(module_uid_x_coord, module_uid_y_coord);
 	init_module_IR();
 
 	brightness_dir = 1; // increasing

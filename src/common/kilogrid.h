@@ -39,7 +39,7 @@ typedef struct __attribute__((__packed__)){
 } kilogrid_address_t;
 
 typedef enum{
-	TO_CELL = 0,
+	TO_MODULE = 0,
 	TO_DISPATCHER = 1
 } destination_type_t;
 

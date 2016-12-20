@@ -1,11 +1,9 @@
 #ifndef __DISPATCHER_H__
 #define __DISPATCHER_H__
 
-/* INCLUDES */
-
 #include <stdint.h>
 
-/* DEFINES */
+
 #define MS_PER_TICK				32
 #define MS_TO_TICKS(a) 			(a / MS_PER_TICK)
 #define BAUD_TOL				3 // avoid warning from avr/setbaud.h since we can't get a 2% tolerance at baudrate 256000 with the ATmega328P at 8 MHz
