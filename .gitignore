@@ -1,0 +1,12 @@
+# Directories
+build/
+
+# Binaries
+*.o
+*.a
+*.elf
+*.hex
+
+# Cache files
+*.pro.user
+*.d
