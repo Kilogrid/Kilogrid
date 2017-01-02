@@ -1,5 +1,0 @@
-<map id="kilo_start" name="kilo_start">
-<area shape="rect" id="node2" href="$kilolib_8c.html#a688f6cb87fe5f9e9a3909d9c09059a97" title="Set the output of the RGB led. " alt="" coords="136,5,211,32"/>
-<area shape="rect" id="node3" href="$kilolib_8c.html#a1c0e3add54087881b61ac1ab52c4d7f3" title="Read the amount of battery voltage. " alt="" coords="129,56,218,83"/>
-<area shape="rect" id="node4" href="$kilolib_8c.html#abb1e7e8e2d6295d6988d9cf8976f3b71" title="Set the power of each motor. " alt="" coords="130,107,217,133"/>
-</map>

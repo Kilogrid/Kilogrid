@@ -1,8 +1,0 @@
-<map id="src/common/ringbuffer.h" name="src/common/ringbuffer.h">
-<area shape="rect" id="node2" href="$message__buffered_8h.html" title="src/common/module_kilobot\l/message_buffered.h" alt="" coords="5,81,189,122"/>
-<area shape="rect" id="node3" href="$dispatcher_8c.html" title="src/dispatcher/dispatcher.c" alt="" coords="215,88,393,115"/>
-<area shape="rect" id="node4" href="$kilob__cdms_8c.html" title="src/kilob/kilob_cdms.c" alt="" coords="417,88,569,115"/>
-<area shape="rect" id="node5" href="$kilob__messaging_8c.html" title="src/kilob/kilob_messaging.c" alt="" coords="594,88,776,115"/>
-<area shape="rect" id="node6" href="$kilob__wall__avoidance_8c.html" title="src/kilob/kilob_wall\l_avoidance.c" alt="" coords="801,81,932,122"/>
-<area shape="rect" id="node7" href="$module_8c.html" title="src/module/module.c" alt="" coords="957,88,1099,115"/>
-</map>

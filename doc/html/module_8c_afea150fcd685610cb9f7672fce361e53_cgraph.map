@@ -1,5 +1,0 @@
-<map id="ISR" name="ISR">
-<area shape="rect" id="node2" href="$mcp2515_8c.html#af141da72c5d47e71585a3bb9e8171011" title="mcp2515_get_message" alt="" coords="99,31,259,57"/>
-<area shape="rect" id="node3" href="$mcp2515_8c.html#ab3e48a42131e0f03105ed354041bbdba" title="mcp2515_read_status" alt="" coords="307,5,458,32"/>
-<area shape="rect" id="node4" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="507,31,578,57"/>
-</map>

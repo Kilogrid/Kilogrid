@@ -1,9 +1,0 @@
-<map id="CAN_send_bootpage" name="CAN_send_bootpage">
-<area shape="rect" id="node2" href="$_c_a_n_8h.html#a73ac80de3409f0230bf6005cc25be751" title="init_CAN_message" alt="" coords="201,20,335,47"/>
-<area shape="rect" id="node3" href="$_c_a_n_8h.html#a1d8b18c1e9e9379c0cb8326e3cce640b" title="This function modifies the ID field of the CAN message to be sent, according to the Kilogrid addressi..." alt="" coords="203,71,333,97"/>
-<area shape="rect" id="node4" href="$_c_a_n_8c.html#aa4c80db50b8633f374bfc84d9b54e51a" title="Compute CAN ID based on the type of addressing, destination type (type of node to reach) and coordina..." alt="" coords="385,5,565,46"/>
-<area shape="rect" id="node5" href="$mcp2515_8c.html#afe162e26baee5181db3a7883932c83de" title="mcp2515_bit_modify" alt="" coords="618,71,761,97"/>
-<area shape="rect" id="node7" href="$mcp2515_8c.html#a4f68a0b4bbe64f5cdecdcad00dc6387d" title="mcp2515_send_message" alt="" coords="389,121,560,148"/>
-<area shape="rect" id="node6" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="814,121,885,148"/>
-<area shape="rect" id="node8" href="$mcp2515_8c.html#ab3e48a42131e0f03105ed354041bbdba" title="mcp2515_read_status" alt="" coords="614,172,765,199"/>
-</map>

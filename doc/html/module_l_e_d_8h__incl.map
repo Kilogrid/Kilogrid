@@ -1,7 +1,0 @@
-<map id="src/module/moduleLED.h" name="src/module/moduleLED.h">
-<area shape="rect" id="node3" href="$module_8h.html" title="This file implements high level handling of CAN messages based on their type. Commands or bootpages f..." alt="" coords="104,80,177,107"/>
-<area shape="rect" id="node4" href="$mcp2515_8h.html" title="mcp2515.h" alt="" coords="127,155,213,181"/>
-<area shape="rect" id="node5" href="$bootpage_8h.html" title="bootpage.h" alt="" coords="127,229,213,256"/>
-<area shape="rect" id="node6" href="$mcp2515__defs_8h.html" title="mcp2515_defs.h" alt="" coords="238,229,356,256"/>
-<area shape="rect" id="node7" href="$kilogrid_8h.html" title="kilogrid.h" alt="" coords="380,229,453,256"/>
-</map>

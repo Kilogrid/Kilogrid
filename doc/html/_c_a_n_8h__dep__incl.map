@@ -1,8 +1,0 @@
-<map id="src/common/CAN.h" name="src/common/CAN.h">
-<area shape="rect" id="node2" href="$_c_a_n_8c.html" title="src/common/dispatcher\l_module/CAN.c" alt="" coords="5,81,163,122"/>
-<area shape="rect" id="node3" href="$tracking_8h.html" title="src/common/kilogui\l_dispatcher/tracking.h" alt="" coords="239,81,389,122"/>
-<area shape="rect" id="node4" href="$dispatcher_8c.html" title="src/dispatcher/dispatcher.c" alt="" coords="112,171,291,197"/>
-<area shape="rect" id="node6" href="$module_2bootldr_8c.html" title="src/module/bootldr.c" alt="" coords="414,88,553,115"/>
-<area shape="rect" id="node7" href="$module_8c.html" title="src/module/module.c" alt="" coords="578,88,720,115"/>
-<area shape="rect" id="node5" href="$tracking_8c.html" title="src/dispatcher/tracking.c" alt="" coords="315,171,479,197"/>
-</map>

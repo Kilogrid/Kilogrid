@@ -1,6 +1,0 @@
-<map id="init_module_LED" name="init_module_LED">
-<area shape="rect" id="node2" href="$_i2_c__master_8c.html#a9ff51ddf1d325776fef90cce0223772b" title="I2C_init" alt="" coords="183,5,249,32"/>
-<area shape="rect" id="node3" href="$_i2_c__master_8c.html#af607bd4f4cbf494d3903948567b90a6b" title="I2C_start" alt="" coords="178,56,254,83"/>
-<area shape="rect" id="node4" href="$_i2_c__master_8c.html#ad707cbffaa3eb5213245c4d9894d04e1" title="I2C_write" alt="" coords="177,107,255,133"/>
-<area shape="rect" id="node5" href="$_i2_c__master_8c.html#af6b4e1bf114a26416938dff94e24f3a5" title="I2C_stop" alt="" coords="179,157,253,184"/>
-</map>

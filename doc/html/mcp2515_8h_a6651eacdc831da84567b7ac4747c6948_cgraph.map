@@ -1,5 +1,0 @@
-<map id="mcp2515_set_mask" name="mcp2515_set_mask">
-<area shape="rect" id="node2" href="$mcp2515_8c.html#acdd23c0725af54639ee9a44e41722627" title="mcp2515_set_mode" alt="" coords="192,5,331,32"/>
-<area shape="rect" id="node3" href="$mcp2515_8c.html#a166398065152fee7fc236d4df83e29be" title="mcp2515_write_register" alt="" coords="379,31,539,57"/>
-<area shape="rect" id="node4" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="587,31,658,57"/>
-</map>

@@ -1,4 +1,0 @@
-<map id="set_all_LEDs" name="set_all_LEDs">
-<area shape="rect" id="node2" href="$module_l_e_d_8c.html#af23ccb5ff5ee79b53ee700707b8feb54" title="Set all LEDs color to a color and brightness. " alt="" coords="155,5,354,32"/>
-<area shape="rect" id="node3" href="$module_l_e_d_8c.html#a13af25225157e8763b42c37af847861c" title="Set a specified cell&#39;s LEDs with specified brightness. " alt="" coords="403,5,573,32"/>
-</map>

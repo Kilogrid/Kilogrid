@@ -1,8 +1,0 @@
-<map id="src/module/module.h" name="src/module/module.h">
-<area shape="rect" id="node2" href="$module_2bootldr_8c.html" title="src/module/bootldr.c" alt="" coords="5,155,144,181"/>
-<area shape="rect" id="node3" href="$module_l_e_d_8h.html" title="src/module/moduleLED.h" alt="" coords="118,80,287,107"/>
-<area shape="rect" id="node4" href="$module_8c.html" title="src/module/module.c" alt="" coords="362,155,504,181"/>
-<area shape="rect" id="node5" href="$module_l_e_d_8c.html" title="src/module/moduleLED.c" alt="" coords="169,155,337,181"/>
-<area shape="rect" id="node6" href="$module_i_r_8h.html" title="Contains macros for timer manipulation... " alt="" coords="413,80,571,107"/>
-<area shape="rect" id="node7" href="$module_i_r_8c.html" title="src/module/moduleIR.c" alt="" coords="529,155,687,181"/>
-</map>

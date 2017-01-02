@@ -1,8 +1,0 @@
-<map id="src/common/module_kilobot/kilo_rand_lib.h" name="src/common/module_kilobot/kilo_rand_lib.h">
-<area shape="rect" id="node2" href="$kilo__rand__lib_8c.html" title="src/common/module_kilobot\l/kilo_rand_lib.c" alt="" coords="5,97,189,138"/>
-<area shape="rect" id="node3" href="$kilob__cdms_8h.html" title="src/kilob/kilob_cdms.h" alt="" coords="215,104,367,131"/>
-<area shape="rect" id="node5" href="$kilob__gradient_8c.html" title="src/kilob/kilob_gradient.c" alt="" coords="391,104,557,131"/>
-<area shape="rect" id="node6" href="$kilob__random__walk_8c.html" title="src/kilob/kilob_random\l_walk.c" alt="" coords="583,97,735,138"/>
-<area shape="rect" id="node7" href="$kilob__wall__avoidance_8c.html" title="src/kilob/kilob_wall\l_avoidance.c" alt="" coords="759,97,891,138"/>
-<area shape="rect" id="node4" href="$kilob__cdms_8c.html" title="src/kilob/kilob_cdms.c" alt="" coords="215,187,367,213"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="src/module/bootldr.c" name="src/module/bootldr.c">
-<area shape="rect" id="node11" href="$_c_a_n_8h.html" title="CAN.h" alt="" coords="893,155,955,181"/>
-<area shape="rect" id="node14" href="$mcp2515_8h.html" title="mcp2515.h" alt="" coords="962,229,1048,256"/>
-<area shape="rect" id="node18" href="$module_8h.html" title="This file implements high level handling of CAN messages based on their type. Commands or bootpages f..." alt="" coords="1036,155,1109,181"/>
-<area shape="rect" id="node19" href="$module_l_e_d_8h.html" title="moduleLED.h" alt="" coords="1087,80,1188,107"/>
-<area shape="rect" id="node17" href="$kilogrid_8h.html" title="kilogrid.h" alt="" coords="889,304,963,331"/>
-<area shape="rect" id="node15" href="$bootpage_8h.html" title="bootpage.h" alt="" coords="1039,304,1125,331"/>
-<area shape="rect" id="node16" href="$mcp2515__defs_8h.html" title="mcp2515_defs.h" alt="" coords="1150,304,1268,331"/>
-</map>

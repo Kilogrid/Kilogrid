@@ -1,6 +1,0 @@
-<map id="kilob_tracking_init" name="kilob_tracking_init">
-<area shape="rect" id="node2" href="$kilob__messaging_8c.html#a27fde97809fdb3d75b04ebca777502b8" title="kilob_messaging_init" alt="" coords="182,31,325,57"/>
-<area shape="rect" id="node3" href="$kilob__messaging_8c.html#ad754606cb0ba981317cb24ab7da27f05" title="Internal function called when there is an opportunity to send a message. Messages are sent in an FCFS..." alt="" coords="373,5,515,32"/>
-<area shape="rect" id="node5" href="$kilob__messaging_8c.html#aafaf4e05ae26835d81df18011b5f98ac" title="Internal function for managing the message buffer, called when a message was sent successfully..." alt="" coords="373,56,515,83"/>
-<area shape="rect" id="node4" href="$message__crc_8c.html#a588cda755a4bfe35f10fe3158d92f3c1" title="Function to compute the CRC of a message struct. " alt="" coords="563,5,663,32"/>
-</map>

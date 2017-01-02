@@ -1,8 +1,0 @@
-<map id="src/kilolib/bootldr.c" name="src/kilolib/bootldr.c">
-<area shape="rect" id="node2" href="$kilolib_8h.html" title="kilolib.h" alt="" coords="5,80,72,107"/>
-<area shape="rect" id="node6" href="$kilolib_2bitfield_8h.html" title="bitfield.h" alt="" coords="97,80,167,107"/>
-<area shape="rect" id="node7" href="$kilolib_2bootldr_8h.html" title="bootldr.h" alt="" coords="192,80,264,107"/>
-<area shape="rect" id="node8" href="$message__send_8h.html" title="message_send.h" alt="" coords="226,155,347,181"/>
-<area shape="rect" id="node4" href="$message_8h.html" title="message.h" alt="" coords="65,229,151,256"/>
-<area shape="rect" id="node5" href="$message__crc_8h.html" title="message_crc.h" alt="" coords="85,155,195,181"/>
-</map>

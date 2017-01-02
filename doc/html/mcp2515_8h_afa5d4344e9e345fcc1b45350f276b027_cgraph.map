@@ -1,4 +1,0 @@
-<map id="mcp2515_set_mode" name="mcp2515_set_mode">
-<area shape="rect" id="node2" href="$mcp2515_8c.html#a166398065152fee7fc236d4df83e29be" title="mcp2515_write_register" alt="" coords="192,5,352,32"/>
-<area shape="rect" id="node3" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="401,5,471,32"/>
-</map>

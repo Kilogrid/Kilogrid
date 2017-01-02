@@ -1,5 +1,0 @@
-<map id="kilo_message_buffered" name="kilo_message_buffered">
-<area shape="rect" id="node2" href="$message__buffered_8h.html#a5760adaea4991d218d6cea8486847748" title="rxbuffer_push" alt="" coords="211,5,312,32"/>
-<area shape="rect" id="node3" href="$message__buffered_8h.html#aa0473333992f4fceeb6de294ab6728a6" title="txbuffer_peek" alt="" coords="211,56,312,83"/>
-<area shape="rect" id="node4" href="$message__buffered_8h.html#aae0c17304a9f0b885121f6027e0a9960" title="txbuffer_pop" alt="" coords="214,107,309,133"/>
-</map>
