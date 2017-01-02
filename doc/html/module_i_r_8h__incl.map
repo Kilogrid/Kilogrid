@@ -1,0 +1,10 @@
+<map id="src/module/moduleIR.h" name="src/module/moduleIR.h">
+<area shape="rect" id="node2" href="$message_8h.html" title="message.h" alt="" coords="5,155,91,181"/>
+<area shape="rect" id="node4" href="$message__send_8h.html" title="message_send.h" alt="" coords="43,80,164,107"/>
+<area shape="rect" id="node5" href="$module_8h.html" title="This file implements high level handling of CAN messages based on their type. Commands or bootpages f..." alt="" coords="189,80,263,107"/>
+<area shape="rect" id="node10" href="$module_2_i_o_8h.html" title="IO.h" alt="" coords="293,80,339,107"/>
+<area shape="rect" id="node6" href="$mcp2515_8h.html" title="mcp2515.h" alt="" coords="179,155,265,181"/>
+<area shape="rect" id="node7" href="$bootpage_8h.html" title="bootpage.h" alt="" coords="137,229,223,256"/>
+<area shape="rect" id="node8" href="$mcp2515__defs_8h.html" title="mcp2515_defs.h" alt="" coords="247,229,365,256"/>
+<area shape="rect" id="node9" href="$kilogrid_8h.html" title="kilogrid.h" alt="" coords="389,229,463,256"/>
+</map>

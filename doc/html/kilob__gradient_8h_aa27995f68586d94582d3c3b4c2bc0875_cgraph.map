@@ -1,0 +1,11 @@
+<map id="kilob_gradient_tracking_message_received" name="kilob_gradient_tracking_message_received">
+<area shape="rect" id="node2" href="$docs_2kilolib_8h.html#a73b16f9b501a4b814c047d9f38b206fc" title="Set the output of the RGB led. " alt="" coords="243,17,317,44"/>
+<area shape="rect" id="node3" href="$kilob__gradient_8c.html#a2ecafe680faefeadb74fb946bf37d89f" title="Private function, initiates evasion, sets up state and timer needed. If the direction is UNDEFINED..." alt="" coords="208,68,352,95"/>
+<area shape="rect" id="node4" href="$kilo__rand__lib_8c.html#a88c150349d24cbd95fe064ee7016c16d" title="g_ran_uniform" alt="" coords="571,5,675,32"/>
+<area shape="rect" id="node5" href="$utils_8c.html#a0565ad7a822d9d334bb50c088af22361" title="Use this function to turn left. " alt="" coords="423,93,492,120"/>
+<area shape="rect" id="node9" href="$utils_8c.html#aca3b725ebee32d3719a9c02b41002ea3" title="Use this function to turn right. " alt="" coords="419,144,495,171"/>
+<area shape="rect" id="node10" href="$kilo__rand__lib_8c.html#ad7ffcdbd7e9af96ac8528a34811ed40f" title="g_ran_gaussian" alt="" coords="401,43,514,69"/>
+<area shape="rect" id="node6" href="$docs_2kilolib_8h.html#ae35dbec14e979e7d894daa919dc47582" title="Set the power of each motor. " alt="" coords="579,68,666,95"/>
+<area shape="rect" id="node7" href="$docs_2kilolib_8h.html#adb7db4d9ef946dcfb58bcfc667ee674a" title="Pauses the program for the specified amount of time. " alt="" coords="596,119,649,145"/>
+<area shape="rect" id="node8" href="$utils_8c.html#ab9b99496635f5f6acd3e11c7d109e58d" title="Safely set the power of each motor. " alt="" coords="563,169,682,196"/>
+</map>

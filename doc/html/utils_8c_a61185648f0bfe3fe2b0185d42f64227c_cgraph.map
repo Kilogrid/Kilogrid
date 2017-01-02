@@ -1,0 +1,9 @@
+<map id="utils_rx" name="utils_rx">
+<area shape="rect" id="node2" href="$utils_8c.html#a5050dc9630f0a05793ddc5f7e14db637" title="try_enable_motors" alt="" coords="118,5,247,32"/>
+<area shape="rect" id="node3" href="$utils_8c.html#af54cc9bc2d6a269740fcefec16accb6e" title="Use this function to move straight. " alt="" coords="131,56,235,83"/>
+<area shape="rect" id="node7" href="$utils_8c.html#a0565ad7a822d9d334bb50c088af22361" title="Use this function to turn left. " alt="" coords="148,107,217,133"/>
+<area shape="rect" id="node8" href="$utils_8c.html#aca3b725ebee32d3719a9c02b41002ea3" title="Use this function to turn right. " alt="" coords="145,157,221,184"/>
+<area shape="rect" id="node4" href="$docs_2kilolib_8h.html#ae35dbec14e979e7d894daa919dc47582" title="Set the power of each motor. " alt="" coords="313,56,399,83"/>
+<area shape="rect" id="node5" href="$docs_2kilolib_8h.html#adb7db4d9ef946dcfb58bcfc667ee674a" title="Pauses the program for the specified amount of time. " alt="" coords="329,107,383,133"/>
+<area shape="rect" id="node6" href="$utils_8c.html#ab9b99496635f5f6acd3e11c7d109e58d" title="Safely set the power of each motor. " alt="" coords="297,157,415,184"/>
+</map>

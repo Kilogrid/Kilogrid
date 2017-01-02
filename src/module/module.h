@@ -1,11 +1,11 @@
-/** \file module.h
- *
- * @brief This file implements high level handling of CAN messages based on
+/**
+ * @file     Kilogrid/src/module/module.h
+ * @brief    This file implements high level handling of CAN messages based on
  * their type. Commands or bootpages forwarded to the kilobots are
  * processed here. The two functions defined handle the module initialization
  * and the starting of the module as well.
- *
- * Initializing the module means initializing all the peripherals:
+
+ * @details    Initializing the module means initializing all the peripherals:
  *  - serial
  *  - led driver
  *  - CAN
@@ -16,17 +16,23 @@
  *  - transferring the bootpages to the kilobots once complete
  *  - calling user supplied setup, triggered by CAN_MODULE_SETUP message
  *  - calling user supplied loop, triggered by CAN_MODULE_RUN message
+
+ * @author   IRIDIA lab
+ * @date     
+ * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 
+ *           more info at http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
+
 #ifndef KILOGRID_MODULE_H
 #define KILOGRID_MODULE_H
 
 #include <mcp2515.h>
 
 
-// module rev.A contains 4 cells
+/** number of cells in a module. example: module rev.A contains 4 cells */
 #define N_CELLS                             4
 
-// cells are numbered from CELL_LOWER_INDEX to CELL_HIGHER_INDEX
+/** cells are numbered from CELL_LOWER_INDEX to CELL_HIGHER_INDEX */
 #define CELL_LOWER_INDEX                    0x00
 #define CELL_UPPER_INDEX                    CELL_LOWER_INDEX + (N_CELLS - 1)
 
@@ -39,8 +45,8 @@
 typedef void (*AddressPointer_t)(void) __attribute__ ((noreturn));
 
 /**
- *	@brief Enumerates all cells addresses of the module.
- *  The addresses relate to their position in the MUXes and LED driver positions.
+ * @brief      Enumerates all cells addresses of the module. The addresses
+ *             relate to their position in the MUXes and LED driver positions.
  */
 typedef enum {
 	CELL_00 = CELL_LOWER_INDEX,
@@ -81,38 +87,38 @@ extern "C" {
 #endif
 
 /**
- * @brief Initialize module hardware.
+ * @brief      Initialize module hardware.
  *
- * This function initializes all hardware of the module. This includes setting hardware timers,
- * configuring ports, setting up analog-to-digital converters,
- * registering system interrupts and the initializing the messaging
- * subsystem.
+ *             This function initializes all hardware of the module. This
+ *             includes setting hardware timers, configuring ports, setting up
+ *             analog-to-digital converters, registering system interrupts and
+ *             the initializing the messaging subsystem.
  *
- * It is recommended that you call this function as early as possible
- * inside the `main` function of your program.
+ *             It is recommended that you call this function as early as
+ *             possible inside the `main` function of your program.
  */
 void module_init(void);
 
 /**
- * @brief Start module event loop.
+ * @brief      Start module event loop.
  *
- * This function receives two parameters. The first parameter @p setup
- * is a function which will be called once to perform any initialization
- * required by your user program. The second parameter @p loop is a
- * function that will be called repeatedly to perform any computations
- * required by your user program.
+ *             This function receives two parameters. The first parameter @p
+ *             setup is a function which will be called once to perform any
+ *             initialization required by your user program. The second
+ *             parameter @p loop is a function that will be called repeatedly to
+ *             perform any computations required by your user program.
  *
- * Using the overhead controller it is possible to interrupt the event
- * loop to trigger events such as program start/resume, program pause,
- * and program restart.
+ *             Using the overhead controller it is possible to interrupt the
+ *             event loop to trigger events such as program start/resume,
+ *             program pause, and program restart.
  *
- * @param setup Put your setup code here, it will be called in a loop
- 					the configuration for the module (if any) is in the
- 					configuration variable, the size of the configuration
- 					data is configuration_size bytes. If configuration_size
- 					is 0 it means that no configuration data was received.
-
- * @param loop  Put your main code here, will be run repeatedly.
+ * @param      setup  Put your setup code here, it will be called in a loop the
+ *                    configuration for the module (if any) is in the
+ *                    configuration variable, the size of the configuration data
+ *                    is configuration_size bytes. If configuration_size is 0 it
+ *                    means that no configuration data was received.
+ * @param      loop   Put your main code here, will be run repeatedly.
+ *
  *
  * @code
  *
@@ -134,8 +140,17 @@ void module_init(void);
  * @endcode
  */
 void module_start(void (*setup)(void), void (*loop)(void));
+
+/**
+ * @brief      { function_description }
+ */
 void module_enable_autostart();
 
+/**
+ * @brief      { function_description }
+ *
+ * @return     { description_of_the_return_value }
+ */
 CAN_message_t* next_CAN_message();
 
 #ifdef __cplusplus

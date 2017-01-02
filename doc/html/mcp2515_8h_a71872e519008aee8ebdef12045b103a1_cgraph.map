@@ -1,0 +1,5 @@
+<map id="init_mcp2515" name="init_mcp2515">
+<area shape="rect" id="node2" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="361,25,431,52"/>
+<area shape="rect" id="node3" href="$mcp2515_8c.html#a39e1f446e4eb6f7a4b70916bc391ddea" title="mcp2515_read_register" alt="" coords="153,25,311,52"/>
+<area shape="rect" id="node4" href="$mcp2515_8c.html#a166398065152fee7fc236d4df83e29be" title="mcp2515_write_register" alt="" coords="152,76,312,102"/>
+</map>

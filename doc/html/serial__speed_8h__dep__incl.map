@@ -1,0 +1,6 @@
+<map id="src/common/kilogui_dispatcher/serial_speed.h" name="src/common/kilogui_dispatcher/serial_speed.h">
+<area shape="rect" id="node2" href="$serial__packet_8h.html" title="src/common/kilogui\l_dispatcher/serial_packet.h" alt="" coords="109,97,291,138"/>
+<area shape="rect" id="node3" href="$tracking_8h.html" title="src/common/kilogui\l_dispatcher/tracking.h" alt="" coords="125,187,275,229"/>
+<area shape="rect" id="node4" href="$dispatcher_8c.html" title="src/dispatcher/dispatcher.c" alt="" coords="5,277,184,304"/>
+<area shape="rect" id="node5" href="$tracking_8c.html" title="src/dispatcher/tracking.c" alt="" coords="223,277,387,304"/>
+</map>

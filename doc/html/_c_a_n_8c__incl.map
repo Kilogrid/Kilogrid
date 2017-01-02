@@ -1,0 +1,9 @@
+<map id="src/common/dispatcher_module/CAN.c" name="src/common/dispatcher_module/CAN.c">
+<area shape="rect" id="node3" href="$_c_a_n_8h.html" title="CAN.h" alt="" coords="370,96,432,123"/>
+<area shape="rect" id="node6" href="$mcp2515_8h.html" title="mcp2515.h" alt="" coords="439,171,525,197"/>
+<area shape="rect" id="node8" href="$mcp2515__defs_8h.html" title="mcp2515_defs.h" alt="" coords="575,245,693,272"/>
+<area shape="rect" id="node9" href="$kilogrid_8h.html" title="kilogrid.h" alt="" coords="236,245,309,272"/>
+<area shape="rect" id="node11" href="$common_2dispatcher__module_2debug_8h.html" title="debug.h" alt="" coords="659,96,727,123"/>
+<area shape="rect" id="node13" href="$common_2dispatcher__module_2utils_8h.html" title="utils.h" alt="" coords="751,96,808,123"/>
+<area shape="rect" id="node7" href="$bootpage_8h.html" title="bootpage.h" alt="" coords="465,245,551,272"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="send_IR_message" name="send_IR_message">
+<area shape="rect" id="node2" href="$message__crc_8c.html#a588cda755a4bfe35f10fe3158d92f3c1" title="Function to compute the CRC of a message struct. " alt="" coords="190,5,290,32"/>
+<area shape="rect" id="node3" href="$message__send_8h.html#a9996e7cbe4082e32c08ba4cd2e5db4f0" title="message_send" alt="" coords="185,56,295,83"/>
+</map>

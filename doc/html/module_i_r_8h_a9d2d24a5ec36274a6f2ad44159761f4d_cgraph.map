@@ -1,0 +1,5 @@
+<map id="init_module_IR" name="init_module_IR">
+<area shape="rect" id="node2" href="$module_l_e_d_8c.html#a660626a5b904baebf738775025b9243e" title="Set a specified cell&#39;s LEDs to a color at ADJUSTED brightness. " alt="" coords="186,5,259,32"/>
+<area shape="rect" id="node4" href="$module_i_r_8c.html#a6c6c51e7df93f04a016439842f6bb3e7" title="Initialize a IR_message_t structure. Set whole message to 0. " alt="" coords="163,56,283,83"/>
+<area shape="rect" id="node3" href="$module_l_e_d_8c.html#a13af25225157e8763b42c37af847861c" title="Set a specified cell&#39;s LEDs with specified brightness. " alt="" coords="331,5,501,32"/>
+</map>

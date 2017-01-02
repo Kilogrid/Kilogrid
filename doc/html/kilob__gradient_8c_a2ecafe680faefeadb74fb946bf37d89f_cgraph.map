@@ -1,0 +1,9 @@
+<map id="kilob_gradient_evade" name="kilob_gradient_evade">
+<area shape="rect" id="node2" href="$kilo__rand__lib_8c.html#a88c150349d24cbd95fe064ee7016c16d" title="g_ran_uniform" alt="" coords="368,5,472,32"/>
+<area shape="rect" id="node3" href="$utils_8c.html#a0565ad7a822d9d334bb50c088af22361" title="Use this function to turn left. " alt="" coords="220,93,289,120"/>
+<area shape="rect" id="node7" href="$utils_8c.html#aca3b725ebee32d3719a9c02b41002ea3" title="Use this function to turn right. " alt="" coords="217,144,293,171"/>
+<area shape="rect" id="node8" href="$kilo__rand__lib_8c.html#ad7ffcdbd7e9af96ac8528a34811ed40f" title="g_ran_gaussian" alt="" coords="198,43,311,69"/>
+<area shape="rect" id="node4" href="$docs_2kilolib_8h.html#ae35dbec14e979e7d894daa919dc47582" title="Set the power of each motor. " alt="" coords="377,68,463,95"/>
+<area shape="rect" id="node5" href="$docs_2kilolib_8h.html#adb7db4d9ef946dcfb58bcfc667ee674a" title="Pauses the program for the specified amount of time. " alt="" coords="393,119,447,145"/>
+<area shape="rect" id="node6" href="$utils_8c.html#ab9b99496635f5f6acd3e11c7d109e58d" title="Safely set the power of each motor. " alt="" coords="361,169,479,196"/>
+</map>

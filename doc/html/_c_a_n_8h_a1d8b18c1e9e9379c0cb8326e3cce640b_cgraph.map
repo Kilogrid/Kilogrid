@@ -1,0 +1,7 @@
+<map id="CAN_message_tx" name="CAN_message_tx">
+<area shape="rect" id="node2" href="$_c_a_n_8c.html#aa4c80db50b8633f374bfc84d9b54e51a" title="Compute CAN ID based on the type of addressing, destination type (type of node to reach) and coordina..." alt="" coords="185,5,365,46"/>
+<area shape="rect" id="node3" href="$mcp2515_8c.html#afe162e26baee5181db3a7883932c83de" title="mcp2515_bit_modify" alt="" coords="418,71,561,97"/>
+<area shape="rect" id="node5" href="$mcp2515_8c.html#a4f68a0b4bbe64f5cdecdcad00dc6387d" title="mcp2515_send_message" alt="" coords="189,121,360,148"/>
+<area shape="rect" id="node4" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="614,121,685,148"/>
+<area shape="rect" id="node6" href="$mcp2515_8c.html#ab3e48a42131e0f03105ed354041bbdba" title="mcp2515_read_status" alt="" coords="414,172,565,199"/>
+</map>

@@ -1,0 +1,28 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$dispatcher_8c.html#a598048dcd072f7e26f1e72c76dbcf299" title="CAN_rx" alt="" coords="143,60,212,87"/>
+<area shape="rect" id="node5" href="$dispatcher_8c.html#adc422ffb9f109ef9b565024856ed014c" title="dispatcher_init" alt="" coords="124,119,231,145"/>
+<area shape="rect" id="node18" href="$_c_a_n_8h.html#a73ac80de3409f0230bf6005cc25be751" title="init_CAN_message" alt="" coords="323,267,458,293"/>
+<area shape="rect" id="node19" href="$tracking_8h.html#af417467184692afe72e0557b2e305f33" title="Function that handles the sending of tracking messages to the pc. Serial packets are slow..." alt="" coords="115,169,240,196"/>
+<area shape="rect" id="node21" href="$dispatcher_8c.html#accb43a7fef43f5d152c24dbfe24c601d" title="send_bootpage_req" alt="" coords="110,271,245,297"/>
+<area shape="rect" id="node22" href="$_c_a_n_8h.html#a1d8b18c1e9e9379c0cb8326e3cce640b" title="This function modifies the ID field of the CAN message to be sent, according to the Kilogrid addressi..." alt="" coords="326,325,455,352"/>
+<area shape="rect" id="node26" href="$dispatcher_8c.html#a1df8e8b8971c133e0526f0bdf38e620e" title="CAN_send_bootpage" alt="" coords="104,321,251,348"/>
+<area shape="rect" id="node27" href="$tracking_8h.html#a8298940cdd3a6b583a6b9509903925b3" title="tracking_init" alt="" coords="131,423,223,449"/>
+<area shape="rect" id="node3" href="$_c_a_n_8h.html#a9c4d6161545b3bb3e7ac35502d7a5695" title="get_coord_from_CAN_ID" alt="" coords="306,60,475,87"/>
+<area shape="rect" id="node4" href="$tracking_8h.html#a03ee629435ead826ee695093a747fce7" title="Called from CAN received interrupt, copies the message to the buffer and sets the address and timesta..." alt="" coords="299,9,483,36"/>
+<area shape="rect" id="node6" href="$dispatcher_8c.html#ab11a5d77be2222a37d0b47e6556251f7" title="init_serial" alt="" coords="352,161,429,188"/>
+<area shape="rect" id="node7" href="$_c_a_n_8h.html#a8255e16f083233b516d7f554ddade258" title="init_module_CAN" alt="" coords="329,111,453,137"/>
+<area shape="rect" id="node8" href="$_c_a_n_8c.html#a067b77d8e8a39f19e9d6b2ffdeaa3b1e" title="init_CAN_message" alt="" coords="554,157,689,184"/>
+<area shape="rect" id="node9" href="$mcp2515_8c.html#a07d9224f369873aeafaf1b2a291060fc" title="init_mcp2515" alt="" coords="796,208,895,235"/>
+<area shape="rect" id="node13" href="$debug_8c.html#a97033275195931cc1a8f7e2561f8220f" title="Print data to the serial port (USART). The length of the string given to the function is not limited ..." alt="" coords="591,5,652,32"/>
+<area shape="rect" id="node14" href="$mcp2515_8c.html#a0b0341f6e7bfa0a796c44d517fe6e154" title="mcp2515_set_mask" alt="" coords="552,56,691,83"/>
+<area shape="rect" id="node16" href="$mcp2515_8c.html#aa6609395a1492d4aa722550aaee2da08" title="mcp2515_set_filter" alt="" coords="555,107,687,133"/>
+<area shape="rect" id="node17" href="$_c_a_n_8c.html#aa4c80db50b8633f374bfc84d9b54e51a" title="Compute CAN ID based on the type of addressing, destination type (type of node to reach) and coordina..." alt="" coords="531,259,711,301"/>
+<area shape="rect" id="node10" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="1187,284,1258,311"/>
+<area shape="rect" id="node11" href="$mcp2515_8c.html#a39e1f446e4eb6f7a4b70916bc391ddea" title="mcp2515_read_register" alt="" coords="980,208,1137,235"/>
+<area shape="rect" id="node12" href="$mcp2515_8c.html#a166398065152fee7fc236d4df83e29be" title="mcp2515_write_register" alt="" coords="979,157,1139,184"/>
+<area shape="rect" id="node15" href="$mcp2515_8c.html#acdd23c0725af54639ee9a44e41722627" title="mcp2515_set_mode" alt="" coords="776,107,915,133"/>
+<area shape="rect" id="node20" href="$tracking_8c.html#a8d3a53f13f4689de94c017358eed6e31" title="Test filling in buffer and try sending dummy data (verify in KiloGUI). " alt="" coords="323,212,458,239"/>
+<area shape="rect" id="node23" href="$mcp2515_8c.html#afe162e26baee5181db3a7883932c83de" title="mcp2515_bit_modify" alt="" coords="774,317,917,344"/>
+<area shape="rect" id="node24" href="$mcp2515_8c.html#a4f68a0b4bbe64f5cdecdcad00dc6387d" title="mcp2515_send_message" alt="" coords="760,376,931,403"/>
+<area shape="rect" id="node25" href="$mcp2515_8c.html#ab3e48a42131e0f03105ed354041bbdba" title="mcp2515_read_status" alt="" coords="983,411,1134,437"/>
+</map>

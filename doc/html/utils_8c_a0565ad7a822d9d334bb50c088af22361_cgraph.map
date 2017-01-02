@@ -1,0 +1,5 @@
+<map id="turn_left" name="turn_left">
+<area shape="rect" id="node2" href="$docs_2kilolib_8h.html#ae35dbec14e979e7d894daa919dc47582" title="Set the power of each motor. " alt="" coords="139,5,226,32"/>
+<area shape="rect" id="node3" href="$docs_2kilolib_8h.html#adb7db4d9ef946dcfb58bcfc667ee674a" title="Pauses the program for the specified amount of time. " alt="" coords="156,56,209,83"/>
+<area shape="rect" id="node4" href="$utils_8c.html#ab9b99496635f5f6acd3e11c7d109e58d" title="Safely set the power of each motor. " alt="" coords="123,107,242,133"/>
+</map>

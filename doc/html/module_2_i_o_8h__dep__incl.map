@@ -1,0 +1,8 @@
+<map id="src/module/IO.h" name="src/module/IO.h">
+<area shape="rect" id="node2" href="$debug_8c.html" title="src/common/dispatcher\l_module/debug.c" alt="" coords="5,81,163,122"/>
+<area shape="rect" id="node3" href="$mcp2515_8c.html" title="src/common/dispatcher\l_module/mcp2515.c" alt="" coords="187,81,345,122"/>
+<area shape="rect" id="node4" href="$_i2_c__master_8c.html" title="src/module/I2C_master.c" alt="" coords="370,88,539,115"/>
+<area shape="rect" id="node5" href="$module_i_r_8h.html" title="Contains macros for timer manipulation... " alt="" coords="615,88,772,115"/>
+<area shape="rect" id="node6" href="$module_8c.html" title="src/module/module.c" alt="" coords="521,171,663,197"/>
+<area shape="rect" id="node7" href="$module_i_r_8c.html" title="src/module/moduleIR.c" alt="" coords="716,171,873,197"/>
+</map>

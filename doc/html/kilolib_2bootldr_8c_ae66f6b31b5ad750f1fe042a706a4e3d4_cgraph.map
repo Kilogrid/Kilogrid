@@ -1,0 +1,7 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$kilolib_2bootldr_8c.html#ad0354351769a3c1d1ed71559c3716715" title="message_rx" alt="" coords="104,56,197,83"/>
+<area shape="rect" id="node4" href="$docs_2kilolib_8h.html#a73b16f9b501a4b814c047d9f38b206fc" title="Set the output of the RGB led. " alt="" coords="259,107,333,133"/>
+<area shape="rect" id="node6" href="$docs_2kilolib_8h.html#a1b25025f02f477688608ec04a1278c04" title="Initialize kilobot hardware. " alt="" coords="117,157,184,184"/>
+<area shape="rect" id="node3" href="$jquery_8js.html#a9db6d45a025ad692282fe23e69eeba43" title="if" alt="" coords="277,5,315,32"/>
+<area shape="rect" id="node5" href="$kilolib_2bootldr_8c.html#a12bad72838143f12970ff62572f57846" title="goto_program" alt="" coords="245,56,347,83"/>
+</map>

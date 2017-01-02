@@ -1,0 +1,3 @@
+<map id="kilob_tracking" name="kilob_tracking">
+<area shape="rect" id="node2" href="$kilob__messaging_8c.html#acff602c16446f6b35a1f3af3d855ee40" title="This is the public interface for the message management implemented in kilo behaviors. It returns a pointer to a message object that can be filled with data and type information. The message is scheduled automatically at the end of the message queue, crc is calculated before sending. " alt="" coords="157,5,301,32"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="mcp2515_send_message" name="mcp2515_send_message">
+<area shape="rect" id="node2" href="$mcp2515_8c.html#ab3e48a42131e0f03105ed354041bbdba" title="mcp2515_read_status" alt="" coords="225,5,375,32"/>
+<area shape="rect" id="node3" href="$mcp2515_8c.html#ac4133801d9adaaf42e7a43018c159127" title="spi_putc" alt="" coords="425,31,495,57"/>
+</map>

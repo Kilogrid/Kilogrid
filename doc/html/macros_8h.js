@@ -1,0 +1,27 @@
+var macros_8h =
+[
+    [ "acomp_off", "macros_8h.html#a2cba65e7b57f2060a499ae2da9da7af4", null ],
+    [ "acomp_on", "macros_8h.html#a1ee70a89a65fecc1af9fc6453984fac7", null ],
+    [ "acomp_setup", "macros_8h.html#a14a20471ea3e3830e8119b2894c95d79", null ],
+    [ "adc_finish_conversion", "macros_8h.html#a728c0d1a69d80c9f6ee62205d8a87410", null ],
+    [ "adc_off", "macros_8h.html#ac2f2f56021d94c7326a211caa757afa7", null ],
+    [ "adc_on", "macros_8h.html#a9e69cb76ae37d025c805c4ca4a478773", null ],
+    [ "adc_setup", "macros_8h.html#ab3bf9f7472c6e3f755a9543423de9666", null ],
+    [ "adc_setup_conversion", "macros_8h.html#a0bdf1a18d6d644dfae40e3412850e986", null ],
+    [ "adc_start_conversion", "macros_8h.html#aa8ade63fd774b53131ff6e18fabead17", null ],
+    [ "adc_trigger_high_gain", "macros_8h.html#a1fbe499c691aa17e6f408b9cdd19422a", null ],
+    [ "adc_trigger_low_gain", "macros_8h.html#aca108f76021c631fc6c5fae73dc411e9", null ],
+    [ "adc_trigger_stop", "macros_8h.html#a6bbc530e456d26344521882a2272471c", null ],
+    [ "is_charging", "macros_8h.html#a398481e96b8287ca6125e3edcb971780", null ],
+    [ "motors_off", "macros_8h.html#a7191f5d6489a7fb2bbcc2eecc563a2aa", null ],
+    [ "motors_on", "macros_8h.html#a4573b21b03b2dc45570346337eaea15a", null ],
+    [ "motors_setup", "macros_8h.html#a59d115260f40313920694b512255813a", null ],
+    [ "ports_off", "macros_8h.html#ab464e141cded5cb94506001fb16fc678", null ],
+    [ "ports_on", "macros_8h.html#a998a59e43c1247f44ce0abb51b57f73b", null ],
+    [ "rx_timer_off", "macros_8h.html#a91b1bcaa394171ee6a3927fdc5a689c6", null ],
+    [ "rx_timer_on", "macros_8h.html#a32fadc1ec9f57fce9725ccdd00fdbe0b", null ],
+    [ "rx_timer_setup", "macros_8h.html#afbc66b1ebde915735070aad3128ce91d", null ],
+    [ "tx_timer_off", "macros_8h.html#a3ca8ad10dac2bb20c61e0097e7a0e7e1", null ],
+    [ "tx_timer_on", "macros_8h.html#a7ab43eaeb764d09a81c415c20789ae9b", null ],
+    [ "tx_timer_setup", "macros_8h.html#a0e3464b3e86aa815afc8d2cb7becd599", null ]
+];

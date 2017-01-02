@@ -1,0 +1,4 @@
+<map id="spinup_motors" name="spinup_motors">
+<area shape="rect" id="node2" href="$kilolib_8c.html#abb1e7e8e2d6295d6988d9cf8976f3b71" title="Set the power of each motor. " alt="" coords="161,5,247,32"/>
+<area shape="rect" id="node3" href="$kilolib_8c.html#adb7db4d9ef946dcfb58bcfc667ee674a" title="Pauses the program for the specified amount of time. " alt="" coords="177,56,231,83"/>
+</map>

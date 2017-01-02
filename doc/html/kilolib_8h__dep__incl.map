@@ -1,0 +1,17 @@
+<map id="src/kilolib/kilolib.h" name="src/kilolib/kilolib.h">
+<area shape="rect" id="node2" href="$message__buffered_8h.html" title="src/common/module_kilobot\l/message_buffered.h" alt="" coords="5,81,189,122"/>
+<area shape="rect" id="node3" href="$kilob__cdms_8h.html" title="src/kilob/kilob_cdms.h" alt="" coords="215,88,367,115"/>
+<area shape="rect" id="node5" href="$kilob__gradient_8h.html" title="src/kilob/kilob_gradient.h" alt="" coords="442,179,608,205"/>
+<area shape="rect" id="node6" href="$kilob__gradient_8c.html" title="src/kilob/kilob_gradient.c" alt="" coords="381,261,547,288"/>
+<area shape="rect" id="node7" href="$kilob__messaging_8c.html" title="src/kilob/kilob_messaging.c" alt="" coords="1023,88,1205,115"/>
+<area shape="rect" id="node8" href="$kilob__tracking_8c.html" title="src/kilob/kilob_tracking.c" alt="" coords="633,179,799,205"/>
+<area shape="rect" id="node9" href="$kilob__wall__avoidance_8h.html" title="src/kilob/kilob_wall\l_avoidance.h" alt="" coords="675,81,807,122"/>
+<area shape="rect" id="node11" href="$kilolib_2bootldr_8c.html" title="src/kilolib/bootldr.c" alt="" coords="1231,88,1360,115"/>
+<area shape="rect" id="node12" href="$kilolib_8c.html" title="src/kilolib/kilolib.c" alt="" coords="1385,88,1511,115"/>
+<area shape="rect" id="node13" href="$utils_8c.html" title="src/kilolib/utils.c" alt="" coords="1338,179,1453,205"/>
+<area shape="rect" id="node14" href="$kilolib_2utils_8h.html" title="src/kilolib/utils.h" alt="" coords="831,88,947,115"/>
+<area shape="rect" id="node4" href="$kilob__cdms_8c.html" title="src/kilob/kilob_cdms.c" alt="" coords="215,179,367,205"/>
+<area shape="rect" id="node10" href="$kilob__wall__avoidance_8c.html" title="src/kilob/kilob_wall\l_avoidance.c" alt="" coords="823,171,955,213"/>
+<area shape="rect" id="node15" href="$kilob__random__walk_8c.html" title="src/kilob/kilob_random\l_walk.c" alt="" coords="980,171,1132,213"/>
+<area shape="rect" id="node16" href="$module_i_r_8c.html" title="src/module/moduleIR.c" alt="" coords="1156,179,1313,205"/>
+</map>

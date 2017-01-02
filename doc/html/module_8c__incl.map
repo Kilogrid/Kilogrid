@@ -1,0 +1,18 @@
+<map id="src/module/module.c" name="src/module/module.c">
+<area shape="rect" id="node8" href="$module_8h.html" title="This file implements high level handling of CAN messages based on their type. Commands or bootpages f..." alt="" coords="175,155,248,181"/>
+<area shape="rect" id="node13" href="$kilogrid_8h.html" title="kilogrid.h" alt="" coords="480,304,553,331"/>
+<area shape="rect" id="node14" href="$module_i_r_8h.html" title="Contains macros for timer manipulation... " alt="" coords="447,80,536,107"/>
+<area shape="rect" id="node15" href="$message_8h.html" title="message.h" alt="" coords="630,229,716,256"/>
+<area shape="rect" id="node17" href="$module_2_i_o_8h.html" title="IO.h" alt="" coords="274,155,320,181"/>
+<area shape="rect" id="node18" href="$module_l_e_d_8h.html" title="moduleLED.h" alt="" coords="161,80,263,107"/>
+<area shape="rect" id="node19" href="$_a_d_c_8h.html" title="ADC.h" alt="" coords="1405,80,1467,107"/>
+<area shape="rect" id="node20" href="$eeprom_8h.html" title="eeprom.h" alt="" coords="1491,80,1567,107"/>
+<area shape="rect" id="node23" href="$rand_8h.html" title="rand.h" alt="" coords="5,304,63,331"/>
+<area shape="rect" id="node24" href="$_c_a_n_8h.html" title="CAN.h" alt="" coords="345,155,407,181"/>
+<area shape="rect" id="node26" href="$message__crc_8h.html" title="message_crc.h" alt="" coords="629,155,739,181"/>
+<area shape="rect" id="node27" href="$ringbuffer_8h.html" title="ringbuffer.h" alt="" coords="1781,80,1867,107"/>
+<area shape="rect" id="node9" href="$mcp2515_8h.html" title="mcp2515.h" alt="" coords="242,229,328,256"/>
+<area shape="rect" id="node11" href="$bootpage_8h.html" title="bootpage.h" alt="" coords="369,304,455,331"/>
+<area shape="rect" id="node12" href="$mcp2515__defs_8h.html" title="mcp2515_defs.h" alt="" coords="226,304,344,331"/>
+<area shape="rect" id="node16" href="$message__send_8h.html" title="message_send.h" alt="" coords="431,155,552,181"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="CAN_rx" name="CAN_rx">
+<area shape="rect" id="node2" href="$_c_a_n_8h.html#a9c4d6161545b3bb3e7ac35502d7a5695" title="get_coord_from_CAN_ID" alt="" coords="130,5,299,32"/>
+<area shape="rect" id="node3" href="$tracking_8h.html#a03ee629435ead826ee695093a747fce7" title="Called from CAN received interrupt, copies the message to the buffer and sets the address and timesta..." alt="" coords="123,56,307,83"/>
+</map>

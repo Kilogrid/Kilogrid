@@ -1,0 +1,4 @@
+<map id="init_motors" name="init_motors">
+<area shape="rect" id="node2" href="$utils_8c.html#a8c528baf37154d347366083f0f816846" title="Use this function to stop the robot. " alt="" coords="142,5,189,32"/>
+<area shape="rect" id="node3" href="$utils_8c.html#ab9b99496635f5f6acd3e11c7d109e58d" title="Safely set the power of each motor. " alt="" coords="238,5,357,32"/>
+</map>
