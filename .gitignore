@@ -1,5 +1,6 @@
 # Directories
 build/
+build-*/
 
 # Binaries
 *.o
@@ -7,6 +8,9 @@ build/
 *.elf
 *.hex
 
-# Cache files
+# Auto-generated files
 *.pro.user
+src/gui/Makefile
+
+# Cache files
 *.d
