@@ -2,7 +2,7 @@
 #include "string.h"
 #include <avr/interrupt.h> // for ISR
 
-#include "Dispatcher.h"
+#include "dispatcher.h"
 #include "serial_packet.h"
 #include "tracking.h"
 #include "debug.h"

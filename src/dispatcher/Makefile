@@ -9,7 +9,7 @@ MCU   = atmega328p
 F_CPU = 8000000UL
 
 ## Toolchain install directory
-TOOLCHAIN_DIR = /Users/brni/dev/lib/avr8-gnu-toolchain-darwin_x86_64/avr/include
+TOOLCHAIN_DIR = /home/ehocquard/Documents/private/Projects/Kilogrid/kilogrid/avr8-gnu-toolchain-linux_x86_64/avr/include
 
 ## Programmer
 PROGRAMMER_ARGS = -p m328p -P usb -c avrispmkII

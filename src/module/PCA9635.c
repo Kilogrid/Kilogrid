@@ -19,7 +19,7 @@
 #include <avr/interrupt.h>
 #include <avr/sleep.h>
 
-#include "i2c_master.h"
+#include "I2C_master.h"
 
 const uint8_t PCA9635_i2c_addr = 0x15; // TODO: to be changed to struct later
 

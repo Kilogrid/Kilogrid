@@ -1,9 +1,6 @@
-#ifndef __KILOLIB_H__
-#define __KILOLIB_H__
-
 /**
  * @file kilolib.h
- * @mainpage Kilobot Library API
+ * @ ma  inpage Kilobot Library API
  *
  * At its core the Kilobot Library library provides the function
  * kilo_init() to initialize the hardware of the kilobots, and the
@@ -30,11 +27,23 @@
  * transmitted when a kilobot is able transmit a message without
  * detecting any contention in the channel.
  */
+#ifndef __KILOLIB_H__
+#define __KILOLIB_H__
+
 
 #include <stdint.h>
 #include <message.h>
 #include <message_crc.h>
 
+/**
+ * @brief      test
+ *
+ * @param      r     { parameter_description }
+ * @param      g     { parameter_description }
+ * @param      b     { parameter_description }
+ *
+ * @return     { description_of_the_return_value }
+ */
 #define RGB(r,g,b) (r&3)|(((g&3)<<2))|((b&3)<<4)
 #define TICKS_PER_SEC 31
 
@@ -279,128 +288,140 @@ extern "C" {
  * precalibrated.
  */
 
+/**
+ * @brief      { function_description }
+ *
+ * @param[in]  d     { parameter_description }
+ *
+ * @return     { description_of_the_return_value }
+ */
 uint8_t estimate_distance(const distance_measurement_t *d);
 
 /**
- * @brief Pauses the program for the specified amount of time.
+ * @brief      Pauses the program for the specified amount of time.
  *
- * This function receives as an argument a positive 16-bit integer @p ms
- * that represents the number of milliseconds for which to pause the
- * program.
+ *             This function receives as an argument a positive 16-bit integer
+ *             @p ms that represents the number of milliseconds for which to
+ *             pause the program.
  *
- * @param ms Number of milliseconds to pause the program (there are 1000
- * milliseconds in a second).
+ * @param      ms    Number of milliseconds to pause the program (there are 1000
+ *                   milliseconds in a second).
  *
- * @note While its easy to create short delays in the program execution
- * using this function, the processor of the kilobot cannot perform
- * other tasks during this delay functions. In general its preferable to
- * use timers to create delays.
- * @see kilo_ticks
+ * @note       While its easy to create short delays in the program execution
+ *             using this function, the processor of the kilobot cannot perform
+ *             other tasks during this delay functions. In general its
+ *             preferable to use timers to create delays.
+ * @see        kilo_ticks
  */
 void delay(uint16_t ms);
 
 /**
- * @brief Hardware random number generator.
+ * @brief      Hardware random number generator.
  *
- * This function uses the analog-to-digital converter to generate an
- * 8-bit random number. Specifically, the robot measures its own battery
- * voltage and extracts randomness from the least significant bit by
- * using Von Neumann's fair-coin algorithm. By its nature, this function
- * is slow, use rand_soft() if you want a faster alternative, and you
- * can seed the software random generator using the output of
- * rand_hard().
+ *             This function uses the analog-to-digital converter to generate an
+ *             8-bit random number. Specifically, the robot measures its own
+ *             battery voltage and extracts randomness from the least
+ *             significant bit by using Von Neumann's fair-coin algorithm. By
+ *             its nature, this function is slow, use rand_soft() if you want a
+ *             faster alternative, and you can seed the software random
+ *             generator using the output of rand_hard().
  *
- * @see rand_soft, rand_seed
- * @return 8-bit random number.
+ * @see        rand_soft, rand_seed
+ *
+ * @return     8-bit random number.
  */
 uint8_t rand_hard();
 
 /**
- * @brief Software random number generator.
+ * @brief      Software random number generator.
  *
- * This function implements a linear-shift-register to implement an
- * 8-bit pseudo-random number generator. The seed of the random number
- * generator can be controlled through rand_seed().
+ *             This function implements a linear-shift-register to implement an
+ *             8-bit pseudo-random number generator. The seed of the random
+ *             number generator can be controlled through rand_seed().
  *
- * @return 8-bit random number.
+ * @return     8-bit random number.
  */
 uint8_t rand_soft();
 
 /**
- * @brief Seed software random number generator.
+ * @brief      Seed software random number generator.
  *
- * This function changes the seed used by the software random
- * number generator implemented by rand_soft().
+ *             This function changes the seed used by the software random number
+ *             generator implemented by rand_soft().
  *
- * @param 8-bit random seed.
+ * @param[in]  seed  The seed
+ * @param      8-bit  random seed.
  */
 void rand_seed(uint8_t seed);
 
 /**
- * @brief Read the amount of ambient light.
+ * @brief      Read the amount of ambient light.
  *
- * This function returns a 10-bit measurement (0 to 1023) that
- * represents the amount of ambient light detected by the photo diode
- * available in the kilobot.
+ *             This function returns a 10-bit measurement (0 to 1023) that
+ *             represents the amount of ambient light detected by the photo
+ *             diode available in the kilobot.
  *
- * @return 10-bit measurement of ambient light.
- * @note All measurements in the kilobot are performed using the same
- * analog-to-digital conversion (ADC) unit of the AVR processor. This
- * ADC unit requires a certain amount of time to change the source of
- * the measurement. As such, if a message is received while the ambient
- * light is being measured, it is possible for either the ambient light
- * measurements or the distance measurements of the message to be
- * inaccurate.
+ * @return     10-bit measurement of ambient light.
+ * @note       All measurements in the kilobot are performed using the same
+ *             analog-to-digital conversion (ADC) unit of the AVR processor.
+ *             This ADC unit requires a certain amount of time to change the
+ *             source of the measurement. As such, if a message is received
+ *             while the ambient light is being measured, it is possible for
+ *             either the ambient light measurements or the distance
+ *             measurements of the message to be inaccurate.
  */
 int16_t get_ambientlight();
 
 /**
- * @brief Read the amount of battery voltage.
+ * @brief      Read the amount of battery voltage.
  *
- * This function returns a 10-bit measurement (0 to 1023) that
- * represents the amount of voltage that remains in the battery. It can
- * be used to determine if the kilobot should be recharged.
+ *             This function returns a 10-bit measurement (0 to 1023) that
+ *             represents the amount of voltage that remains in the battery. It
+ *             can be used to determine if the kilobot should be recharged.
  *
- * @return 10-bit measurement of battery voltage.
+ * @return     10-bit measurement of battery voltage.
  */
 int16_t get_voltage();
 
 /**
- * @brief Read the temperature of the kilobot.
+ * @brief      Read the temperature of the kilobot.
  *
- * This function returns a 10-bit measurement (0 to 1023) that
- * represents the temperature of the board of the kilobot. This sensor
- * is only capable of detecting large temperature changes (in the order
- * of 2 Celsius degrees or more).
+ *             This function returns a 10-bit measurement (0 to 1023) that
+ *             represents the temperature of the board of the kilobot. This
+ *             sensor is only capable of detecting large temperature changes (in
+ *             the order of 2 Celsius degrees or more).
  *
- * As such, it is only useful only to detect drastic changes in the
- * operating environment of the kilobot.
+ *             As such, it is only useful only to detect drastic changes in the
+ *             operating environment of the kilobot.
+ *
+ * @return     The temperature.
  */
 int16_t get_temperature();
 
 /**
- * @brief Set the power of each motor.
+ * @brief      Set the power of each motor.
  *
- * The power received by the left and right motor is controlled using
- * hardware pulse-width-modulation (PWM) and can be set using this
- * function.
+ *             The power received by the left and right motor is controlled
+ *             using hardware pulse-width-modulation (PWM) and can be set using
+ *             this function.
  *
- * The parameter @p left and @p right are 8-bit unsigned integers (0 to
- * 255) that control the duty-cycle of the PWM signal from 0% to 100%.
- * In other words, setting a motor to 0% duty-cycle equates to running
- * off the motor, and setting a motor to 100% duty-cycle equates to
- * running the motor at full power. For the most part, motors should
- * only be set to the calibrated values `kilo_turn_left`,
- * `kilo_turn_right`, `kilo_straight_left` and `kilo_straight_right`.
+ *             The parameter @p left and @p right are 8-bit unsigned integers (0
+ *             to 255) that control the duty-cycle of the PWM signal from 0% to
+ *             100%. In other words, setting a motor to 0% duty-cycle equates to
+ *             running off the motor, and setting a motor to 100% duty-cycle
+ *             equates to running the motor at full power. For the most part,
+ *             motors should only be set to the calibrated values
+ *             `kilo_turn_left`, `kilo_turn_right`, `kilo_straight_left` and
+ *             `kilo_straight_right`.
  *
- * When a motor transitions from being off (0% duty cycle) to being on
- * (> 10% duty cycle) it must first be turned on at full-speed for 15ms
- * to overcome the effects of static friction. 
+ *             When a motor transitions from being off (0% duty cycle) to being
+ *             on (> 10% duty cycle) it must first be turned on at full-speed
+ *             for 15ms to overcome the effects of static friction.
  *
- * @see kilo_turn_left
- * @see kilo_turn_right
- * @see kilo_straight_left
- * @see kilo_straight_right
+ * @see        kilo_turn_left
+ * @see        kilo_turn_right
+ * @see        kilo_straight_left
+ * @see        kilo_straight_right
  *
  * @code
  * // turn motors off
@@ -416,56 +437,56 @@ int16_t get_temperature();
  * delay(2000);
  * @endcode
  *
- * @param left 8-bit integer to control left motor duty-cycle.
- * @param right 8-bit integer to control right motor duty-cycle.
+ * @param      left   8-bit integer to control left motor duty-cycle.
+ * @param      right  8-bit integer to control right motor duty-cycle.
  *
- * @warning It is important that in a 2 second interval no motor is at
- * 100% duty-cycle (255) for more than 50ms at a time, since this might
- * cause the motors to fail permanently. It is recommended that during
- * regular operation the motors are never run to more than a 35%
- * duty-cycle (90).
+ * @warning    It is important that in a 2 second interval no motor is at 100%
+ *             duty-cycle (255) for more than 50ms at a time, since this might
+ *             cause the motors to fail permanently. It is recommended that
+ *             during regular operation the motors are never run to more than a
+ *             35% duty-cycle (90).
  */
 void set_motors(uint8_t left, uint8_t right);
 
 /**
- * @brief Turn motors at full-speed for 15ms.
+ * @brief      Turn motors at full-speed for 15ms.
  *
- * When the robot transitions from being stationary (motors off) to
- * being mobile (one or both motors on) it must overcome the effects of
- * static friction. For that purpose, the motors can be turned-pn at
- * full-speed during 15ms. This function does precisely that, and is
- * equivalent to the following code:
+ *             When the robot transitions from being stationary (motors off) to
+ *             being mobile (one or both motors on) it must overcome the effects
+ *             of static friction. For that purpose, the motors can be turned-pn
+ *             at full-speed during 15ms. This function does precisely that, and
+ *             is equivalent to the following code:
  *
  * @code
  * set_motors(255, 255);
  * delay(15);
  * @endcode
  *
- * @note Observe that the spinup() function turns both motors on. In
- * some cases (when turning left or turning right) this is not required,
- * and thus to achieve smoother motion you can do manual `spinup` of a
- * motor. See set_motors() for an example.
+ * @note       Observe that the spinup() function turns both motors on. In some
+ *             cases (when turning left or turning right) this is not required,
+ *             and thus to achieve smoother motion you can do manual `spinup` of
+ *             a motor. See set_motors() for an example.
  *
- * @see set_motors
+ * @see        set_motors
  */
 void spinup_motors();
 
 /**
- * @brief Set the output of the RGB led.
+ * @brief      Set the output of the RGB led.
  *
- * This function receives an 8-bit unsigned integer whose bits are used
- * to determine the output of the RGB led mounted on the kilobot. Each
- * color has a 2-bit resolution which allows set each color channel
- * independently from off (0) to full-brightness (3).
+ *             This function receives an 8-bit unsigned integer whose bits are
+ *             used to determine the output of the RGB led mounted on the
+ *             kilobot. Each color has a 2-bit resolution which allows set each
+ *             color channel independently from off (0) to full-brightness (3).
  *
- * The convenience macro `RGB` can be used to set the individual bits.
- * For instance `RGB(0,0,0)` turns all color channels off, and therefore
- * the RGB led remains off. Meanwhile `RGB(0,3,0)` turns the green
- * channel to full intensity and turns all other channels off, which
- * results in an RGB led displaying a bright green color.
+ *             The convenience macro `RGB` can be used to set the individual
+ *             bits. For instance `RGB(0,0,0)` turns all color channels off, and
+ *             therefore the RGB led remains off. Meanwhile `RGB(0,3,0)` turns
+ *             the green channel to full intensity and turns all other channels
+ *             off, which results in an RGB led displaying a bright green color.
  *
- * @param color Output of the led. The recommended usage is through the
- * `RGB` macro.
+ * @param      color  Output of the led. The recommended usage is through the
+ *                    `RGB` macro.
  *
  * @code
  * // blink dim RED once per second
@@ -480,34 +501,34 @@ void spinup_motors();
 void set_color(uint8_t color);
 
 /**
- * @brief Initialize kilobot hardware.
+ * @brief      Initialize kilobot hardware.
  *
- * This function initializes all hardware of the kilobots. This includes
- * calibrating the hardware oscillator, setting hardware timers,
- * configuring ports, setting up analog-to-digital converters,
- * registering system interrupts and the initializing the messaging
- * subsystem.
- * 
- * It is recommended that you call this function as early as possible
- * inside the `main` function of your program.
+ *             This function initializes all hardware of the kilobots. This
+ *             includes calibrating the hardware oscillator, setting hardware
+ *             timers, configuring ports, setting up analog-to-digital
+ *             converters, registering system interrupts and the initializing
+ *             the messaging subsystem.
+ *
+ *             It is recommended that you call this function as early as
+ *             possible inside the `main` function of your program.
  */
 void kilo_init();
 
 /**
- * @brief Start kilobot event loop.
+ * @brief      Start kilobot event loop.
  *
- * This function receives two parameters. The first parameter @p setup
- * is a function which will be called once to perform any initialization
- * required by your user program. The second parameter @p loop is a
- * function that will be called repeatedly to perform any computations
- * required by your user program.
+ *             This function receives two parameters. The first parameter @p
+ *             setup is a function which will be called once to perform any
+ *             initialization required by your user program. The second
+ *             parameter @p loop is a function that will be called repeatedly to
+ *             perform any computations required by your user program.
  *
- * Using the overhead controller it is possible to interrupt the event
- * loop to trigger events such as program start/resume, program pause,
- * and program restart.
+ *             Using the overhead controller it is possible to interrupt the
+ *             event loop to trigger events such as program start/resume,
+ *             program pause, and program restart.
  *
- * @param setup put your setup code here, to be run only once
- * @param loop  put your main code here, will be run repeatedly
+ * @param      setup  put your setup code here, to be run only once
+ * @param      loop   put your main code here, will be run repeatedly
  *
  * @code
  *

@@ -1,9 +1,9 @@
 /**
  * @file     Kilogrid/src/dispatcher/dispatcher.h
  * @mainpage Kilogrid Library API
- * @brief    Library for the dispatcher of the Kilogrid.
+ * @brief    Library for the dispatcher of the Kilogrid. The dispatcher aims to redirect information to
  * @author   IRIDIA lab
- * @date     
+ * @date     January 2017
  * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 
  *           more info at http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
@@ -27,7 +27,7 @@
     TCCR0A = 0;             /** Normal operation. */\
     TCCR0B = 0;             /** Set prescaler to 0 (disabled). */\
     OCR0A  = 0xFF;          /** Set compare register to 255 (~32.768 ms). */\
-    TIMSK0 |= (1<<OCIE0A)   /** Interrupt enable on match output compare register A. */\
+    TIMSK0 |= (1<<OCIE0A);   /** Interrupt enable on match output compare register A. */\
     disp_timer_off();\
 }
 

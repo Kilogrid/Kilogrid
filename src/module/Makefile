@@ -7,7 +7,7 @@ F_CPU = 8000000UL
 BAUD  = 256000UL
 
 ## Toolchain install directory
-TOOLCHAIN_DIR = /Users/brni/dev/lib/avr8-gnu-toolchain-darwin_x86_64/avr/include
+#TOOLCHAIN_DIR = /Users/brni/dev/lib/avr8-gnu-toolchain-darwin_x86_64/avr/include
 
 ## Directory to create the output in
 OUT_DIR = build
@@ -46,7 +46,7 @@ ASM_FILES_DIR = $(COMMON_MODULE_KILOBOT)
 ##########                          Flags                       ##########
 ##########------------------------------------------------------##########
 
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_DIR) -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_MODULE_KILOBOT)
+CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(COMMON_DIR) -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_MODULE_KILOBOT)
 CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99
 
 CFLAGS = -O1 -g -std=gnu99 -Wall
