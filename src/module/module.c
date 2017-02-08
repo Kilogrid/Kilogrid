@@ -1,26 +1,9 @@
-#include <stdlib.h>         // for rand()
-#include <string.h>         // for memcpy
-#include <avr/wdt.h>        // watch dog timer
-#include <avr/interrupt.h>
-#include <avr/eeprom.h>     // read eeprom values
-#include <util/delay.h>     // delay macros
-
 #include "module.h"
 #include "moduleIR.h"
 #include "moduleLED.h"
 #include "ADC.h"
 #include "IO.h"
 #include "eeprom.h"
-
-#include <kilogrid.h>
-#include <bootldr.h>
-#include <debug.h>
-#include <rand.h>
-#include <CAN.h>
-#include <message.h>
-#include <message_crc.h>
-#include <ringbuffer.h>
-
 
 /* External variables */
 volatile uint16_t module_uid;       ///< module identifier

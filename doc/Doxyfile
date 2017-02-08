@@ -764,7 +764,8 @@ WARN_LOGFILE           =
 # spaces.
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = ../src/module/module.h \
+INPUT                  = ../src/License.txt \
+../src/module/module.h \
 ../src/kilolib/kilolib.h \
 ../src/dispatcher/dispatcher.h
 

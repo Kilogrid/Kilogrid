@@ -1,6 +1,6 @@
 /**
  * @file kilolib.h
- * @ ma  inpage Kilobot Library API
+ * @ _mainpage Kilobot Library API
  *
  * At its core the Kilobot Library library provides the function
  * kilo_init() to initialize the hardware of the kilobots, and the

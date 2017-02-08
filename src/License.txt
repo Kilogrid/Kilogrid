@@ -1,0 +1,11 @@
+/**
+ * @file     Kilogrid/src/License.txt
+ * @mainpage Kilogrid Library API
+ * @brief    Library for the Kilogrid virtualization environment for the Kilobot robotic platform.
+ * 
+ * At its core the Kilogrid Library provides ... [TODO fill]
+ * @author   IRIDIA lab
+ * @date     January 2017
+ * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 
+ *           more info at http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */

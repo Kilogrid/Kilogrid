@@ -1,21 +1,4 @@
-#include <bootldr.h>
-#include <kilogrid.h>
-#include <debug.h>
-#include <CAN.h>
-#include <serial_packet.h>
-#include <tracking.h>
-#include <ringbuffer.h>
-
-#include "IO.h"
 #include "dispatcher.h"
-
-#include <stdint.h>
-#include <string.h>        // for memcpy
-#include <avr/io.h>        // for port and register definitions
-#include <avr/interrupt.h> // for ISR
-#include <util/setbaud.h>
-#include <util/delay.h>    // for _delay_ms
-
 
 volatile uint8_t packet_head = 0;
 volatile uint8_t packet_checksum = 0;
@@ -85,9 +68,7 @@ bootpage_data_bytes_t current_bootpage;
 kilogrid_address_t kilogrid_addr; // will be used to forward the information to the modules
 volatile uint32_t disp_ticks;
 
-/**
- *  @brief Empty dummy callback for the CAN tx success handling.
- */
+
 void CAN_message_tx_success_dummy(){}
 CAN_message_tx_success_t module_CAN_message_tx_success = CAN_message_tx_success_dummy;
 
@@ -157,6 +138,7 @@ void CAN_rx(CAN_message_t *m){
 	CAN_message_rx = *m; // copy content of received message into internal message struct
 
 }
+
 void CAN_tx_success(uint8_t success){
 
 	fCAN_tx_OK = 1;

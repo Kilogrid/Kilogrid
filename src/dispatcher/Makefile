@@ -52,7 +52,7 @@ DOC_DIR = doc
 ##########------------------------------------------------------##########
 
 
-CPPFLAGS = -DF_CPU=$(F_CPU) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_DISPATCHER_KILOGUI) -I$(COMMON_DIR)
+CPPFLAGS = -DF_CPU=$(F_CPU) -I. -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_DISPATCHER_KILOGUI) -I$(COMMON_DIR)
 CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99
 
 CFLAGS = -O1 -g -std=gnu99 -Wall
