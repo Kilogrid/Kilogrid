@@ -1,4 +1,22 @@
-/** @file CellMain.c */
+/**
+ * @file     Kilogrid/experiments/sample/module/module_controller.c
+ * @brief    This file implements a sample code of controller for a module of
+ * the Kilogrid arena.
+ *
+ * @details    The controller is composed of two main functions:
+ *  - setup : in order to setup at the starts of the module ...
+ * [TODO take inspiration from arduino & argos]
+ *  - loop : a main loop that runs indefinetly
+ * The user can then access different function via the provided libraries
+ * (e.g. tracking, IR receiver, etc...) please refer to the documentation
+ * for more details.
+ 
+ * [TODO : adding author, date, and copyright each time does not sounds relevant]
+ * @author   IRIDIA lab
+ * @date     March, 2017
+ * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 
+ *           more info at http://creativecommons.org/licenses/by-nc-sa/3.0/
+ */
 
 #include <avr/interrupt.h>
 #include <avr/io.h>
@@ -13,7 +31,7 @@
 
 
 /**
- * Basic tacking data handler
+ * @brief Basic tacking data handler.
  *
  * @param m  the tracking message
  * @param c  the cell which receives the message
@@ -31,7 +49,7 @@ void send_tracking(IR_message_t *m, cell_num_t c)
 
 
 /**
- * Callback function called when IR message is received
+ * @brief Callback function called when IR message is received.
  *
  * @param m  the message
  * @param c  the cell which receives the message
@@ -53,7 +71,7 @@ void IR_rx(IR_message_t *m, cell_num_t c, distance_measurement_t *d,
 
 
 /**
- * Setup module controller
+ * @brief Setup module controller
  */
 void setup()
 {
@@ -62,7 +80,7 @@ void setup()
 
 
 /**
- * Main loop of module controller
+ * @brief Main loop of module controller
  */
 void loop()
 {

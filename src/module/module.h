@@ -2,7 +2,7 @@
  * @file     Kilogrid/src/module/module.h
  * @brief    This file implements high level handling of CAN messages based on
  * their type. Commands or bootpages forwarded to the kilobots are
- * processed here. The two functions defined handle the module initialization
+ * processed here. [TODO a bit unclear here] The two functions defined handle the module initialization
  * and the starting of the module as well.
 
  * @details    Initializing the module means initializing all the peripherals:
