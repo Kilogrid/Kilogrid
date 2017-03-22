@@ -1,3 +1,26 @@
+/**
+ * @file     Kilogrid/src/module/module.c
+ * @brief    This file implements high level handling of CAN messages based on
+ * their type. Commands or bootpages forwarded to the kilobots are
+ * processed here. [TODO a bit unclear here] The two functions defined handle the module initialization
+ * and the starting of the module as well.
+ * 
+ * @details    Initializing the module means initializing all the peripherals:
+ *  - serial
+ *  - led driver
+ *  - CAN
+ *  - IR
+ *
+ * Starting the module:
+ *  - waiting for kilobot bootpages
+ *  - transferring the bootpages to the kilobots once complete
+ *  - calling user supplied setup, triggered by CAN_MODULE_SETUP message
+ *  - calling user supplied loop, triggered by CAN_MODULE_RUN message
+
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
+
 #include "module.h"
 #include "moduleIR.h"
 #include "moduleLED.h"

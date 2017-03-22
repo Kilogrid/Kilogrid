@@ -1,4 +1,10 @@
-/** @file moduleIR.h */
+/**
+ * @file     Kilogrid/src/module/moduleIR.c
+ * @brief    This file implements high level handling of IR messages
+ * transmissions...[TODO]
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 #include <avr/interrupt.h>
 #include <avr/io.h>
 #include <avr/eeprom.h>     // read eeprom values

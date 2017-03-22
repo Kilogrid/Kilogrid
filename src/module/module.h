@@ -4,7 +4,7 @@
  * their type. Commands or bootpages forwarded to the kilobots are
  * processed here. [TODO a bit unclear here] The two functions defined handle the module initialization
  * and the starting of the module as well.
-
+ * 
  * @details    Initializing the module means initializing all the peripherals:
  *  - serial
  *  - led driver
@@ -18,9 +18,7 @@
  *  - calling user supplied loop, triggered by CAN_MODULE_RUN message
 
  * @author   IRIDIA lab
- * @date     
- * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 
- *           more info at http://creativecommons.org/licenses/by-nc-sa/3.0/
+ * @date     January, 2017
  */
 
 #ifndef KILOGRID_MODULE_H

@@ -3,8 +3,6 @@
  * @brief    Library for the dispatcher of the Kilogrid. The dispatcher aims to redirect information to
  * @author   IRIDIA lab
  * @date     January 2017
- * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 
- *           more info at http://creativecommons.org/licenses/by-nc-sa/3.0/
  */
 
 #ifndef __DISPATCHER_H__

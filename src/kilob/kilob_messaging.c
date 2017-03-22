@@ -1,3 +1,9 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_messaging.c
+ * @brief    Library of function for the Kilobot robot. The kilob messaging aims to allow users to sends message via the Kilobot.
+ * @author   IRIDIA lab
+ * @date     March 2017
+ */
 #include <stddef.h>
 #include "kilob_messaging.h"
 #include "kilolib.h"

@@ -1,3 +1,10 @@
+/**
+ * @file     Kilogrid/src/module/moduleLED.c
+ * @brief    This file implements high level handling of LED setup
+ * transmissions...[TODO]
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):

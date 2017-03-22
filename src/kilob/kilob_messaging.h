@@ -1,3 +1,4 @@
+//  [TODO c declaration moves here]
 #ifndef __KILOB_MESSAGING_H__
 #define __KILOB_MESSAGING_H__
 

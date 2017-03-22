@@ -1,4 +1,10 @@
-/** \file moduleLED.h */
+/**
+ * @file     Kilogrid/src/module/moduleLED.h
+ * @brief    This file implements high level handling of LED setup
+ * transmissions...[TODO]
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 #ifndef KILOGRID_MODULE_LED_H
 #define KILOGRID_MODULE_LED_H
 

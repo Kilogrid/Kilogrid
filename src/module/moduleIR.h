@@ -1,8 +1,10 @@
-/** \file moduleIR.h
- *
- * @brief Contains macros for timer manipulation...
-*/
-
+/**
+ * @file     Kilogrid/src/module/moduleIR.h
+ * @brief    This file implements high level handling of IR messages
+ * transmissions...[TODO]
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 #ifndef KILOGRID_MODULE_IR_H
 #define KILOGRID_MODULE_IR_H
 

@@ -1,3 +1,10 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_tracking.c
+ * @brief    Library of function for the Kilobot robot. The kilob tracking aims to allow users to track kilobot on the Kilogrid?
+ * @author   IRIDIA lab
+ * @date     March 2017
+ */
+
 #include <stddef.h>
 #include <stdint.h>
 #include "kilob_tracking.h"

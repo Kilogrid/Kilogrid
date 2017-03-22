@@ -1,3 +1,10 @@
+/**
+ * @file     Kilogrid/src/dispatcher/dispatcher.c
+ * @brief    Library for the dispatcher of the Kilogrid. The dispatcher aims to redirect information to
+ * @author   IRIDIA lab
+ * @date     January 2017
+ */
+
 #include "dispatcher.h"
 
 volatile uint8_t packet_head = 0;

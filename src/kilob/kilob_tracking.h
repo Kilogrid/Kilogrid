@@ -1,3 +1,4 @@
+//  [TODO c declaration moves here]
 #ifndef __KILOB_TRACKING_H__
 #define __KILOB_TRACKING_H__
 
