@@ -1,4 +1,10 @@
-/** \file message.h */
+/**
+ * @file     Kilogrid/src/common/message.h
+ * @brief    This file provides infrared (IR) messages definitions.
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
 
 #ifndef __MESSAGES_H__
 #define __MESSAGES_H__

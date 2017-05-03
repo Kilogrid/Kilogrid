@@ -1,3 +1,14 @@
+/**
+ * @file     Kilogrid/src/common/module_kilobot/kilo_rand_lib.c
+ * @brief    This file implements random number generation functions.
+ * @details  Provides normal, uniform, exponential and gaussian random number generator.
+ * /!\ Random variates functions (srand()) MUST be called before using these..)
+ * Credits to kilobot library v2.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #include <math.h>
 #include <stdlib.h>		// for srandom() and random())
 

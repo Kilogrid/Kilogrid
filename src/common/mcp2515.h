@@ -1,4 +1,13 @@
-/* Copyright (c) 2007 Fabian Greif
+/**
+ * @file     Kilogrid/src/common/mcp2515.h
+ * @brief    This file provides setup/read/write functions for mcp2515
+ * chip (CAN).
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+/**
+ * @details Copyright (c) 2007 Fabian Greif
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -23,8 +32,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-/** \file mcp2515.h */
 
 #ifndef	MCP2515_H
 #define	MCP2515_H

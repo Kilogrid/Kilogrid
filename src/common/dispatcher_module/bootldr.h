@@ -1,5 +1,11 @@
-/** \file bootldr.h */
-
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/bootldr.h
+ * @brief    This file provides type definition format of boot messages.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+ 
 #ifndef BOOTLDR_H_
 #define BOOTLDR_H_
 

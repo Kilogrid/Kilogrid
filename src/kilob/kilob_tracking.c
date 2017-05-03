@@ -1,6 +1,7 @@
 /**
  * @file     Kilogrid/src/kilob/kilob_tracking.c
- * @brief    Library of function for the Kilobot robot. The kilob tracking aims to allow users to track kilobot on the Kilogrid?
+ * @brief    Library of function for the Kilobot robot. 
+ * Provides functions to send tracking position via the kilobot.
  * @author   IRIDIA lab
  * @date     March 2017
  */

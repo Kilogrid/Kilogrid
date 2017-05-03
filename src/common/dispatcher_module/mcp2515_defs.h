@@ -1,10 +1,16 @@
-/** \file mcp2515_defs.h */
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/mcp2515_defs.h
+ * @brief    This file provides words definitions for mcp2515 chip (CAN).
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
 
 #ifndef	MCP2515_DEFS_H
 #define	MCP2515_DEFS_H
 
 // ----------------------------------------------------------------------------
-/* Copyright (c) 2007 Fabian Greif
+/** @details Copyright (c) 2007 Fabian Greif
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

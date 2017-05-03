@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_gradient.c
+ * @brief    This file implements gradient behavior function.
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2015
+ */
+
 #include "kilob_gradient.h"
 #include "kilolib.h"
 #include "kilo_rand_lib.h"

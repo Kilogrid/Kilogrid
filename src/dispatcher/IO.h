@@ -1,9 +1,10 @@
-/*
- * IO.h
- *
- * Created: 5/19/2015 17:50:02
- *  Author: Anthony Antoun
- */ 
+/**
+ * @file     Kilogrid/src/dispatcher/IO.h
+ * @brief    This file provide Input/Output generic definitions for the 
+ * dispatcher device.
+ * @author   Anthony Antoun, IRIDIA lab
+ * @date     5/19/2015 17:50:02
+ */
 
 #ifndef IO_H_
 #define IO_H_

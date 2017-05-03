@@ -1,3 +1,13 @@
+/**
+ * @file     Kilogrid/src/common/module_kilobot/message_buffered.h
+ * @brief    This file provides message buffering functions.
+ * @details  Provides size, push, peek, pop and push function for tx and rx 
+ * messaging.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #ifndef __MESSAGE_BUFFERED_H__
 #define __MESSAGE_BUFFERED_H__
 

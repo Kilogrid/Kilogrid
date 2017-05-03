@@ -1,6 +1,7 @@
 /**
  * @file     Kilogrid/src/dispatcher/dispatcher.h
- * @brief    Library for the dispatcher of the Kilogrid. The dispatcher aims to redirect information to
+ * @brief    Implements the main state machine function of the dispatcher device.
+ * @details  [TO DEVELOP]
  * @author   IRIDIA lab
  * @date     January 2017
  */

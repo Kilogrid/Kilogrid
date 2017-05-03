@@ -1,4 +1,11 @@
-// TODO Credits to Harvard kilobot v2!!!!!
+/**
+ * @file     Kilogrid/src/module/rand.c
+ * @brief    This file provides random generator functions.
+ * @dtails   Credits to kilobot library v2
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 
 #include <avr/interrupt.h>
 

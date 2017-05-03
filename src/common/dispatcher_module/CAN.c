@@ -1,4 +1,11 @@
-// TODO header
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/CAN.c
+ * @brief    This file provides setup/read/write functions for CAN messaging.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 /**** INCLUDES ****/
 
 #include <avr/interrupt.h>
@@ -23,15 +30,24 @@ CAN_message_t CAN_rx_message;
 /**** FUNCTION POINTERS DECLARATIONS ****/
 
 /**** PRIVATE FUNCTIONS ****/
+
 /**
- * @brief Compute CAN ID based on the type of addressing, destination type (type of node to reach) and coordinates of the CAN node in Kilogrid.
- * The ID field of a CAN message encodes the coordinates of the module in Kilogrid in the following manner: ID<10:0> = [y<4:0> + 1][x<4:0> + 1][destination_type_t]
- * For example, when accessing module with coordinates (x = 0, y = 0) with individual addressing, ID<10:0> = 00001 00001 0.
- * Zeros in the ID field are reserved for broadcasting to allmodules (00000 00000 0), modules in a row (yyyyy 00000 0), or modules in a column (00000 xxxxx 0).
- * @param m
- * @param coord
- * @param dest_type
- */
+  * @brief Compute CAN ID based on the type of addressing, destination type (
+  * type of node to reach) and coordinates of the CAN node in Kilogrid.
+  * The ID field of a CAN message encodes the coordinates of the module in
+  * Kilogrid in the following manner: ID<10:0> = [y<4:0> + 1][x<4:0> + 1][
+  * destination_type_t]
+  * For example, when accessing module with coordinates (x = 0, y = 0) with 
+  * individual addressing, ID<10:0> = 00001 00001 0.
+  * Zeros in the ID field are reserved for broadcasting to allmodules (00000 
+  * 00000 0), modules in a row (yyyyy 00000 0), or modules in a column (00000 
+  * xxxxx 0).
+  * 
+  * @param coord Address of the targeted node
+  * @param dest_type type of adressing
+  * 
+  * @return CAN id of the target
+*/
 uint16_t get_CAN_ID_from_Kilogrid_address(kilogrid_address_t coord, destination_type_t dest_type){
 	uint16_t ID_LSB = 0;
 	uint16_t ID_MSB = 0;
@@ -154,14 +170,6 @@ void init_module_CAN(uint8_t x_coord, uint8_t y_coord){
 
 }
 
-/**
- *  @brief This function modifies the ID field of the CAN message to be sent, according to the Kilogrid addressing scheme.
- *
- *  @param [in] message Message to be sent
- *  @param [in] dest    Address in Kilogrid
- *  @return Returns 1 if succeeded.
- *
- */
 uint8_t CAN_message_tx(CAN_message_t *message, kilogrid_address_t dest) {
 	uint8_t msg_success;
 
@@ -213,17 +221,6 @@ kilogrid_address_t get_coord_from_CAN_ID(CAN_message_t *m){
 	return coord;
 }
 
-/**
- *  @brief 	Serialize CAN tracking message struct into a CAN message. The data
- *  		contained in the former will be compressed according to the number
- *			of bits required for each field, and assigned to the data field of
- *			the CAN message. Note that the rest of the fields in the data message
- *			(e.g. address field) will remain untouched.
- *
- *  @param [in] m 		Pointer to the CAN tracking message struct
- *  @param [in] CAN_msg Pointer to the CAN message that is the target of the
- *						serialization
- */
 void serialize_tracking_message(CAN_message_t* msg, uint8_t cell_id, tracking_user_data_t* data) {
 	init_CAN_message(msg);
 

@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_common.h
+ * @brief    This file provides some message definition for the kilobot.
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2015
+ */
+
 #ifndef __KILO_BEHAVIORS_COMMON_H_
 #define __KILO_BEHAVIORS_COMMON_H_
 

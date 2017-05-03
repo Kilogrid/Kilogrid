@@ -1,11 +1,12 @@
-// TODO Credits to kilolib v2
-
-/*
- * serial_packet.h
- *
- * Created: 02-06-15 18:03:23
- *  Author: Anthony
- */
+/**
+ * @file     Kilogrid/src/common/kilogui_dispatcher/serial_packet.h
+ * @brief    This file provides structure definition for GUI/dispatcher serial 
+ * messaging.
+ * @details  Credits to Kilobot library v2
+ *   
+ * @author   Anthony Antoun, IRIDIA lab
+ * @date     02-06-15 18:03:23
+*/
 
 #ifndef SERIAL_PACKET_H_
 #define SERIAL_PACKET_H_
@@ -40,7 +41,7 @@ typedef enum {
         SERIAL_PACKET_DISPATCHER_AVAILABLE
 } serial_packet_type_t;
 
-/*
+/**
  *	@brief Structure that defines the format of a serial packet.
  * Packet format: packet types PACKET_STOP, PACKET_LEDTOGGLE, PACKET_FORWARDMSG, PACKET_FORWARDRAWMSG
  *

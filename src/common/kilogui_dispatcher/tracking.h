@@ -1,3 +1,13 @@
+/**
+ * @file     Kilogrid/src/common/kilogui_dispatcher/tracking.h
+ * @brief    This file provides tracking functions definitions.
+ * @details  Provides structure for messages and function definition for
+ * compatibility with the GUI.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #ifndef __TRACKING_H__
 #define __TRACKING_H__
 

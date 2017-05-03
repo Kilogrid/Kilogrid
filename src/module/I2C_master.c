@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/module/I2C_master.c
+ * @brief    This file provides i2c communication functions.
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
+
 #include <avr/io.h>
 #include <util/twi.h>
 #include "IO.h"

@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_random_walk.c
+ * @brief    Library of function for the Kilobot robot. 
+ * The kilob random walk provides random walk behavior for the kilobt.
+ * @author   IRIDIA lab
+ * @date     March 2017
+ */
+
 #include <math.h>
 #include <stdlib.h>
 #include <stdint.h>

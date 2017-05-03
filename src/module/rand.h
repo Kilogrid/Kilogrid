@@ -1,6 +1,11 @@
-/** \file rand.h */
-
-// TODO Credits to Harvard kilobot v2!!!!!
+/**
+ * @file     Kilogrid/src/module/rand.h
+ * @brief    This file provides random generator functions.
+ * @dtails   Credits to kilobot library v2
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 
 #ifndef __RAND_H__
 #define __RAND_H__

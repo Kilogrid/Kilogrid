@@ -1,11 +1,10 @@
-/** \file utils.h */
-
-/*
- * \file utils.h
- *
- *  \author Anthony Antoun
- */ 
-
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/utils.h
+ * @brief    This file provides definitions for bit access.
+ *   
+ * @author   Anthony Antoun, IRIDIA lab
+ * @date     May, 2017
+ */
 
 #ifndef UTILS_H_
 #define UTILS_H_

@@ -1,3 +1,12 @@
+/**
+ * @file     Kilogrid/src/dispatcher/tracking.c
+ * @brief    This file implements tracking functions via serial communication 
+ * with the GUI.
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2015
+ */
+
 #include <stdint.h>
 #include "string.h"
 #include <avr/interrupt.h> // for ISR

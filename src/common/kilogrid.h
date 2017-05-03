@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/common/kilogrid.h
+ * @brief    This file provides structure definition for Kilogrid messaging.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #ifndef __KILOGRID_H__
 #define __KILOGRID_H__
 

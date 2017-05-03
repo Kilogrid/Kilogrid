@@ -1,4 +1,13 @@
-// TODO: add credits to kilolib v2
+/**
+ * @file     Kilogrid/src/common/module_kilobot/kilo_rand_lib.h
+ * @brief    This file implements random number generation functions.
+ * @details  Provides normal, uniform, exponential and gaussian random number generator.
+ * /!\ Random variates functions (srand()) MUST be called before using these..)
+ * Credits to kilobot library v2.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
 
 #ifndef __KILO_RAND_LIB_H__
 #define __KILO_RAND_LIB_H__
@@ -13,7 +22,7 @@
  */
 #define INT_GAUSSIAN_TICKS(mu_sec, sigma_sec) (uint32_t)(floor(abs(g_ran_gaussian(mu_sec, sigma_sec))) * TICKS_PER_SEC)
 
-// Random variates functions (srand()) MUST be called before using these..)
+// /!\ Random variates functions (srand()) MUST be called before using these..)
 void g_ran_set_seed_uint32(uint32_t);       // Set the random seed, if seed=0 the seed is set randomly 
 double g_ran_uniform();                  // Return a random value in the range [0,1[
 uint32_t g_ran_uniform_uint32();         // Return a random value in the range [0,UINT32_MAX]

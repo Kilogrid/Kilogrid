@@ -1,10 +1,13 @@
-/** \file IO.h
+/**
+ * @file     Kilogrid/src/module/IO.h
  *
  * @brief These macros allow the user to set ports directions and bits based on the generic names
  * of the signals on the cell. Generic names are: IRRXCOM_A,D ; IRRXADDR0,1,2 ; IRTXCOM ; IRTXADDR0.1 ; etc...
  *
  * Usage: SET_AS_OUTPUT(IRTXCOM);
  *
+ * @author   IRIDIA lab
+ * @date     January, 2017
  */
 
 #ifndef KILOGRID_MODULE_IO

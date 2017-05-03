@@ -1,4 +1,10 @@
-/** \file ADC.h */
+/**
+ * @file     Kilogrid/src/module/ADC.h
+ * @brief    This file provides ADC definitions for setup and conversion.
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 
 #define ADC_ON()            ADCSRA |= (1<<ADEN)
 #define ADC_OFF()           ADCSRA &= ~(1<<ADEN)

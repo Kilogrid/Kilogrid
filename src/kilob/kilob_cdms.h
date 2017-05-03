@@ -1,3 +1,12 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_cdms.c
+ * @brief    This file implements collective decision making behavior functions.
+ * @details  [TO DETAIL]
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2015
+ */
+ 
 #ifndef KILOB_CDMS_H
 #define KILOB_CDMS_H
 

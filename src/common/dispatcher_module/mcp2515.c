@@ -1,6 +1,13 @@
-// TODO add proper credits
-
-/* Copyright (c) 2007 Fabian Greif
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/mcp2515.c
+ * @brief    This file provides setup/read/write functions for mcp2515
+ * chip (CAN).
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+/**
+ * @details Copyright (c) 2007 Fabian Greif
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

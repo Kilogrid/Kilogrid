@@ -1,16 +1,15 @@
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/debug.c
+ * @brief    This file provides print functions for debug via serial.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #include <avr/io.h>
 #include <stdlib.h>
 #include <util/delay.h>  
 
-#include "debug.h"
-#include "IO.h"
-
-/**
- * @brief Print data to the serial port (USART).
- * The length of the string given to the function is not limited (has to end by a 0 char).
- * c is the pointer to the string to send.
- * This function takes approximately 39.3 us to send a character with a baudrate of 256000 symbols per sec on the serial.
- */
 
 void cprints(char *c)
 {

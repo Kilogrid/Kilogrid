@@ -1,3 +1,9 @@
+/**
+ * @file     Kilogrid/src/module/PCA9635.c
+ * @brief    This file implements functions for the i2c PC9635 device.
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):

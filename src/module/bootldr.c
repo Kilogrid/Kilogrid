@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/module/bootldr.c
+ * @brief    This file provides main program called at boot of the device.
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
+
 #include <avr/io.h>
 #include <avr/wdt.h>
 #include <util/delay.h>     // delay macros

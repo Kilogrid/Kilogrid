@@ -1,4 +1,11 @@
-/** \file bitfield.h */
+/**
+ * @file     Kilogrid/src/common/dispatcher_module/bitfield.h
+ * @brief    This file provides function definition for bit access in the 
+ * booldr program.
+ *
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
 
 #ifndef __BITFIELD_H__
 #define __BITFIELD_H__

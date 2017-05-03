@@ -1,4 +1,10 @@
-/** \file I2C_master.h */
+/**
+ * @file     Kilogrid/src/module/I2C_master.h
+ * @brief    This file provides i2c communication functions.
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
+ */
 
 #ifndef I2C_MASTER_H
 #define I2C_MASTER_H

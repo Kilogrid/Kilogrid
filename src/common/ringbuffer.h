@@ -1,3 +1,13 @@
+/**
+ * @file     Kilogrid/src/common/ringbuffer.h
+ * @brief    This file provides ring buffer operation definitions.
+ * @details  Provides create, init, clear, capacity, size, empty, full, front, 
+ * back, popfront, pushback, idx, begin, next and end definitions
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #ifndef __RINGBUFFER_H__
 #define __RINGBUFFER_H__
 

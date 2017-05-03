@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/common/module_kilobot/message_crc.c
+ * @brief    This file computes crc for infrared message.
+ *   
+ * @author   IRIDIA lab
+ * @date     May, 2017
+ */
+
 #include "message.h"
 #include <util/crc16.h>  // for optimized crc routines
 

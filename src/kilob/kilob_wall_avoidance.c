@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_wall_avoidance.c
+ * @brief    Library of function for the Kilobot robot. 
+ * Provides functions for wall avoidance behavior with th kilobot.
+ * @author   IRIDIA lab
+ * @date     March 2017
+ */
+
 #include "kilob_wall_avoidance.h"
 #include "kilo_rand_lib.h"
 #include "ringbuffer.h"

@@ -1,3 +1,11 @@
+/**
+ * @file     Kilogrid/src/kilob/kilob_gradient.h
+ * @brief    This file provides gradient behavior function.
+ * 
+ * @author   IRIDIA lab
+ * @date     May, 2015
+ */
+
 #ifndef GRADIENT_H
 #define GRADIENT_H
 

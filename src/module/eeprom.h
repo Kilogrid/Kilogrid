@@ -1,6 +1,11 @@
 /**
- * @file eeprom.h
+ * @file     Kilogrid/src/module/eeprom.h
+ * @brief    This file defines eeprom struct for data storage.
+ * 
+ * @author   IRIDIA lab
+ * @date     January, 2017
  */
+
 #ifndef KILOGRID_MODULE_EEPROM_H
 #define KILOGRID_MODULE_EEPROM_H
 
