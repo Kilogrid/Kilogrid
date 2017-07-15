@@ -1,6 +1,7 @@
 /**
  * @file kilolib.h
- * @ _mainpage Kilobot Library API
+ * @brief Kilobot library v2
+ * @details _mainpage Kilobot Library API
  *
  * At its core the Kilobot Library library provides the function
  * kilo_init() to initialize the hardware of the kilobots, and the
@@ -35,15 +36,6 @@
 #include <message.h>
 #include <message_crc.h>
 
-/**
- * @brief      test
- *
- * @param      r     { parameter_description }
- * @param      g     { parameter_description }
- * @param      b     { parameter_description }
- *
- * @return     { description_of_the_return_value }
- */
 #define RGB(r,g,b) (r&3)|(((g&3)<<2))|((b&3)<<4)
 #define TICKS_PER_SEC 31
 
@@ -65,7 +57,7 @@ typedef struct {
 } distance_measurement_t;
 
 typedef void (*message_rx_t)(IR_message_t *, distance_measurement_t *d);
-typedef IR_message_t *(*message_tx_t)(void);
+typedef IR_message_t *(*message_tx_t)(void); 
 typedef void (*message_tx_success_t)(void);
 
 /**
@@ -288,13 +280,7 @@ extern "C" {
  * precalibrated.
  */
 
-/**
- * @brief      { function_description }
- *
- * @param[in]  d     { parameter_description }
- *
- * @return     { description_of_the_return_value }
- */
+
 uint8_t estimate_distance(const distance_measurement_t *d);
 
 /**

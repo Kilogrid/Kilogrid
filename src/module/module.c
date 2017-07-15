@@ -1,11 +1,15 @@
 /**
  * @file     Kilogrid/src/module/module.c
- * @brief    This file implements high level handling of CAN messages based on
- * their type. Commands or bootpages forwarded to the kilobots are
- * processed here. [TODO a bit unclear here] The two functions defined handle the module initialization
- * and the starting of the module as well.
+ * @brief    Implements the main function that initialize and start the module
+ * device.
+ * @details  This file implements initialization of the module and high level
+ * handling of CAN messages based on their type. Commands or bootpages 
+ * messages forwarded to the kilobots are processed here. 
  * 
- * @details    Initializing the module means initializing all the peripherals:
+ * @details  The two functions defined handle the module initialization
+ * and the starting of the module.
+ * 
+ * Initializing the module means initializing all the peripherals:
  *  - serial
  *  - led driver
  *  - CAN
@@ -38,49 +42,49 @@ volatile uint32_t module_ticks;     ///< internal clock (updated in tx ISR)
  * @brief Module states
  */
 static volatile enum {
-	MODULE_INIT = 0x00,
-	/**
-	 * @brief Triggered by receiving a CAN_MODULE_IDLE message. Currently
-	 * pulsing LEDs indicate this state.
-	 */
-	MODULE_IDLE,
-	/**
-	 * @brief State after receiving the second part of a CAN_FORWARD_IR_MESSAGE
-	 * message, transmits the message in IR_setup_message variable on all
-	 * modules.
-	 */
-	MODULE_SETUP_KILOBOTS,
-	/**
-	 * @brief Module is waiting for bootpages.
-	 *
-	 * Triggered by receiving a CAN_KILO_BOOTPAGE_NUMBER CAN message.
-	 */
-	MODULE_WAITING_FOR_KILOBOT_BOOTPAGE,
-	/**
-	 * @brief Sends the current bootpage in 6 byte chunks to the kilobots.
-	 *
-	 * Triggered after receiving the last bootpage on the CAN bus.
-	 */
-	MODULE_BOOTLOADING_KILOBOTS,
-	/**
-	 * @brief Received information about the configuration and is waiting for the data.
-	 *
-	 * Triggered by receiving a CAN_MODULE_CONFIG_SIZE message.
-	 */
-	MODULE_WAITING_FOR_CONFIGURATION_DATA,
-	/**
-	 * @brief State entered when the module is about to start and sets up all
-	 * user variables before start (via callind the user supplied setup
-	 * funcion).
-	 *
-	 * Triggered by receiving a CAN_MODULE_SETUP message.
-	 */
-	MODULE_SETUP,
-	/**
-	 * @brief Calls the user supplied loop function.
-	 *
-	 * Triggered by receiving a CAN_MODULE_RUN message.
-	 */
+    MODULE_INIT = 0x00,
+    /**
+     * @brief Triggered by receiving a CAN_MODULE_IDLE message. Currently
+     * pulsing LEDs indicate this state.
+     */
+    MODULE_IDLE,
+    /**
+     * @brief State after receiving the second part of a CAN_FORWARD_IR_MESSAGE
+     * message, transmits the message in IR_setup_message variable on all
+     * modules.
+     */
+    MODULE_SETUP_KILOBOTS,
+    /**
+     * @brief Module is waiting for bootpages.
+     *
+     * Triggered by receiving a CAN_KILO_BOOTPAGE_NUMBER CAN message.
+     */
+    MODULE_WAITING_FOR_KILOBOT_BOOTPAGE,
+    /**
+     * @brief Sends the current bootpage in 6 byte chunks to the kilobots.
+     *
+     * Triggered after receiving the last bootpage on the CAN bus.
+     */
+    MODULE_BOOTLOADING_KILOBOTS,
+    /**
+     * @brief Received information about the configuration and is waiting for the data.
+     *
+     * Triggered by receiving a CAN_MODULE_CONFIG_SIZE message.
+     */
+    MODULE_WAITING_FOR_CONFIGURATION_DATA,
+    /**
+     * @brief State entered when the module is about to start and sets up all
+     * user variables before start (via callind the user supplied setup
+     * funcion).
+     *
+     * Triggered by receiving a CAN_MODULE_SETUP message.
+     */
+    MODULE_SETUP,
+    /**
+     * @brief Calls the user supplied loop function.
+     *
+     * Triggered by receiving a CAN_MODULE_RUN message.
+     */
     MODULE_RUNNING
 } module_state;  // internal state of module
 
@@ -96,20 +100,20 @@ static volatile enum {
 _static volatile uint8_t module_uid_x_coord;      // => LSBs of module_uid
 _static volatile uint8_t module_uid_y_coord;      // => MSBs of module_uid
 
-/* cariblation area */
-static volatile uint8_t module_calib_restricted;  // flag for Caliblation area
+/* calibration area */
+static volatile uint8_t module_calib_restricted;  // flag for calibration area
 static volatile uint8_t module_calib_x_min;       // x lower bound
 static volatile uint8_t module_calib_x_max;       // x upper bound
 static volatile uint8_t module_calib_y_min;       // y lower bound
 static volatile uint8_t module_calib_y_max;       // y upper bound
 
-/** @brief To jump directly to the user program without the user intervention */
+/** @brief To jump directly to user program without the user intervention */
 static volatile uint8_t module_autostart = 0;
 
-static volatile color_t c;						// color of the module during configuration
+static volatile color_t c;          // color of the module during configuration
 
-CAN_message_t CAN_message_rx;			// store received message
-CAN_message_t CAN_message_bootpage;		// CAN message that stores bootpage messages
+CAN_message_t CAN_message_rx;           // store received message
+CAN_message_t CAN_message_bootpage;     // CAN message that stores bootpage messages
 
 /** @brief CAN messages buffer that contains the CAN user messages to be sent. */
 RB_create(CAN_message_tx_buffer, CAN_message_t, CAN_MESSAGE_BUFFER_SIZE);
@@ -119,11 +123,11 @@ RB_create(CAN_message_tx_buffer, CAN_message_t, CAN_MESSAGE_BUFFER_SIZE);
  * either CAN_message_rx or CAN_message_bootpage depending on the type if the
  * message.
  */
-CAN_message_t CAN_message_rx_buffer;	// store received message from interrupt
+CAN_message_t CAN_message_rx_buffer;
 
 /**
- * @brief Type of the received CAN message. The switch in process_CAN_message is
- * done based on this value.
+ * @brief Type of the received CAN message. The switch in process_CAN_message
+ * is done based on this value.
  */
 volatile CAN_message_type_t CAN_msg_type;
 volatile uint8_t fCAN_debug_rx;
@@ -273,15 +277,15 @@ IR_message_tx_success_t module_IR_message_tx_success = IR_message_tx_success_dum
  *
  */
 uint8_t send_next_CAN_message(){
-	if(!RB_empty(CAN_message_tx_buffer)){
-		CAN_message_tx(&RB_front(CAN_message_tx_buffer), CAN_address_to_dispatcher);
-		return 1;
-	}
-	return 0;
+    if(!RB_empty(CAN_message_tx_buffer)){
+        CAN_message_tx(&RB_front(CAN_message_tx_buffer), CAN_address_to_dispatcher);
+        return 1;
+    }
+    return 0;
 }
 
 void CAN_message_sent(){
-	// remove front element of the buffer
+    // remove front element of the buffer
 }
 
 /**
@@ -289,12 +293,12 @@ void CAN_message_sent(){
  *
  */
 void init_serial(void){
-	SET_AS_OUTPUT(TXD);
-	SET_AS_INPUT(RXD);
-	UBRR0 = 1; //256000 baud
-	UCSR0A = 0;
-	UCSR0B |= (1 << TXEN0);
-	UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);
+    SET_AS_OUTPUT(TXD);
+    SET_AS_INPUT(RXD);
+    UBRR0 = 1; //256000 baud
+    UCSR0A = 0;
+    UCSR0B |= (1 << TXEN0);
+    UCSR0C |= (1 << UCSZ01) | (1 << UCSZ00);
 }
 
 /**
@@ -302,32 +306,32 @@ void init_serial(void){
  * of the FLASH (NRWW region).
  */
 void goto_bootloader(){
-	//eeprom_write_byte(EEPROM_VALID_APPLICATION_BIT_ADDR, 0x00); // invalidate current application in FLASH
-	while(!eeprom_is_ready());
+    //eeprom_write_byte(EEPROM_VALID_APPLICATION_BIT_ADDR, 0x00); // invalidate current application in FLASH
+    while(!eeprom_is_ready());
 
-/*	cli();*/
+/*  cli();*/
 
-	MCUCR = (1<<IVCE);
-	MCUCR = (1<<IVSEL);
+    MCUCR = (1<<IVCE);
+    MCUCR = (1<<IVSEL);
 
-	EIMSK = 0; PCICR = 0; SPCR = 0; ACSR = 0; EECR = 0; ADCSRA = 0;    //disable A/D converter
-	TIMSK0 = 0; TIMSK1 = 0; TIMSK2 = 0; TWCR = 0;         //disable timers
+    EIMSK = 0; PCICR = 0; SPCR = 0; ACSR = 0; EECR = 0; ADCSRA = 0;    //disable A/D converter
+    TIMSK0 = 0; TIMSK1 = 0; TIMSK2 = 0; TWCR = 0;         //disable timers
 
-	asm volatile ("jmp 0x7000"); // jump to bootloader (NRWW) section
+    asm volatile ("jmp 0x7000"); // jump to bootloader (NRWW) section
 }
 
 /**
  * @brief Send a message to be sent on cell number "sc" without delay.
  *
- * @param	m	Message to send.
- * @param	c	Identifier of the cell to send the message from.
+ * @param   m   Message to send.
+ * @param   c   Identifier of the cell to send the message from.
  */
 void send_IR_message(IR_message_t *m, cell_num_t c){
-	cli();
-	m->crc = message_crc(m); // compute message CRC
-	SELECT_IR_TRANSMITTER(c);
-	message_send(m);
-	sei();
+    cli();
+    m->crc = message_crc(m); // compute message CRC
+    SELECT_IR_TRANSMITTER(c);
+    message_send(m);
+    sei();
 }
 
 
@@ -344,528 +348,528 @@ void send_IR_message(IR_message_t *m, cell_num_t c){
  * @note It is forbidden to use blocking calls in this function, as well as the moduleLED.c functionalities (too slow).
  */
 static inline void process_CAN_message() {
-	uint8_t i, j = 0;
+    uint8_t i, j = 0;
 
-	CAN_msg_type = CAN_message_rx_buffer.data[0];
-	uint8_t current_CAN_msg_number = CAN_message_rx_buffer.data[1];
+    CAN_msg_type = CAN_message_rx_buffer.data[0];
+    uint8_t current_CAN_msg_number = CAN_message_rx_buffer.data[1];
 
-	// transfer the content of the CAN msg buffer into the CAN_message struct to avoid race conditions
-	if(CAN_msg_type == CAN_KILO_BOOTPAGE){
-		CAN_message_bootpage = CAN_message_rx_buffer;
-	}
-	else{
-		CAN_message_rx = CAN_message_rx_buffer;
-	}
+    // transfer the content of the CAN msg buffer into the CAN_message struct to avoid race conditions
+    if(CAN_msg_type == CAN_KILO_BOOTPAGE){
+        CAN_message_bootpage = CAN_message_rx_buffer;
+    }
+    else{
+        CAN_message_rx = CAN_message_rx_buffer;
+    }
 
-	switch(CAN_msg_type){
+    switch(CAN_msg_type){
 
-		case CAN_FORWARD_IR_MESSAGE_STOP:
+        case CAN_FORWARD_IR_MESSAGE_STOP:
 
-			init_IR_message(&IR_setup_message);
+            init_IR_message(&IR_setup_message);
 
-			disable_IR_tx(CELL_00);
-			disable_IR_tx(CELL_01);
-			disable_IR_tx(CELL_02);
-			disable_IR_tx(CELL_03);
+            disable_IR_tx(CELL_00);
+            disable_IR_tx(CELL_01);
+            disable_IR_tx(CELL_02);
+            disable_IR_tx(CELL_03);
 
-			module_state = MODULE_IDLE;
+            module_state = MODULE_IDLE;
 
-			break;
+            break;
 
-		case CAN_KILO_BOOTPAGE_SIZE:
-			page_total = CAN_message_rx.data[2]; // store the size of the current Kilobot program
-			break;
+        case CAN_KILO_BOOTPAGE_SIZE:
+            page_total = CAN_message_rx.data[2]; // store the size of the current Kilobot program
+            break;
 
-		case CAN_KILO_BOOTPAGE:
-			// bootpage is faulty if the sequence number is not contiguous
-			if(current_CAN_msg_number != 0
-				&& current_CAN_msg_number != (previous_CAN_msg_number+1))
-				{
-					bootpage_faulty = 1;
-				}
+        case CAN_KILO_BOOTPAGE:
+            // bootpage is faulty if the sequence number is not contiguous
+            if(current_CAN_msg_number != 0
+                && current_CAN_msg_number != (previous_CAN_msg_number+1))
+                {
+                    bootpage_faulty = 1;
+                }
 
-			// if bootpage is faulty then drop the rest of the bootpage
-			if(bootpage_faulty) {
-				break;
-			}
+            // if bootpage is faulty then drop the rest of the bootpage
+            if(bootpage_faulty) {
+                break;
+            }
 
-			// current_CAN_msg_number is the bootpage data offset, in bytes
-			page_offset = (current_CAN_msg_number * 6);
+            // current_CAN_msg_number is the bootpage data offset, in bytes
+            page_offset = (current_CAN_msg_number * 6);
 
-			if(current_CAN_msg_number < (CAN_MESSAGES_PER_BOOTPAGE-1)){
-				for(j = 0; j < 6; j++){
-					current_bootpage.data[page_offset + j] = CAN_message_bootpage.data[2 + j];
-				}
-			}
-			else if(current_CAN_msg_number == (CAN_MESSAGES_PER_BOOTPAGE-1)){ // if the message is the last CAN message of current bootpage: only copy the two remaining words (128 - 126 = 2 bytes)
-				for(j = 0; j < 2; j++){
-					current_bootpage.data[page_offset + j] = CAN_message_bootpage.data[2 + j];
-				}
-			}
+            if(current_CAN_msg_number < (CAN_MESSAGES_PER_BOOTPAGE-1)){
+                for(j = 0; j < 6; j++){
+                    current_bootpage.data[page_offset + j] = CAN_message_bootpage.data[2 + j];
+                }
+            }
+            else if(current_CAN_msg_number == (CAN_MESSAGES_PER_BOOTPAGE-1)){ // if the message is the last CAN message of current bootpage: only copy the two remaining words (128 - 126 = 2 bytes)
+                for(j = 0; j < 2; j++){
+                    current_bootpage.data[page_offset + j] = CAN_message_bootpage.data[2 + j];
+                }
+            }
 
-			if(current_CAN_msg_number == (CAN_MESSAGES_PER_BOOTPAGE-1)){ // bootpage reception complete
-				page_count++;
+            if(current_CAN_msg_number == (CAN_MESSAGES_PER_BOOTPAGE-1)){ // bootpage reception complete
+                page_count++;
 
-				module_state = MODULE_BOOTLOADING_KILOBOTS; // switch to MODULE_BOOTLOADING_KILOBOTS state to send the bootpage in the main loop
+                module_state = MODULE_BOOTLOADING_KILOBOTS; // switch to MODULE_BOOTLOADING_KILOBOTS state to send the bootpage in the main loop
 
-				bootpage_sent = 0;
+                bootpage_sent = 0;
 
-			} // if bootpage received
+            } // if bootpage received
 
-			previous_CAN_msg_number = current_CAN_msg_number;
+            previous_CAN_msg_number = current_CAN_msg_number;
 
-			break;
+            break;
 
-		case CAN_KILO_BOOTPAGE_NUMBER:
-			bootpage_faulty = 0;
-			previous_CAN_msg_number = 0;
-			page_address = CAN_message_rx.data[2]; // store address of current bootpage
-			module_state = MODULE_WAITING_FOR_KILOBOT_BOOTPAGE;
-			break;
+        case CAN_KILO_BOOTPAGE_NUMBER:
+            bootpage_faulty = 0;
+            previous_CAN_msg_number = 0;
+            page_address = CAN_message_rx.data[2]; // store address of current bootpage
+            module_state = MODULE_WAITING_FOR_KILOBOT_BOOTPAGE;
+            break;
 
-		case CAN_FORWARD_IR_MESSAGE: // IR message to be forwarded: receive it and broadcast to every cell
-			if(current_CAN_msg_number == 0){ // first part of the IR message
+        case CAN_FORWARD_IR_MESSAGE: // IR message to be forwarded: receive it and broadcast to every cell
+            if(current_CAN_msg_number == 0){ // first part of the IR message
 
-				// copy CAN message into IR message - TODO change this using mem copy
-				// i points to the CAN message data byte
-				// this step copies 6 bytes of overall 9 into the setup message data buffer
-				for (i = 0; i < 6; i++) {
-					IR_setup_message.data[i] = CAN_message_rx.data[i+2];
-				}
+                // copy CAN message into IR message - TODO change this using mem copy
+                // i points to the CAN message data byte
+                // this step copies 6 bytes of overall 9 into the setup message data buffer
+                for (i = 0; i < 6; i++) {
+                    IR_setup_message.data[i] = CAN_message_rx.data[i+2];
+                }
 
-			}
-			else if(current_CAN_msg_number == 1){ // second part of the IR message
-				// there are 6 bytes in the IR_setup_message.data buffer
-				// remaining IR data bytes to copy from CAN message: 9 - (CAN_MESSAGE_SIZE - 2) = 3
-				// start from byte 2 in the CAN message for 3 bytes and copy to the IR_setup_message.data buffer from byte 6
-				for (i = 0; i < 3; i++){
-					IR_setup_message.data[6+i] = CAN_message_rx.data[i+2];
-				}
-				// i is incremented and points to the last byte of the IR message, which is the type
-				IR_setup_message.type = CAN_message_rx.data[i+2];
+            }
+            else if(current_CAN_msg_number == 1){ // second part of the IR message
+                // there are 6 bytes in the IR_setup_message.data buffer
+                // remaining IR data bytes to copy from CAN message: 9 - (CAN_MESSAGE_SIZE - 2) = 3
+                // start from byte 2 in the CAN message for 3 bytes and copy to the IR_setup_message.data buffer from byte 6
+                for (i = 0; i < 3; i++){
+                    IR_setup_message.data[6+i] = CAN_message_rx.data[i+2];
+                }
+                // i is incremented and points to the last byte of the IR message, which is the type
+                IR_setup_message.type = CAN_message_rx.data[i+2];
 
-				// if this is a calibration message but we are not part of the calibration area, skip processing
-				if(IR_setup_message.type == CALIB && module_calib_restricted == 1) {
-					if( module_uid_y_coord < module_calib_y_min ||
-						module_uid_y_coord > module_calib_y_max ||
-						module_uid_x_coord < module_calib_x_min ||
-						module_uid_x_coord > module_calib_x_max) {
-							return;
-					}
-				}
+                // if this is a calibration message but we are not part of the calibration area, skip processing
+                if(IR_setup_message.type == CALIB && module_calib_restricted == 1) {
+                    if( module_uid_y_coord < module_calib_y_min ||
+                        module_uid_y_coord > module_calib_y_max ||
+                        module_uid_x_coord < module_calib_x_min ||
+                        module_uid_x_coord > module_calib_x_max) {
+                            return;
+                    }
+                }
 
-				module_state = MODULE_SETUP_KILOBOTS; // will enter the MODULE_SETUP_KILOBOTS state after this ISR (ie. after receiving the entire IR message)
+                module_state = MODULE_SETUP_KILOBOTS; // will enter the MODULE_SETUP_KILOBOTS state after this ISR (ie. after receiving the entire IR message)
 
-				// display color
-				switch(IR_setup_message.type){
-					case RESET:
-						c = GREEN;
-						break;
-					case BOOT:
-						c = BLUE;
-						bootloading_current_cell = CELL_00; // start bootloading on cell CELL_00
-						page_count = 0; // reset page count
-						break;
-					case BOOTPGM_PAGE:
-						c = CYAN;
-						break;
-					case SLEEP:
-						c = WHITE;
-						break;
-					case RUN:
-						c = MAGENTA;
-						break;
-					case VOLTAGE:
-						c = YELLOW;
-						break;
+                // display color
+                switch(IR_setup_message.type){
+                    case RESET:
+                        c = GREEN;
+                        break;
+                    case BOOT:
+                        c = BLUE;
+                        bootloading_current_cell = CELL_00; // start bootloading on cell CELL_00
+                        page_count = 0; // reset page count
+                        break;
+                    case BOOTPGM_PAGE:
+                        c = CYAN;
+                        break;
+                    case SLEEP:
+                        c = WHITE;
+                        break;
+                    case RUN:
+                        c = MAGENTA;
+                        break;
+                    case VOLTAGE:
+                        c = YELLOW;
+                        break;
 
-					// NOTE (ATFER REV 812): THE MODULE SHOULD NOT RECEIVE ANY CAN_FORWARD_IR_MESSAGE CONTAINING A BOOTPGM_SIZE IR MESSAGE TYPE (SENT AS A SEPARATE CAN MESSAGE AT THE BEGINNING OF THE BOOTLOADING PROCEDURE)
-					case BOOTPGM_SIZE:
-						c = CYAN;
-						break;
+                    // NOTE (ATFER REV 812): THE MODULE SHOULD NOT RECEIVE ANY CAN_FORWARD_IR_MESSAGE CONTAINING A BOOTPGM_SIZE IR MESSAGE TYPE (SENT AS A SEPARATE CAN MESSAGE AT THE BEGINNING OF THE BOOTLOADING PROCEDURE)
+                    case BOOTPGM_SIZE:
+                        c = CYAN;
+                        break;
 
-					case CHARGE:
-						c = RED;
-						break;
+                    case CHARGE:
+                        c = RED;
+                        break;
 
-					case CALIB:
-					case GO_STRAIGHT:
-					case TURN_LEFT:
-					case TURN_RIGHT:
-						c = YELLOW;
-						break;
+                    case CALIB:
+                    case GO_STRAIGHT:
+                    case TURN_LEFT:
+                    case TURN_RIGHT:
+                        c = YELLOW;
+                        break;
 
-					default:
-						c = LED_OFF;
-						break;
-				}
+                    default:
+                        c = LED_OFF;
+                        break;
+                }
 
-			}
+            }
 
-			break;
+            break;
 
-		case CAN_MODULE_BOOT:
-			goto_bootloader();
-			break;
+        case CAN_MODULE_BOOT:
+            goto_bootloader();
+            break;
 
-		case CAN_MODULE_IDLE:
-			module_state = MODULE_IDLE;
-			break;
+        case CAN_MODULE_IDLE:
+            module_state = MODULE_IDLE;
+            break;
 
-		case CAN_MODULE_SETUP:
-			module_state = MODULE_SETUP;
-			break;
+        case CAN_MODULE_SETUP:
+            module_state = MODULE_SETUP;
+            break;
 
-		case CAN_MODULE_RUN:
-			module_state = MODULE_RUNNING;
-			break;
+        case CAN_MODULE_RUN:
+            module_state = MODULE_RUNNING;
+            break;
 
-		case CAN_MODULE_CONFIG_SIZE:
-			// size of the configuration data in bytes
-			configuration_size = CAN_message_rx.data[2];
+        case CAN_MODULE_CONFIG_SIZE:
+            // size of the configuration data in bytes
+            configuration_size = CAN_message_rx.data[2];
 
-			// number of CAN messages
-			configuration_total = CAN_message_rx.data[2] / 6;
-			if(CAN_message_rx.data[2] % 6 != 0) {
-				configuration_total += 1;
-			}
+            // number of CAN messages
+            configuration_total = CAN_message_rx.data[2] / 6;
+            if(CAN_message_rx.data[2] % 6 != 0) {
+                configuration_total += 1;
+            }
 
-			configuration_faulty = 0;
-			configuration_msg_counter = 0;
-			module_state = MODULE_WAITING_FOR_CONFIGURATION_DATA;
-			c = RED;
+            configuration_faulty = 0;
+            configuration_msg_counter = 0;
+            module_state = MODULE_WAITING_FOR_CONFIGURATION_DATA;
+            c = RED;
 
-			break;
+            break;
 
-		case CAN_MODULE_CONFIG_TRANSFER:
-			if(module_state != MODULE_WAITING_FOR_CONFIGURATION_DATA ||
-			   configuration_faulty){
-				return;
-			}
+        case CAN_MODULE_CONFIG_TRANSFER:
+            if(module_state != MODULE_WAITING_FOR_CONFIGURATION_DATA ||
+               configuration_faulty){
+                return;
+            }
 
-			if(current_CAN_msg_number != configuration_msg_counter) {
-				configuration_faulty = 1;
-				return;
-			}
+            if(current_CAN_msg_number != configuration_msg_counter) {
+                configuration_faulty = 1;
+                return;
+            }
 
-			for(i = 0; i < 6; i++) {
-				//multiple messages can address a module, data is collated
-				configuration[configuration_msg_counter*6 + i] = CAN_message_rx.data[i+2];
-			}
+            for(i = 0; i < 6; i++) {
+                //multiple messages can address a module, data is collated
+                configuration[configuration_msg_counter*6 + i] = CAN_message_rx.data[i+2];
+            }
 
-			configuration_msg_counter += 1;
+            configuration_msg_counter += 1;
 
-			if(current_CAN_msg_number == configuration_total-1) {
-				received_setup = 0;
-				c = GREEN;
-				module_state = MODULE_SETUP;
-			}
-			break;
+            if(current_CAN_msg_number == configuration_total-1) {
+                received_setup = 0;
+                c = GREEN;
+                module_state = MODULE_SETUP;
+            }
+            break;
 
-		case CAN_TRACKING_REQ:
-			sending_tracking_data = 1;
-			sent_tracking_header = 0;
-			messages_to_send = RB_size(CAN_message_tx_buffer);
-			break;
+        case CAN_TRACKING_REQ:
+            sending_tracking_data = 1;
+            sent_tracking_header = 0;
+            messages_to_send = RB_size(CAN_message_tx_buffer);
+            break;
 
-		default:
-			module_CAN_message_rx(&CAN_message_rx); // transfer CAN message to the user. The user can receive all other CAN messages.
-			break;
-	}
+        default:
+            module_CAN_message_rx(&CAN_message_rx); // transfer CAN message to the user. The user can receive all other CAN messages.
+            break;
+    }
 }
 
 /**** FUNCTIONS DEFINITIONS ****/
 
 void module_init(void){
 
-	cli(); // enter critical section - disable interrupts
+    cli(); // enter critical section - disable interrupts
 
-	has_started = 0;
-	received_setup = 0;
+    has_started = 0;
+    received_setup = 0;
 
-	module_state = MODULE_INIT;
+    module_state = MODULE_INIT;
 
-	/* Peripherals */
-	// disable watchdog
-	//WDTCSR |= (1<<WDCE)|(1<<WDE); // re-enable if not working
-	WDTCSR = 0;
+    /* Peripherals */
+    // disable watchdog
+    //WDTCSR |= (1<<WDCE)|(1<<WDE); // re-enable if not working
+    WDTCSR = 0;
 
-	// Reset all MCU ports
-	ports_off();
+    // Reset all MCU ports
+    ports_off();
 
-	module_uid_x_coord = eeprom_read_byte((uint8_t *)MODULE_EEPROM_X_COORD_ADDR); // read the x coordinate on the grid (LSB of module_uid)
-	module_uid_y_coord = eeprom_read_byte((uint8_t *)MODULE_EEPROM_Y_COORD_ADDR); // read the y coordinate on the grid (MSB of module_uid)
-	module_uid = module_uid_x_coord | ((uint16_t)module_uid_y_coord << 8); // merge the two in the module_uid variable
+    module_uid_x_coord = eeprom_read_byte((uint8_t *)MODULE_EEPROM_X_COORD_ADDR); // read the x coordinate on the grid (LSB of module_uid)
+    module_uid_y_coord = eeprom_read_byte((uint8_t *)MODULE_EEPROM_Y_COORD_ADDR); // read the y coordinate on the grid (MSB of module_uid)
+    module_uid = module_uid_x_coord | ((uint16_t)module_uid_y_coord << 8); // merge the two in the module_uid variable
 
-	module_calib_restricted = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_RESTRICTED);
-	module_calib_x_min = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_X_MIN);
-	module_calib_x_max = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_X_MAX);
-	module_calib_y_min = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_Y_MIN);
-	module_calib_y_max = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_Y_MAX);
+    module_calib_restricted = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_RESTRICTED);
+    module_calib_x_min = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_X_MIN);
+    module_calib_x_max = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_X_MAX);
+    module_calib_y_min = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_Y_MIN);
+    module_calib_y_max = eeprom_read_byte((uint8_t *)MODULE_EEPROM_CALIB_Y_MAX);
 
-	// initialized reused address descriptor in the direction of the dispatcher
-	CAN_address_to_dispatcher.x = module_uid_x_coord;
-	CAN_address_to_dispatcher.y = module_uid_y_coord;
-	CAN_address_to_dispatcher.type = ADDR_DISPATCHER;
+    // initialized reused address descriptor in the direction of the dispatcher
+    CAN_address_to_dispatcher.x = module_uid_x_coord;
+    CAN_address_to_dispatcher.y = module_uid_y_coord;
+    CAN_address_to_dispatcher.type = ADDR_DISPATCHER;
 
-	init_CAN_message(&poll_response_message);
-	poll_response_message.data[0] = CAN_TRACKING_KILOBOT_START;
+    init_CAN_message(&poll_response_message);
+    poll_response_message.data[0] = CAN_TRACKING_KILOBOT_START;
 
-	RB_init(CAN_message_tx_buffer); // init CAN message tx buffer
+    RB_init(CAN_message_tx_buffer); // init CAN message tx buffer
 
-	module_CAN_message_tx_success = CAN_message_sent; // register function callback
+    module_CAN_message_tx_success = CAN_message_sent; // register function callback
 
-	// Setup Analog Comparator (enable IR reception) and ADC (distance measurements)
-	ACOMP_SETUP();
-	ADC_SETUP();
+    // Setup Analog Comparator (enable IR reception) and ADC (distance measurements)
+    ACOMP_SETUP();
+    ADC_SETUP();
 
-	// Setup peripherals
-	init_serial();
-	init_module_LED();
-	init_module_CAN(module_uid_x_coord, module_uid_y_coord);
-	init_module_IR();
+    // Setup peripherals
+    init_serial();
+    init_module_LED();
+    init_module_CAN(module_uid_x_coord, module_uid_y_coord);
+    init_module_IR();
 
-	brightness_dir = 1; // increasing
-	configuration_size = 0;
+    brightness_dir = 1; // increasing
+    configuration_size = 0;
 
-	#ifdef ITF
-		// do not display animation. This will be part of the test routines in the main loop
+    #ifdef ITF
+        // do not display animation. This will be part of the test routines in the main loop
 
-		_delay_ms(10000); // waiting time before the test begins
+        _delay_ms(10000); // waiting time before the test begins
 
-		module_state = MODULE_RUNNING; // directly go to the main!
+        module_state = MODULE_RUNNING; // directly go to the main!
 
-	#else
-		// display animation
-		for(uint8_t j = 0; j < 3; j++){ // repeat 3 times
+    #else
+        // display animation
+        for(uint8_t j = 0; j < 3; j++){ // repeat 3 times
 
-			// light up all LEDs in sequence
-			for(uint8_t i = 0; i < 4; i++){
-				set_LED(i, 1 << j);
-				_delay_ms(50);
-			}
-			// switch off all LEDs in sequence
-			for(uint8_t i = 0; i < 4; i++){
-				set_LED(i, LED_OFF);
-				_delay_ms(50);
-			}
-		}
-	#endif
+            // light up all LEDs in sequence
+            for(uint8_t i = 0; i < 4; i++){
+                set_LED(i, 1 << j);
+                _delay_ms(50);
+            }
+            // switch off all LEDs in sequence
+            for(uint8_t i = 0; i < 4; i++){
+                set_LED(i, LED_OFF);
+                _delay_ms(50);
+            }
+        }
+    #endif
 
-	uint8_t i;
-	for(i=0; i<MODULE_CONFIGURATION_BUFFER_SIZE; i++) {
-		configuration[i] = 0;
-	}
+    uint8_t i;
+    for(i=0; i<MODULE_CONFIGURATION_BUFFER_SIZE; i++) {
+        configuration[i] = 0;
+    }
 
-	cprints("Module initialized.");
+    cprints("Module initialized.");
 
-	sei(); // exit critical section - enable interrupts
+    sei(); // exit critical section - enable interrupts
 }
 
 void module_start(void (*setup)(void), void (*loop)(void)) {
-	uint8_t i, j;
+    uint8_t i, j;
 
-	#ifdef ITF // force setup() once before executing main loop
-		setup();
-	#endif
+    #ifdef ITF // force setup() once before executing main loop
+        setup();
+    #endif
 
-	/**** MODULE MAIN LOOP AND INTERNAL STATE MACHINE ****/
-	while(1){
+    /**** MODULE MAIN LOOP AND INTERNAL STATE MACHINE ****/
+    while(1){
 
-		//#define ULTRA_VERBOSE_ON
-		#ifdef ULTRA_VERBOSE_ON
-			cprinti(module_state);
-		#endif
+        //#define ULTRA_VERBOSE_ON
+        #ifdef ULTRA_VERBOSE_ON
+            cprinti(module_state);
+        #endif
 
-		switch(module_state){
-			case MODULE_INIT:
-				module_state = MODULE_IDLE; // initial state after module initialization
+        switch(module_state){
+            case MODULE_INIT:
+                module_state = MODULE_IDLE; // initial state after module initialization
 
-				if(module_autostart) {
-					module_state = MODULE_SETUP;
-				}
-				break;
+                if(module_autostart) {
+                    module_state = MODULE_SETUP;
+                }
+                break;
 
-			case MODULE_IDLE:
-				_delay_ms(70);
+            case MODULE_IDLE:
+                _delay_ms(70);
 
-				if(brightness_idle == 20){
-					brightness_dir = -1;
-				}
-				else if(brightness_idle == 0){
-					brightness_dir = 1;
-				}
+                if(brightness_idle == 20){
+                    brightness_dir = -1;
+                }
+                else if(brightness_idle == 0){
+                    brightness_dir = 1;
+                }
 
-				brightness_idle += brightness_dir;
+                brightness_idle += brightness_dir;
 
-				set_all_LEDs_with_brightness(WHITE, brightness_idle);
+                set_all_LEDs_with_brightness(WHITE, brightness_idle);
 
-				break; // wait for commands to arrive
+                break; // wait for commands to arrive
 
-			case MODULE_SETUP_KILOBOTS:
+            case MODULE_SETUP_KILOBOTS:
 
-				send_IR_message(&IR_setup_message, CELL_00);
-				send_IR_message(&IR_setup_message, CELL_01);
-				send_IR_message(&IR_setup_message, CELL_02);
-				send_IR_message(&IR_setup_message, CELL_03);
+                send_IR_message(&IR_setup_message, CELL_00);
+                send_IR_message(&IR_setup_message, CELL_01);
+                send_IR_message(&IR_setup_message, CELL_02);
+                send_IR_message(&IR_setup_message, CELL_03);
 
-				set_all_LEDs(c); // display state
+                set_all_LEDs(c); // display state
 
-				break;
+                break;
 
-			case MODULE_WAITING_FOR_KILOBOT_BOOTPAGE:
-			case MODULE_WAITING_FOR_CONFIGURATION_DATA:
-				break;
+            case MODULE_WAITING_FOR_KILOBOT_BOOTPAGE:
+            case MODULE_WAITING_FOR_CONFIGURATION_DATA:
+                break;
 
-			case MODULE_BOOTLOADING_KILOBOTS:
+            case MODULE_BOOTLOADING_KILOBOTS:
 
-				if(bootpage_sent == 0) {
+                if(bootpage_sent == 0) {
 
-					cli(); // enter critical section
+                    cli(); // enter critical section
 
-					// tests
-					#ifdef VERBOSE_ON
-					// test: page_address == 0 at some point here?
-					cprints("page_addr");
-					cprinti(page_address);
-					cprints(""); // line return
-					#endif
+                    // tests
+                    #ifdef VERBOSE_ON
+                    // test: page_address == 0 at some point here?
+                    cprints("page_addr");
+                    cprinti(page_address);
+                    cprints(""); // line return
+                    #endif
 
-					#ifdef DUMP_BOOTPAGE_ON
-					for(i = 0; i < 128; i++){
-						cprinti(current_bootpage.data[i]);
-					}
-					cprints("");
-					cprints("");
-					#endif
+                    #ifdef DUMP_BOOTPAGE_ON
+                    for(i = 0; i < 128; i++){
+                        cprinti(current_bootpage.data[i]);
+                    }
+                    cprints("");
+                    cprints("");
+                    #endif
 
-					// Before sending the program, the size of the program is sent to the Kilobot
-					if(page_count == 1){ // the first bootpage has been received
-						IR_setup_message.type = BOOTPGM_SIZE;
-						IR_setup_message.data[0] = page_total;
-						send_IR_message(&IR_setup_message, bootloading_current_cell); // send IR message directly
-						set_all_LEDs(LED_OFF);
-					}
+                    // Before sending the program, the size of the program is sent to the Kilobot
+                    if(page_count == 1){ // the first bootpage has been received
+                        IR_setup_message.type = BOOTPGM_SIZE;
+                        IR_setup_message.data[0] = page_total;
+                        send_IR_message(&IR_setup_message, bootloading_current_cell); // send IR message directly
+                        set_all_LEDs(LED_OFF);
+                    }
 
-					// preparing IR messages
-					IR_setup_message.type = BOOTPGM_PAGE;
-					IR_setup_message.data[0] = page_address;
+                    // preparing IR messages
+                    IR_setup_message.type = BOOTPGM_PAGE;
+                    IR_setup_message.data[0] = page_address;
 
-					/**** Send bootpage to Kilobot ****/
-					for(i = 0; i < BOOTPAGE_SIZE; i += 6){
-						IR_setup_message.data[1] = i / 2;
-						// copy bootload message payload from current_bootpage data
-						for(j = 0; j < 6; j++) {
-							IR_setup_message.data[2 + j] = current_bootpage.data[i + j]; // copy bootpage data in IR message struct to be sent
-						}
-						send_IR_message(&IR_setup_message, bootloading_current_cell); // send IR message directly
-					}
+                    /**** Send bootpage to Kilobot ****/
+                    for(i = 0; i < BOOTPAGE_SIZE; i += 6){
+                        IR_setup_message.data[1] = i / 2;
+                        // copy bootload message payload from current_bootpage data
+                        for(j = 0; j < 6; j++) {
+                            IR_setup_message.data[2 + j] = current_bootpage.data[i + j]; // copy bootpage data in IR message struct to be sent
+                        }
+                        send_IR_message(&IR_setup_message, bootloading_current_cell); // send IR message directly
+                    }
 
-					sei(); // exit critical section
+                    sei(); // exit critical section
 
-					bootpage_sent = 1; // avoids sending the same bootpage twice
+                    bootpage_sent = 1; // avoids sending the same bootpage twice
 
-					if((page_address & 0x01) == 0){ // even bootpage number
-						set_LED(bootloading_current_cell, BLUE);
-					}
-					else{
-						set_LED(bootloading_current_cell, GREEN);
-					}
+                    if((page_address & 0x01) == 0){ // even bootpage number
+                        set_LED(bootloading_current_cell, BLUE);
+                    }
+                    else{
+                        set_LED(bootloading_current_cell, GREEN);
+                    }
 
-					if(page_count == page_total){ // last bootpage received
-						page_count = 0; // simply reset counter - will be set to 1 when receiving the first bootpage of the program again
-						set_all_LEDs(LED_OFF);
-						bootloading_current_cell = (bootloading_current_cell + 1) % 4; // jump to the next cell
-					}
-				}
+                    if(page_count == page_total){ // last bootpage received
+                        page_count = 0; // simply reset counter - will be set to 1 when receiving the first bootpage of the program again
+                        set_all_LEDs(LED_OFF);
+                        bootloading_current_cell = (bootloading_current_cell + 1) % 4; // jump to the next cell
+                    }
+                }
 
-				break;
+                break;
 
-			case MODULE_SETUP:
-				if(!received_setup) {
-					received_setup = 1;
-					setup();
-				}
+            case MODULE_SETUP:
+                if(!received_setup) {
+                    received_setup = 1;
+                    setup();
+                }
 
-				if(module_autostart) {
-					module_state = MODULE_RUNNING;
-				}
+                if(module_autostart) {
+                    module_state = MODULE_RUNNING;
+                }
 
-				break;
+                break;
 
-			case MODULE_RUNNING:
-				if(!has_started){
-					has_started = 1;
-					// first, broadcast RUN message to the Kilobots for a little while (we assume that all robots are in reset mode already)
-					IR_setup_message.type = RUN;
-					set_all_LEDs(MAGENTA);
+            case MODULE_RUNNING:
+                if(!has_started){
+                    has_started = 1;
+                    // first, broadcast RUN message to the Kilobots for a little while (we assume that all robots are in reset mode already)
+                    IR_setup_message.type = RUN;
+                    set_all_LEDs(MAGENTA);
 
-					for(i = 0; i < 10; i++){
-						send_IR_message(&IR_setup_message, CELL_00);
-						send_IR_message(&IR_setup_message, CELL_01);
-						send_IR_message(&IR_setup_message, CELL_02);
-						send_IR_message(&IR_setup_message, CELL_03);
-					}
+                    for(i = 0; i < 10; i++){
+                        send_IR_message(&IR_setup_message, CELL_00);
+                        send_IR_message(&IR_setup_message, CELL_01);
+                        send_IR_message(&IR_setup_message, CELL_02);
+                        send_IR_message(&IR_setup_message, CELL_03);
+                    }
 
-					RB_init(CAN_message_tx_buffer); // throw away any previous messages to be sent
-				}
+                    RB_init(CAN_message_tx_buffer); // throw away any previous messages to be sent
+                }
 
-				/**** EXECUTE USER PROGRAM ****/
-				loop(); // execute main loop defined in the main
-				break;
-			default:
-				break;
-		}
+                /**** EXECUTE USER PROGRAM ****/
+                loop(); // execute main loop defined in the main
+                break;
+            default:
+                break;
+        }
 
-		if(sending_tracking_data) {
-			if(!sent_tracking_header) {
-				sent_tracking_header = 1;
+        if(sending_tracking_data) {
+            if(!sent_tracking_header) {
+                sent_tracking_header = 1;
 
-				poll_response_message.data[0] = CAN_TRACKING_KILOBOT_START;
-				poll_response_message.data[1] = messages_to_send;
-				poll_response_message.header.length = 2;
+                poll_response_message.data[0] = CAN_TRACKING_KILOBOT_START;
+                poll_response_message.data[1] = messages_to_send;
+                poll_response_message.header.length = 2;
 
-				CAN_message_tx(&poll_response_message, CAN_address_to_dispatcher);
-				_delay_ms(1);
-			}
+                CAN_message_tx(&poll_response_message, CAN_address_to_dispatcher);
+                _delay_ms(1);
+            }
 
-			if(messages_to_send > 0) {
-				messages_to_send -= 1;
+            if(messages_to_send > 0) {
+                messages_to_send -= 1;
 
-				send_next_CAN_message();
-				RB_popfront(CAN_message_tx_buffer);
-			}
-			else {
-				sending_tracking_data = 0;
-				poll_debug_led_toggle = !poll_debug_led_toggle;
-			}
-		}
+                send_next_CAN_message();
+                RB_popfront(CAN_message_tx_buffer);
+            }
+            else {
+                sending_tracking_data = 0;
+                poll_debug_led_toggle = !poll_debug_led_toggle;
+            }
+        }
 
-		// reset has_started flag if state is not equal to MODULE_RUNNING
-		if(module_state != MODULE_RUNNING){
-			has_started = 0;
-		}
+        // reset has_started flag if state is not equal to MODULE_RUNNING
+        if(module_state != MODULE_RUNNING){
+            has_started = 0;
+        }
 
-		if(module_state != MODULE_IDLE){
-			brightness_idle = 0; // resetting brightness for a better animation rendering (all modules look synchronized after a new command)
-		}
-	}
+        if(module_state != MODULE_IDLE){
+            brightness_idle = 0; // resetting brightness for a better animation rendering (all modules look synchronized after a new command)
+        }
+    }
 }
 
 void module_enable_autostart() {
-	module_autostart = 1;
+    module_autostart = 1;
 }
 
 
 inline CAN_message_t* next_CAN_message() {
-	CAN_message_t* ret = NULL;
+    CAN_message_t* ret = NULL;
 
-	if(!RB_full(CAN_message_tx_buffer)) {
-		ret = &RB_back(CAN_message_tx_buffer);
-		RB_pushback(CAN_message_tx_buffer); // move internal pointer to the next element
-	}
+    if(!RB_full(CAN_message_tx_buffer)) {
+        ret = &RB_back(CAN_message_tx_buffer);
+        RB_pushback(CAN_message_tx_buffer); // move internal pointer to the next element
+    }
 
-	return ret;
+    return ret;
 }
 
 /**
@@ -875,7 +879,7 @@ inline CAN_message_t* next_CAN_message() {
  */
 #ifndef CAN_INTERRUPT_DISABLE
 ISR(INT0_vect) {
-	mcp2515_get_message(&CAN_message_rx_buffer); // retrieve CAN message
-	process_CAN_message();
+    mcp2515_get_message(&CAN_message_rx_buffer); // retrieve CAN message
+    process_CAN_message();
 }
 #endif

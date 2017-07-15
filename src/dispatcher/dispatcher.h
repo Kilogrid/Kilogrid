@@ -1,7 +1,36 @@
 /**
  * @file     Kilogrid/src/dispatcher/dispatcher.h
  * @brief    Implements the main state machine function of the dispatcher device.
- * @details  [TO DEVELOP]
+ * @details  This program has to be run on the dispatcher device. It implements
+ * the main state machine that will run endlessly. 
+ * We recall that the dispatcher aims at interfacing the KiloGUI application 
+ * that communicates via USB with the Kilogrid arena's modules communicating 
+ * via CAN messages. We also recall that the dispatcher can replace the OHC 
+ * and all its functionality.
+ * 
+ * This program implements two types of communication: forwarding and polling.
+ * If no experiment is running, messages from the KiloGUI (USB) are forwarded 
+ * to desire device on CAN network. When an experiment is running, the 
+ * dispatcher coordinates communication, via polling mechanism to prevent 
+ * collisions.
+ * Type of messages managed by the program are:
+ *      - SERIAL_PACKET_DISPATCHER_CONTINUE: continue serial transmission
+ *      - SERIAL_PACKET_STOP: stops the serial and IR communication
+ *      - SERIAL_PACKET_KILO_FORWARD_IR_MSG: prepare messages to be sent to 
+ *      Kilobot via the infrared of the modules of the Kilogrid arena
+ *      - SERIAL_PACKET_KILO_BOOTLOAD_START: start boot program of Kilobots
+ *      - SERIAL_PACKET_KILO_BOOTPAGE: sends bootpage program to Kilobots
+ *      - SERIAL_PACKET_MODULE_CONFIGURATION: configure module adresses and 
+ *      type
+ *      - SERIAL_PACKET_KILOGRID_COMMAND: sends specific command to the arena:
+ *          - KILOGRID_STOP_IR: stop infrared communication
+ *          - KILOGRID_IDLE: set the kilogrid in idle mode 
+ *          - KILOGRID_SETUP: trigger the call for user setup
+ *          - KILOGRID_RUN_EXP: start the experiment (triger the user loop)
+ *          - KILOGRID_BOOTLOAD: start boot program of the Kilogrid
+ *      - SERIAL_PACKET_MODULE_BOOTLOAD_START: start boot program of a module
+ *      - SERIAL_PACKET_MODULE_BOOTPAGE: sends program to a module
+ * 
  * @author   IRIDIA lab
  * @date     January 2017
  */
@@ -51,7 +80,7 @@
     TCNT0  = 0;             /** Reset counter. */\
 }
 
-/** COmparison on the timer of the dispatcher */
+/** Comparison on the timer of the dispatcher */
 #define disp_timer_set_compare(c) {\
     OCR0A  = c;             /** Set compare register to c. */\
     TCNT0  = 0;             /** Reset counter. */\
@@ -64,12 +93,12 @@ extern volatile uint32_t disp_ticks;
 /* PROTOTYPES */
 
 /**
- * @brief      Function to initialize the dispatcher of the Kilogrid
+ * @brief      Function to initialize the dispatcher of the Kilogrid.
  */
 void dispatcher_init(void);
 
 /**
- * @brief      Empty dummy callback for the CAN tx success handling
+ * @brief      Empty dummy callback for the CAN tx success handling.
  */
 void CAN_message_tx_success_dummy();
 
@@ -94,7 +123,7 @@ void CAN_tx_success(uint8_t success);
 void CAN_send_bootpage(bootpage_data_bytes_t *bootpage, uint8_t bootpage_number);
 
 /**
- * @brief      Main (infinite) loop of the module
+ * @brief      Main (infinite) loop of the module.
  */
 int main();
 

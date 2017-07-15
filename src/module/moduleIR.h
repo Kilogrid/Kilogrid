@@ -1,7 +1,27 @@
 /**
  * @file     Kilogrid/src/module/moduleIR.h
- * @brief    This file implements high level handling of IR messages
- * transmissions...[TODO]
+ * @brief    This file implements high-level handling of IR message
+ * transmissions from and to the module.
+ * @details  In order to communicates properly with the Kilobots, the
+ * infrared communication routine implemented in the cell is a copy of the
+ * Kilobot protocol.
+ * 
+ * This file implements four main functions to:
+ *      - initialize the module infrared device and message object 
+ *      (::init_module_IR)
+ *      - set a specific user message with coordinates of the cell used
+ *      to transmit the message (::set_IR_message)
+ *      - disable the infrared of a specific cell (::disable_IR_tx)
+ *      - estimate the distance in mm to the sender of an infrared message
+ *      (::estimate_distance_mm)
+ *      
+ * Message are received via a callback function module_IR_message_rx, the
+ * message is stored into a IR_message_t object pointer. Please see
+ * module_controller.c for example of usage.
+ * 
+ * A function callback is also provided to receive acknowledgment of 
+ * sucessful transmission, see module_IR_message_tx_success.
+ * 
  * @author   IRIDIA lab
  * @date     January, 2017
  */
@@ -15,62 +35,62 @@
 
 // Timers
 #define tx_timer_setup() {\
-	TCCR0A = 0;						/* Normal operation. */\
-	TCCR0B = 0;						/* Set prescaler to 0 (disabled). */\
-	OCR0A  = 0xFF;                  /* Set compare register to 255 (~32.768 ms). */\
-	TIMSK0 |= (1<<OCIE0A);           /* Interrupt enable on match output compare register A. */\
-	tx_timer_off();\
+    TCCR0A = 0;                     /* Normal operation. */\
+    TCCR0B = 0;                     /* Set prescaler to 0 (disabled). */\
+    OCR0A  = 0xFF;                  /* Set compare register to 255 (~32.768 ms). */\
+    TIMSK0 |= (1<<OCIE0A);           /* Interrupt enable on match output compare register A. */\
+    tx_timer_off();\
 }
 
 #define tx_timer_on() {\
-	TCNT0  = 0;             		/* Reset counter. */\
-	TCCR0B |= (1<<CS02)|(1<<CS00);   /* Set prescaler to 1024 (~ 128us). */\
+    TCNT0  = 0;                     /* Reset counter. */\
+    TCCR0B |= (1<<CS02)|(1<<CS00);   /* Set prescaler to 1024 (~ 128us). */\
 }
 
 #define tx_timer_off() {\
-	TCCR0B = 0;				/* Set prescaler to 0 (disabled). */\
-	TCNT0  = 0;             /* Reset counter. */\
+    TCCR0B = 0;             /* Set prescaler to 0 (disabled). */\
+    TCNT0  = 0;             /* Reset counter. */\
 }
 
 #define tx_timer_set_compare(c) {\
-	OCR0A  = c;				/* Set compare register to c. */\
-	TCNT0  = 0;				/* Reset counter. */\
+    OCR0A  = c;             /* Set compare register to c. */\
+    TCNT0  = 0;             /* Reset counter. */\
 }
 
 #define rx_timer_setup() {\
-	TCCR1A = 0;				/* Normal operation. */\
-	TCCR1B = 0;             /* Set prescaler to 0 (disabled). */\
-	OCR1A  = rx_msgcycles;  /* Set compare register to rx_msgcycles (~2.96ms). */\
-	TIMSK1 |= (1<<OCIE1A);  /* Interrupt enable on match output compare register A. */\
-	rx_timer_off();\
+    TCCR1A = 0;             /* Normal operation. */\
+    TCCR1B = 0;             /* Set prescaler to 0 (disabled). */\
+    OCR1A  = rx_msgcycles;  /* Set compare register to rx_msgcycles (~2.96ms). */\
+    TIMSK1 |= (1<<OCIE1A);  /* Interrupt enable on match output compare register A. */\
+    rx_timer_off();\
 }
 
 #define rx_timer_on() {\
-	TCNT1  = 0;             /* Reset counter. */\
-	TCCR1B |= (1 << CS10);  /* Set prescaler to 8 (~ 1us). */\
+    TCNT1  = 0;             /* Reset counter. */\
+    TCCR1B |= (1 << CS10);  /* Set prescaler to 8 (~ 1us). */\
 }
 
 #define rx_timer_off() {\
-	TCCR1B = 0;             /* Set prescaler to 0 (disabled). */\
-	TCNT1  = 0;             /* Reset counter. */\
+    TCCR1B = 0;             /* Set prescaler to 0 (disabled). */\
+    TCNT1  = 0;             /* Reset counter. */\
 }
 
 #define rx_mux_timer_setup() {\
-	TCCR2A |= (1 << WGM21);		/* CTC operation (clear timer on compare match). */\
-	TCCR2B = 0;             	/* Set prescaler to 0 (disabled). */\
-	OCR2A  = 79;           		/* Set compare register to 79 (~ 10.24ms). */\
-	TIMSK2 |= (1 << OCIE2A); 	/* Interrupt enable on match output compare register A */\
-	rx_mux_timer_off();\
+    TCCR2A |= (1 << WGM21);     /* CTC operation (clear timer on compare match). */\
+    TCCR2B = 0;                 /* Set prescaler to 0 (disabled). */\
+    OCR2A  = 79;                /* Set compare register to 79 (~ 10.24ms). */\
+    TIMSK2 |= (1 << OCIE2A);    /* Interrupt enable on match output compare register A */\
+    rx_mux_timer_off();\
 }
 
 #define rx_mux_timer_on() {\
-	TCNT2  = 0;										  /* Reset counter. */\
-	TCCR2B |= (1 << CS20) | (1 << CS21) | (1 << CS22); /* Set prescaler to 1024 (~ 128us). */\
+    TCNT2  = 0;                                       /* Reset counter. */\
+    TCCR2B |= (1 << CS20) | (1 << CS21) | (1 << CS22); /* Set prescaler to 1024 (~ 128us). */\
 }
 
 #define rx_mux_timer_off() {\
-	TCCR2B = 0;             /* Set prescaler to 0 (disabled). */\
- 	TCNT2  = 0;              /* Reset counter. */\
+    TCCR2B = 0;             /* Set prescaler to 0 (disabled). */\
+    TCNT2  = 0;              /* Reset counter. */\
 }
 
 /**
@@ -189,10 +209,44 @@ extern IR_message_rx_t module_IR_message_rx;
  */
 extern IR_message_tx_success_t module_IR_message_tx_success;
 
+/**
+ * @brief Initialization of the IR communication functionalities and variables.
+ * @details The transmission is enabled by default on the cell.
+ */
 void init_module_IR(void);
+
+/**
+ * @brief Initialize a IR_message_t structure. Set whole message to 0.
+ * @details This function is called by init_module_IR
+ * @param m Message to be initialized.
+ */
 void init_IR_message(IR_message_t *m);
-void set_IR_message(IR_message_t*, cell_num_t);
-void disable_IR_tx(cell_num_t);
-uint8_t estimate_distance_mm(const distance_measurement_t*, cell_num_t);
+
+/**
+ * @brief Set a message to be sent on subcell number "sc".
+ * @details This function enables the transmission on one subcell (IR_enable_tx
+ * [sc] = 1), and prepares the message for transmission
+ * (calculate and set crc).
+ *
+ * @param m     Message to be sent.
+ * @param c     Identifier of the cell to send the message from.
+ */
+void set_IR_message(IR_message_t *m, cell_num_t c);
+
+/**
+ * @brief Disable transmission on subcell "c".
+ *
+ * @param c     Identifier of the cell.
+ */
+void disable_IR_tx(cell_num_t c);
+
+/**
+ * @brief This function computes the distance to the sender, from the two measurements performed during reception of the IR message, i.e. "LGAIN" and "HGAIN".
+ * @details Both values are contained in the distance_measurement_t "dist" struct. The computation of the distance to the sender is performed by the user after reception.
+ *
+ * @param dist  Pointer to the distance measurement struct.
+ * @param c     cell number where the measurement took place. This is mandatory, since every subcell has its own calibration values.
+ */
+uint8_t estimate_distance_mm(const distance_measurement_t *dist, cell_num_t c);
 
 #endif  // KILOGRID_MODULE_IR_H

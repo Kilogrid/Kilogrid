@@ -1,11 +1,15 @@
 /**
  * @file     Kilogrid/src/module/module.h
- * @brief    This file implements high level handling of CAN messages based on
- * their type. Commands or bootpages forwarded to the kilobots are
- * processed here. [TODO a bit unclear here] The two functions defined handle the module initialization
- * and the starting of the module as well.
+ * @brief    Implements the main function that initialize and start the module
+ * device.
+ * @details	 This file implements initialization of the module and high level
+ * handling of CAN messages based on their type. Commands or bootpages 
+ * messages forwarded to the kilobots are processed here. 
  * 
- * @details    Initializing the module means initializing all the peripherals:
+ * @details  The two functions defined handle the module initialization
+ * and the starting of the module.
+ * 
+ * Initializing the module means initializing all the peripherals:
  *  - serial
  *  - led driver
  *  - CAN
@@ -52,8 +56,8 @@
 /** Size of the buffer that holds configuration. */
 #define MODULE_CONFIGURATION_BUFFER_SIZE    48
 
-#define CAN_MESSAGE_BUFFER_SIZE				10
-#define MS_TO_TICKS(a)						(a / 32)
+#define CAN_MESSAGE_BUFFER_SIZE             10
+#define MS_TO_TICKS(a)                      (a / 32)
 
 typedef void (*AddressPointer_t)(void) __attribute__ ((noreturn));
 
@@ -62,10 +66,10 @@ typedef void (*AddressPointer_t)(void) __attribute__ ((noreturn));
  *             relate to their position in the MUXes and LED driver positions.
  */
 typedef enum {
-	CELL_00 = CELL_LOWER_INDEX,
-	CELL_01 = CELL_LOWER_INDEX + 1,
-	CELL_02 = CELL_LOWER_INDEX + 2,
-	CELL_03 = CELL_LOWER_INDEX + 3
+    CELL_00 = CELL_LOWER_INDEX,
+    CELL_01 = CELL_LOWER_INDEX + 1,
+    CELL_02 = CELL_LOWER_INDEX + 2,
+    CELL_03 = CELL_LOWER_INDEX + 3
 } cell_num_t;
 
 
@@ -118,8 +122,8 @@ void module_init(void);
  *             This function receives two parameters. The first parameter @p
  *             setup is a function which will be called once to perform any
  *             initialization required by your user program. The second
- *             parameter @p loop is a function that will be called repeatedly to
- *             perform any computations required by your user program.
+ *             parameter @p loop is a function that will be called repeatedly 
+ *             to perform any computations required by your user program.
  *
  *             Using the overhead controller it is possible to interrupt the
  *             event loop to trigger events such as program start/resume,
@@ -127,9 +131,9 @@ void module_init(void);
  *
  * @param      setup  Put your setup code here, it will be called in a loop the
  *                    configuration for the module (if any) is in the
- *                    configuration variable, the size of the configuration data
- *                    is configuration_size bytes. If configuration_size is 0 it
- *                    means that no configuration data was received.
+ *                    configuration variable, the size of the configuration 
+ *                    data is configuration_size bytes. If configuration_size 
+ *                    is 0 it means that no configuration data was received.
  * @param      loop   Put your main code here, will be run repeatedly.
  *
  *
@@ -154,16 +158,8 @@ void module_init(void);
  */
 void module_start(void (*setup)(void), void (*loop)(void));
 
-/**
- * @brief      { function_description }
- */
 void module_enable_autostart();
 
-/**
- * @brief      { function_description }
- *
- * @return     { description_of_the_return_value }
- */
 CAN_message_t* next_CAN_message();
 
 #ifdef __cplusplus

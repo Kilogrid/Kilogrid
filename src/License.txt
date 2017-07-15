@@ -1,9 +1,35 @@
 /**
  * @file     Kilogrid/src/License.txt
  * @mainpage Kilogrid Library API
- * @brief    Library for the Kilogrid virtualization environment for the Kilobot robotic platform.
+ * @brief    Library for the Kilogrid virtualization environment for the 
+ * Kilobot robotic platform.
  * 
- * At its core the Kilogrid Library provides ... [TODO fill]
+ * The API provides all the function required to perform experiments with
+ * the Kilogrid virtualization environment and the Kilobot robots.
+ * 
+ * The API includes:
+ * 		- main programs for each devices (dispatcher, modules, kilobots)
+ * 		- initialization functions for each devices which initialize hardware
+ * 		and firmware
+ * 		- bi-directionnal communication function via:
+ * 			- infrared between module and kilobot
+ * 			- CAN interface between all the modules and the dispatcher
+ * 			- USB between the dispatcher and the KiloGUI
+ * 			- serial for debugging specific devices
+ * 		- device-specific sensor and actuator control (LEDs, IR, Motor, etc...)
+ * 		- library of behavior for the kilobot for example position tracking
+ * 		- experiment templates
+ * 		
+ * The API is divided in subfolder per device with a common folder for shared
+ * functions. See file list on the left side for list of all documented source.
+ * 
+ * This is the high-level documented API destined for experimenter 
+ * providing description and example of functions to experiment swarm robotics.
+ * \n It does not includes documentation of low-level components. If 
+ * information is missing in this documentation we recommand to search in the 
+ * documented source of the project, or raise an issue on the github page of 
+ * the project.
+ * 
  * @author   IRIDIA lab
  * @date     January 2017
  * @copyright licensed under creative commons attribution-NonCommercial-ShareAlike 3.0 Unported (CC BY-NC-SA 3.0) 

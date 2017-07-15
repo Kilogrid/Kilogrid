@@ -111,19 +111,13 @@ WARN_LOGFILE           =
 INPUT                  = ../src/License.txt \
                          ../experiments \
                          ../src/dispatcher/dispatcher.h \
-                         ../src/dispatcher/dispatcher.c \
                          ../src/module/module.h \
                          ../src/module/module.c \
                          ../src/module/moduleIR.h \
-                         ../src/module/moduleIR.c \
                          ../src/module/moduleLED.h \
-                         ../src/module/moduleLED.c \
                          ../src/kilolib/kilolib.h \
-                         ../src/kilolib/kilolib.c \
                          ../src/kilob/kilob_tracking.h \
-                         ../src/kilob/kilob_tracking.c \
-                         ../src/kilob/kilob_messaging.h \
-                         ../src/kilob/kilob_messaging.c 
+                         ../src/kilob/kilob_messaging.h 
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \

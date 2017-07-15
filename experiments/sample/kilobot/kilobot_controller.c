@@ -2,17 +2,17 @@
  * @file     Kilogrid/experiments/sample/kilobot/kilobot_controller.c
  * @brief    This file implements a sample code of controller for the Kilobot.
  *
- * @details    The controller is composed of two main functions:
- *  - setup : this function will be called one time at the start of the robot.
- *  It is used to initialize the robot, for example initializing the tracking
- *  function which starts a timer and messaging functions.
- *  - loop : a main loop that runs endlessly on the robot. Experiment code 
- *  should be put inside this function. For example, tracking the robot over 
- *  time or calling specific behaviors with respect to environment sensing.
- *  
- * The user can then access different function via the provided libraries
- * (e.g. tracking, random, etc...) please refer to the documentation of the 
- * kilob folder for more details of available function.
+ * @details  In this controller, the Kilobot is programmed to send a tracking 
+ * message via the infrared interface. The tracking message contains the id of
+ * the robot.
+ * 
+ * This code can be used as a template for developing your own more complex
+ * controller. 
+ * 
+ * It shows how to init, setup and run a program on the Kilobot. It also shows
+ * how to use available kilob library such as ::kilob_tracking in this case. 
+ * \n Please refer to the documentation of the kilob folder for more details  
+ * of available function.
  * 
  * @author   IRIDIA lab
  * @date     March, 2017
@@ -42,7 +42,9 @@ void ir_rx(IR_message_t *m, distance_measurement_t *d) {
 
 /**
  * @brief Setup kilobot controller once at start of the robot.
- * 
+ * @details This function will be called one time at the start of the robot.
+ *  It is used to initialize the robot, for example initializing the tracking
+ *  function which starts a timer and messaging functions.
  */
 void setup() {
     // initialize tracking function
@@ -60,6 +62,10 @@ void setup() {
 
 /**
  * @brief Main endless loop of kilobot controller.
+ * @details This callback function is the main loop that runs endlessly on the 
+ * robot. Experiment code should be put inside this function. For example, 
+ * tracking the robot over time or calling specific behaviors with respect to 
+ * environment sensing.
  */
 void loop() {
     /* [TODO] Put you experiment code */

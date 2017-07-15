@@ -3,15 +3,23 @@
  * @brief    This file implements a sample code of controller for a module of
  * the Kilogrid arena.
  *
- * @details    The controller is composed of two main functions:
- *  - setup : this function will be called one time at the start of the Arena.
- *  It is used to initialize the module, for example initializing the state of
- *  a module w.r.t its ID.
- *  - loop : a main loop that runs endlessly on the module. Experiment code 
- *  should be put inside this function. For example, a state machine that sends
- *  specific messages to kilobot w.r.t states.
+ * @details    
+ * @details  In this controller, the module is programmed to send a tracking 
+ * message received via the infrared interface to the dispatcher via the CAN  
+ * interface. Note that the tracking message is automatically transmitted to the
+ * KiloGUI via the USB interface.
+ * 
+ * This code can be used as a template for developing your own more complex
+ * controller. 
+ * 
+ * It shows how to init, setup and run a program on the module. It also shows 
+ * how to use the infrared reception callback interface, transmission is not 
+ * use here but it is also possible. 
+ * \n It also shows how to initialize and send a CAN message towards the 
+ * dispatcher. Note that CAN message can also be received but it is not shown 
+ * here.
  *  
- * The user can then access different function via the provided libraries
+ * The user has access to different function via the provided libraries
  * (e.g. LED, Infrared, CAN) to control elements of the module. Please refer to
  * the documentation of the module folder for more details.
  * 
@@ -37,9 +45,9 @@
  * @brief Basic tacking data handler.
  *
  * @param m  the tracking message
- * @param c  the module which receives the message
+ * @param c  the cell which receives the message
  */
-void send_tracking(IR_message_t *m, module_num_t c)
+void send_tracking(IR_message_t *m, cell_num_t c)
 {
     // get CAN message buffer
     CAN_message_t *msg = next_CAN_message();
@@ -55,11 +63,11 @@ void send_tracking(IR_message_t *m, module_num_t c)
  * @brief Callback function called when IR message is received.
  *
  * @param m  the message
- * @param c  the modules which receives the message
- * @param d  the estimated distance between the modules and the message sender
+ * @param c  the cell which receives the message
+ * @param d  the estimated distance between the cell and the message sender
  * @param CRC_error  the error flag
  */
-void IR_rx(IR_message_t *m, modules_num_t c, distance_measurement_t *d,
+void IR_rx(IR_message_t *m, cell_num_t c, distance_measurement_t *d,
            uint8_t CRC_error)
 {
     /* Basic implementation */
@@ -74,7 +82,10 @@ void IR_rx(IR_message_t *m, modules_num_t c, distance_measurement_t *d,
 
 
 /**
- * @brief Setup module controller
+ * @brief Setup module controller.
+ * @details This function will be called one time at the start of the module.
+ *  It is used to initialize the module, for example initializing the state of
+ *  a module w.r.t. its ID.
  */
 void setup()
 {
@@ -83,7 +94,10 @@ void setup()
 
 
 /**
- * @brief Main loop of module controller
+ * @brief Main loop of module controller.
+ * @details This callback function is a main loop that runs endlessly on the 
+ * module. Experiment code should be put inside this function. For example, a 
+ * state machine that sends specific messages to kilobot w.r.t. states.
  */
 void loop()
 {

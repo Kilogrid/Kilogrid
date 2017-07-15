@@ -1,7 +1,27 @@
 /**
  * @file     Kilogrid/src/module/moduleIR.c
- * @brief    This file implements high level handling of IR messages
- * transmissions...[TODO]
+ * @brief    This file implements high-level handling of IR message
+ * transmissions from and to the module.
+ * @details In order to communicates properly with the Kilobots, the
+ * infrared communication routine implemented in the cell is a copy of the
+ * Kilobot protocol.
+ * 
+ * This file implements four main functions to:
+ *      - initialize the module infrared device and message object 
+ *      (::init_module_IR)
+ *      - set a specific user message with coordinates of the cell used
+ *      to transmit the message (::set_IR_message)
+ *      - disable the infrared of a specific cell (::disable_IR_tx)
+ *      - estimate the distance in mm to the sender of an infrared message
+ *      (::estimate_distance_mm)
+ *      
+ * Message are received via a callback function module_IR_message_rx, the
+ * message is stored into a IR_message_t object pointer. Please see
+ * module_controller.c for example of usage.
+ * 
+ * A function callback is also provided to receive acknowledgment of 
+ * sucessful transmission, see module_IR_message_tx_success.
+ * 
  * @author   IRIDIA lab
  * @date     January, 2017
  */
@@ -64,95 +84,95 @@ static uint8_t IR_enable_tx[N_CELLS];           // enable transmitter flags
  */
 void init_module_IR(void){
 
-	uint8_t i, s; // counters
+    uint8_t i, s; // counters
 
-	/* Ports */
+    /* Ports */
 
-	// IR RX
-	SET_AS_INPUT(IRRXCOM_D);
-	SET_AS_INPUT(IRRXCOM_A);
-	SET_AS_INPUT(VOLTAGE_REF);
+    // IR RX
+    SET_AS_INPUT(IRRXCOM_D);
+    SET_AS_INPUT(IRRXCOM_A);
+    SET_AS_INPUT(VOLTAGE_REF);
 
-	SET_AS_OUTPUT(IRRXADDR0);
-	SET_AS_OUTPUT(IRRXADDR1);
-	SET_AS_OUTPUT(IRRXADDR2);
+    SET_AS_OUTPUT(IRRXADDR0);
+    SET_AS_OUTPUT(IRRXADDR1);
+    SET_AS_OUTPUT(IRRXADDR2);
 
-	SELECT_IR_RECEIVER(CELL_00, HGAIN);
-	SELECT_IR_TRANSMITTER(CELL_00);
+    SELECT_IR_RECEIVER(CELL_00, HGAIN);
+    SELECT_IR_TRANSMITTER(CELL_00);
 
 #ifdef DEBUG_LIGHTS_ON
     set_LED(current_rx_cell, BLUE);
 #endif
 
-	// IR TX
-	SET_AS_OUTPUT(IRTXCOM);
-	SET_AS_OUTPUT(IRTXADDR0);
-	SET_AS_OUTPUT(IRTXADDR1);
+    // IR TX
+    SET_AS_OUTPUT(IRTXCOM);
+    SET_AS_OUTPUT(IRTXADDR0);
+    SET_AS_OUTPUT(IRTXADDR1);
 
-	/* Variables */
-	rx_busy           = 0;
-	rx_leadingbit     = 1;
-	rx_leadingbyte    = 1;
-	rx_byteindex      = 0;
-	rx_bytevalue      = 0;
-	current_rx_cell   = 0;
-	current_tx_cell   = 0;
-	mux_timer_counter = 0;
+    /* Variables */
+    rx_busy           = 0;
+    rx_leadingbit     = 1;
+    rx_leadingbyte    = 1;
+    rx_byteindex      = 0;
+    rx_bytevalue      = 0;
+    current_rx_cell   = 0;
+    current_tx_cell   = 0;
+    mux_timer_counter = 0;
 
-	tx_mask = (1 << IRTXCOMbit);  // TODO: remove - does not have any meaning in the module
-	// CAREFUL: the message_send function relies on the tx_mask. The message_send function might return a 1 even if the message was not correctly sent!!!
+    tx_mask = (1 << IRTXCOMbit);  // TODO: remove - does not have any meaning in the module
+    // CAREFUL: the message_send function relies on the tx_mask. The message_send function might return a 1 even if the message was not correctly sent!!!
 
-	tx_clock = 0;
-	tx_increment = 255;
+    tx_clock = 0;
+    tx_increment = 255;
 
-	module_ticks = 0;
+    module_ticks = 0;
 
-	module_tx_period = 977;  // 3906 / 4 --> we send a message every 499.968 ms / 4 on each subcell ONE AFTER THE OTHER
+    module_tx_period = 977;  // 3906 / 4 --> we send a message every 499.968 ms / 4 on each subcell ONE AFTER THE OTHER
 
-	// initialize received message buffer
-	init_IR_message(&rx_message_buffer);
+    // initialize received message buffer
+    init_IR_message(&rx_message_buffer);
 
-	// TODO put calibration values for all subcells in EEPROM and assign them here
-	for(s = 0; s < N_CELLS; s++){
+    // TODO put calibration values for all subcells in EEPROM and assign them here
+    for(s = 0; s < N_CELLS; s++){
 
-		// initialize messages arrays
-		IR_enable_tx[s] = 0;
-		init_IR_message(&IR_tx_message[s]);
-		init_IR_message(&IR_rx_message[s]);
-		CRC_error[s] = 0;
+        // initialize messages arrays
+        IR_enable_tx[s] = 0;
+        init_IR_message(&IR_tx_message[s]);
+        init_IR_message(&IR_rx_message[s]);
+        CRC_error[s] = 0;
 
-		// initialize calibration values - TODO remove?
-		for (i = 0; i < 14; i++) {
-			cell_irlow[s][i] = (eeprom_read_byte(EEPROM_IRLOW + i*2) << 8) | eeprom_read_byte(EEPROM_IRLOW + i*2+1);
-			cell_irhigh[s][i] = (eeprom_read_byte(EEPROM_IRHIGH + i*2) << 8) | eeprom_read_byte(EEPROM_IRHIGH + i*2+1);
-		}
+        // initialize calibration values - TODO remove?
+        for (i = 0; i < 14; i++) {
+            cell_irlow[s][i] = (eeprom_read_byte(EEPROM_IRLOW + i*2) << 8) | eeprom_read_byte(EEPROM_IRLOW + i*2+1);
+            cell_irhigh[s][i] = (eeprom_read_byte(EEPROM_IRHIGH + i*2) << 8) | eeprom_read_byte(EEPROM_IRHIGH + i*2+1);
+        }
 
-	}
+    }
 
-	/* Timers setup */
-	tx_timer_setup();
-	rx_timer_setup();
-	rx_mux_timer_setup();
+    /* Timers setup */
+    tx_timer_setup();
+    rx_timer_setup();
+    rx_mux_timer_setup();
 
-	/** Transmission and rx cycling enabled by default */
-	tx_timer_on();
-	rx_mux_timer_on();
+    /** Transmission and rx cycling enabled by default */
+    tx_timer_on();
+    rx_mux_timer_on();
 
-	mux_timer_compare = 1;
+    mux_timer_compare = 1;
 }
 
 
 /**
  * @brief Initialize a IR_message_t structure. Set whole message to 0.
  *
- * @param m	Message to be initialized.
+ * @param m Message to be initialized.
  */
 void init_IR_message(IR_message_t *m){
-	uint8_t d;
+    uint8_t d;
 
-	m->crc = 0;
-	m->type = 0;
-	for(d = 0; d < 9; d++) m->data[d] = 0; // initialize all data bytes
+    m->crc = 0;
+    m->type = 0;
+    for(d = 0; d < 9; d++) m->data[d] = 0; // initialize all data bytes
 }
 
 /**
@@ -160,13 +180,13 @@ void init_IR_message(IR_message_t *m){
  * This function enables the transmission on one subcell (IR_enable_tx[sc] = 1), and prepares the message for transmission
  * (calculate and set crc).
  *
- * @param m		Message to be sent.
+ * @param m     Message to be sent.
  * @param c     Identifier of the cell to send the message from.
  */
 void set_IR_message(IR_message_t *m, cell_num_t c){
-	IR_tx_message[c] = *m;  // copy message pointed by m into internal IR_tx_message array
-	IR_tx_message[c].crc = message_crc(&IR_tx_message[c]); // compute message CRC
-	IR_enable_tx[c] = 1;    // set transmission flag on subcell sc by default
+    IR_tx_message[c] = *m;  // copy message pointed by m into internal IR_tx_message array
+    IR_tx_message[c].crc = message_crc(&IR_tx_message[c]); // compute message CRC
+    IR_enable_tx[c] = 1;    // set transmission flag on subcell sc by default
 }
 
 /**
@@ -175,7 +195,7 @@ void set_IR_message(IR_message_t *m, cell_num_t c){
  * @param c     Identifier of the cell.
  */
 void disable_IR_tx(cell_num_t c){
-	IR_enable_tx[c] = 0; // set tx enable flag to 0
+    IR_enable_tx[c] = 0; // set tx enable flag to 0
 }
 
 /**
@@ -189,52 +209,52 @@ void disable_IR_tx(cell_num_t c){
 // - Call function update_IR_TX() in Cell_lib TIMER0 ISR
 ISR(TIMER0_COMPA_vect) {
 
-	uint8_t s; // counter
-	IR_message_t *msg; // message to be sent - TODO remove (redundant)
+    uint8_t s; // counter
+    IR_message_t *msg; // message to be sent - TODO remove (redundant)
 
-	tx_clock += tx_increment;
-	tx_increment = 0xFF; // reset tx_increment to its default value (timer in compare mode)
-	tx_timer_set_compare(tx_increment)
-	module_ticks++;
+    tx_clock += tx_increment;
+    tx_increment = 0xFF; // reset tx_increment to its default value (timer in compare mode)
+    tx_timer_set_compare(tx_increment)
+    module_ticks++;
 
-	if(!rx_busy && tx_clock > module_tx_period){ // Why not change when rx is busy?, are they dependent?
-		tx_clock = 0;
+    if(!rx_busy && tx_clock > module_tx_period){ // Why not change when rx is busy?, are they dependent?
+        tx_clock = 0;
 
-		current_tx_cell++; // progress to the next cell
+        current_tx_cell++; // progress to the next cell
 
-		if(current_tx_cell == N_CELLS){
-			current_tx_cell = 0; // reset counter
-		}
+        if(current_tx_cell == N_CELLS){
+            current_tx_cell = 0; // reset counter
+        }
 
-		s = current_tx_cell;
+        s = current_tx_cell;
 
-		// check if a message needs to be sent on every subcell
-		// MODIF: we do not send on each subcell inside the interrupt, but rather switch the TX subcell at each timer interrupt
-		//for(s = 0; s < N_SUBCELLS; s++){
-			if(IR_enable_tx[s]) {
+        // check if a message needs to be sent on every subcell
+        // MODIF: we do not send on each subcell inside the interrupt, but rather switch the TX subcell at each timer interrupt
+        //for(s = 0; s < N_SUBCELLS; s++){
+            if(IR_enable_tx[s]) {
 
-				msg = &IR_tx_message[s];
+                msg = &IR_tx_message[s];
 
-				if (msg) { // if msg is a valid pointer - todo remove (unnecessary)
+                if (msg) { // if msg is a valid pointer - todo remove (unnecessary)
 
-					SELECT_IR_TRANSMITTER(s); // configure mux to send on subcell s
+                    SELECT_IR_TRANSMITTER(s); // configure mux to send on subcell s
 
-					if (message_send(msg)){ // send message, return true if succeeded
+                    if (message_send(msg)){ // send message, return true if succeeded
 
-						module_IR_message_tx_success(s);
-						tx_clock = 0;
-						//IR_enable_tx[s] = 0; // reset flag - do not do this (continuous sending allowed)
+                        module_IR_message_tx_success(s);
+                        tx_clock = 0;
+                        //IR_enable_tx[s] = 0; // reset flag - do not do this (continuous sending allowed)
 
-					}
-					else{
-						tx_increment = rand() & 0xFF;
-						tx_timer_set_compare(tx_increment)
-					} // if message tx success
-				} // if message
-			} // if IR_enable_tx
-		// } // for every subcell
+                    }
+                    else{
+                        tx_increment = rand() & 0xFF;
+                        tx_timer_set_compare(tx_increment)
+                    } // if message tx success
+                } // if message
+            } // if IR_enable_tx
+        // } // for every subcell
 
-	} // if rx not busy and tx_clock overflow
+    } // if rx not busy and tx_clock overflow
 }
 
 /**
@@ -246,7 +266,7 @@ ISR(TIMER1_COMPA_vect) {
     rx_leadingbit = 1;
     rx_leadingbyte = 1;
     rx_busy = 0;
-	SELECT_IR_RECEIVER(current_rx_cell, HGAIN);
+    SELECT_IR_RECEIVER(current_rx_cell, HGAIN);
 }
 
 /**
@@ -256,35 +276,35 @@ ISR(TIMER1_COMPA_vect) {
  */
 ISR(TIMER2_COMPA_vect){
 
-	mux_timer_counter += 1;
+    mux_timer_counter += 1;
 
-	if(!rx_busy && mux_timer_counter >= mux_timer_compare){ // switch to another subcell only if reception is not active
-		mux_timer_counter = 0;
+    if(!rx_busy && mux_timer_counter >= mux_timer_compare){ // switch to another subcell only if reception is not active
+        mux_timer_counter = 0;
 
 #ifndef NO_SWITCHING // only used during tests
 
-			current_rx_cell += 1;
-			if(current_rx_cell == N_CELLS) {
-				current_rx_cell = 0;  // back to cell CELL_00
+            current_rx_cell += 1;
+            if(current_rx_cell == N_CELLS) {
+                current_rx_cell = 0;  // back to cell CELL_00
 
 #   ifdef DEBUG_LIGHTS_ON
-				set_LED(current_rx_cell, BLUE);
-				set_LED(CELL_03, LED_OFF);
+                set_LED(current_rx_cell, BLUE);
+                set_LED(CELL_03, LED_OFF);
 #   endif
-			}
+            }
 
 #   ifdef DEBUG_LIGHTS_ON
-			else{
-				set_LED(current_rx_cell, BLUE);
-				set_LED(current_rx_cell - 1, LED_OFF);
-			}
+            else{
+                set_LED(current_rx_cell, BLUE);
+                set_LED(current_rx_cell - 1, LED_OFF);
+            }
 #   endif
 
 #endif
 
-		SELECT_IR_RECEIVER(current_rx_cell, HGAIN); // // Change IR RX MUX outputs. select the subcell that is sensitive to an IR incoming message. ADC is sensitive to the HGAIN signal.
+        SELECT_IR_RECEIVER(current_rx_cell, HGAIN); // // Change IR RX MUX outputs. select the subcell that is sensitive to an IR incoming message. ADC is sensitive to the HGAIN signal.
 
-	}
+    }
 }
 
 /**
@@ -296,7 +316,7 @@ ISR(TIMER2_COMPA_vect){
 
 ISR(ANALOG_COMP_vect) {
 
-	cli();
+    cli();
 
     uint16_t timer = TCNT1;             // save Timer 1 state
 
@@ -310,22 +330,22 @@ ISR(ANALOG_COMP_vect) {
             ADC_FINISH_CONVERSION();
             rx_dist.high_gain = ADCW;   // measure the high gain value of the IR signal at the first bit of the first byte received
 
-			// change to low gain signal until next bit arrives
-			SELECT_IR_RECEIVER(current_rx_cell, LGAIN);
+            // change to low gain signal until next bit arrives
+            SELECT_IR_RECEIVER(current_rx_cell, LGAIN);
 
         }
     }
-	else { // non starting bit received
+    else { // non starting bit received
 
         if (timer <= rx_bitcycles/2 || timer >= rx_bitcycles*9+rx_bitcycles/2) {
             rx_timer_off();
             rx_leadingbit = 1; // prepare for next start bit to arrive
             rx_leadingbyte = 1;
             rx_busy = 0;
-			SELECT_IR_RECEIVER(current_rx_cell, HGAIN);
+            SELECT_IR_RECEIVER(current_rx_cell, HGAIN);
 
         }
-		else {
+        else {
             // NOTE: The following code avoids a division which takes
             // too many clock cycles and throws off the interrupt.
             const uint16_t M = ((1L<<16)+rx_bitcycles-1)/rx_bitcycles;
@@ -333,28 +353,28 @@ ISR(ANALOG_COMP_vect) {
             if (bitindex <= 7) {
                 rx_bytevalue |= (1<<bitindex);
             }
-			else{  // stop bit of a byte received
+            else{  // stop bit of a byte received
                 rx_leadingbit = 1; // prepare for next start bit to arrive
                 if (rx_leadingbyte) {
                     ADC_FINISH_CONVERSION();
                     rx_dist.low_gain = ADCW; // measure the low value of the gain at the first byte of a message
 
-					// Switch back to high gain
- 					SELECT_IR_RECEIVER(current_rx_cell, HGAIN);
+                    // Switch back to high gain
+                    SELECT_IR_RECEIVER(current_rx_cell, HGAIN);
 
                     if (rx_bytevalue != 0) { // Collision detected.
                         rx_timer_off();
                         rx_leadingbyte = 1;
                         rx_busy = 0;
 
-						//TCCR2B |= (1 << CS20) | (1 << CS21) | (1 << CS22); // restart mux timer
+                        //TCCR2B |= (1 << CS20) | (1 << CS21) | (1 << CS22); // restart mux timer
                     }
-					else {
+                    else {
                         rx_leadingbyte = 0;
                         rx_byteindex = 0;
                     }
                 }
-				else {
+                else {
                     rawmsg[rx_byteindex] = rx_bytevalue; // byte decoded --> store it
                     rx_byteindex++; // prepare for next byte to come
                     if (rx_byteindex == sizeof(IR_message_t)) { // if all bytes have been received
@@ -362,16 +382,16 @@ ISR(ANALOG_COMP_vect) {
                         rx_leadingbyte = 1;
                         rx_busy = 0; // release rx_busy flag
 
-						CRC_error[current_rx_cell] = ( rx_message_buffer.crc != message_crc(&rx_message_buffer) ); // check received message CRC and compare with the calculated one
-						IR_rx_message[current_rx_cell] = rx_message_buffer; // store message buffer into internal array
-						module_IR_message_rx(&IR_rx_message[current_rx_cell], current_rx_cell, &rx_dist, CRC_error[current_rx_cell]); // callback function called at the end of a successful message reception
+                        CRC_error[current_rx_cell] = ( rx_message_buffer.crc != message_crc(&rx_message_buffer) ); // check received message CRC and compare with the calculated one
+                        IR_rx_message[current_rx_cell] = rx_message_buffer; // store message buffer into internal array
+                        module_IR_message_rx(&IR_rx_message[current_rx_cell], current_rx_cell, &rx_dist, CRC_error[current_rx_cell]); // callback function called at the end of a successful message reception
                     }
                 }
             }
         }
     }
 
-	sei();
+    sei();
 
 }
 
@@ -379,7 +399,7 @@ ISR(ANALOG_COMP_vect) {
  * @brief This function computes the distance to the sender, from the two measurements performed during reception of the IR message, i.e. "LGAIN" and "HGAIN".
  * Both values are contained in the distance_measurement_t "dist" struct. The computation of the distance to the sender is performed by the user after reception.
  *
- * @param dist	Pointer to the distance measurement struct.
+ * @param dist  Pointer to the distance measurement struct.
  * @param c     cell number where the measurement took place. This is mandatory, since every subcell has its own calibration values.
  */
 uint8_t estimate_distance_mm(const distance_measurement_t *dist, cell_num_t c) {
@@ -388,14 +408,14 @@ uint8_t estimate_distance_mm(const distance_measurement_t *dist, cell_num_t c) {
     uint8_t index_low=255;
     uint8_t dist_high=255;
     uint8_t dist_low=255;
-	double slope = 0;
-	double b = 0;
+    double slope = 0;
+    double b = 0;
 
     if (dist->high_gain < 900) {
         if (dist->high_gain > cell_irhigh[c][0]) {
             dist_high = 0;
         }
-		else {
+        else {
             for (i=1; i<14; i++) {
                 if (dist->high_gain > cell_irhigh[c][i]) {
                     index_high = i;
@@ -415,7 +435,7 @@ uint8_t estimate_distance_mm(const distance_measurement_t *dist, cell_num_t c) {
         if (dist->low_gain > cell_irlow[c][0]) {
             dist_low=0;
         }
-		else {
+        else {
             for(i=1; i<14; i++) {
                 if(dist->low_gain > cell_irlow[c][i]) {
                     index_low = i;
@@ -426,7 +446,7 @@ uint8_t estimate_distance_mm(const distance_measurement_t *dist, cell_num_t c) {
             if(index_low == 255) {
                 dist_low=90;
             }
-			else {
+            else {
                 slope    = (cell_irlow[c][index_low]-cell_irlow[c][index_low-1])/0.5;
                 b        = (double)cell_irlow[c][index_low]-(double)slope*((double)index_low*(double)0.5+(double)0.0);
                 b        = (((((double)dist->low_gain-(double)b)*(double)10)));
@@ -440,11 +460,11 @@ uint8_t estimate_distance_mm(const distance_measurement_t *dist, cell_num_t c) {
         if (dist_high != 255) {
             return 33 + ((double)dist_high*(900.0-dist->high_gain)+(double)dist_low*(dist->high_gain-700.0))/200.0;
         }
-		else {
+        else {
             return 33 + dist_low;
         }
     }
-	else {
+    else {
         return 33 + dist_high;
     }
 }
