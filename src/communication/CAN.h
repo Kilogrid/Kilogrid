@@ -56,7 +56,7 @@ extern CAN_message_tx_success_t module_CAN_message_tx_success;
 /**** FUNCTIONS PROTOTYPES ****/
 
 void init_CAN_message(CAN_message_t *);
-void init_module_CAN(uint8_t, uint8_t);
+void init_ModuleCAN(uint8_t, uint8_t);
 uint8_t CAN_message_tx(CAN_message_t *, kilogrid_address_t);
 kilogrid_address_t get_coord_from_CAN_ID(CAN_message_t*); // function that returns the coordinates associated with the input CAN message
 void serialize_tracking_message(CAN_message_t* msg, uint8_t cell_id, tracking_user_data_t* data);

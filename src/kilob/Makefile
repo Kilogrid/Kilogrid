@@ -26,25 +26,25 @@ AVRAR = avr-ar
 
 TARGET = build/kilob.a
 
-COMMON_DIR = ../common
-COMMON_MODULE_KILOBOT = $(COMMON_DIR)/module_kilobot
+COMMON_MODULE_KILOBOT = ../communication/module_kilobot
+COMMON = ../communication
 
 SOURCES=$(wildcard *.c)
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(wildcard *.h)
 
-KILOLIB_DIR = ../kilolib
+KILOLIB_DIR = ../kilolib_v2
 
 ##########------------------------------------------------------##########
 ##########                          Flags                       ##########
 ##########------------------------------------------------------##########
 
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_DIR) -I$(COMMON_MODULE_KILOBOT) -I$(KILOLIB_DIR)
-CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99
+CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON) -I$(COMMON_MODULE_KILOBOT) -I$(KILOLIB_DIR)
+CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99 
 
 CFLAGS = -O1 -g -std=gnu99 -Wall
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
-CFLAGS += -ffunction-sections -fdata-sections
+CFLAGS += -ffunction-sections -fdata-sections 
 
 LDFLAGS += -Wl,--start-group  -Wl,--end-group -Wl,--gc-sections
 

@@ -217,10 +217,10 @@ CAN_message_t poll_response_message;
 void CAN_message_rx_dummy(CAN_message_t *m) { }
 
 /** @brief Empty dummy callback function for IR rx handling */
-void IR_message_rx_dummy(IR_message_t *m, cell_num_t sc, distance_measurement_t *d, uint8_t CRC_error) { ; }
+void IR_message_rx_dummy(IR_message_t *m, cell_num_t c, distance_measurement_t *d, uint8_t CRC_error) { ; }
 
 /** @brief Empty dummy callback function for IR tx handling */
-void IR_message_tx_success_dummy(cell_num_t sc) {;}
+void IR_message_tx_success_dummy(cell_num_t c) {;}
 
 /**
  *  @brief Empty dummy callback for the CAN tx success handling.
@@ -311,7 +311,7 @@ void goto_bootloader(){
 }
 
 /**
- * @brief Send a message to be sent on cell number "sc" without delay.
+ * @brief Send a message to be sent on cell number "c" without delay.
  *
  * @param	m	Message to send.
  * @param	c	Identifier of the cell to send the message from.
@@ -616,7 +616,8 @@ void module_init(void){
 	// Setup peripherals
 	init_serial();
 	init_module_LED();
-	init_module_CAN(module_uid_x_coord, module_uid_y_coord);
+	init_ModuleCAN(module_uid_x_coord, module_uid_y_coord); // TODO: replaced with following
+	// init_module_CAN(module_uid_x_coord, module_uid_y_coord);
 	init_module_IR();
 
 	brightness_dir = 1; // increasing

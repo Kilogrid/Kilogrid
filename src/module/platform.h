@@ -9,7 +9,7 @@
 
 //#define KILOGUI
 //#define DISPATCHER
-#define CELL
+#define MODULE
 //#define KILOBOT
 
 #endif // __PLATFORM_H__

@@ -6,5 +6,6 @@
 
 void kilob_random_walk();
 void kilob_random_walk_init(double _forward_mu_sec, double _forward_sigma_sec, double _rotation_const_sec, double _rotation_span_sec);
+void kilob_random_walk_reset();
 
 #endif

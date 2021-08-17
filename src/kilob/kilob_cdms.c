@@ -116,7 +116,7 @@ opinion_info_t kilob_cdms_collected_opinion_info(unsigned index)
 opinion_t kilob_cdms_majority_rule(opinion_t self)
 {
   if(RB_size(opinfo_buffer) < 1) return self;
-
+  uint8_t tie = 0;
   opinion_t ret = self;
   unsigned  count_ret = 0;
   for(opinion_t o = 0; o < NUMBER_OF_OPINIONS; ++o) {
@@ -126,12 +126,16 @@ opinion_t kilob_cdms_majority_rule(opinion_t self)
         ++count;
       }
     }
+    if(count == count_ret){
+    tie = 1;}
     if(count > count_ret) {
       ret = o;
       count_ret = count;
+      tie = 0;
     }
   }
-  return ret;
+  if(tie==1) return self;
+  else return ret;
 }
 
 

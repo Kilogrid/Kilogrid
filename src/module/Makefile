@@ -28,11 +28,11 @@ AVRSIZE = avr-size
 ##########            Target, sources, objects, headers         ##########
 ##########------------------------------------------------------##########
 
-TARGET = build/kilogrid_module.a
+TARGET = build/Module.a
 
-COMMON_DIR = ../common
-COMMON_MODULE_KILOBOT = $(COMMON_DIR)/module_kilobot
-COMMON_MODULE_DISPATCHER = $(COMMON_DIR)/dispatcher_module
+COMMON_MODULE_DISPATCHER = ../communication/dispatcher_module
+COMMON_MODULE_KILOBOT = ../communication/module_kilobot
+COMMON = ../communication
 
 SOURCES  = $(filter-out bootldr.c, $(wildcard *.c))
 SOURCES += $(wildcard $(COMMON_MODULE_KILOBOT)/*.c)
@@ -40,13 +40,13 @@ SOURCES += $(wildcard $(COMMON_MODULE_DISPATCHER)/*.c)
 OBJECTS  = $(SOURCES:.c=.o)
 HEADERS  = $(wildcard *.h)
 
-ASM_FILES_DIR = $(COMMON_MODULE_KILOBOT)
+ASM_FILES_DIR = ../communication/module_kilobot
 
 ##########------------------------------------------------------##########
 ##########                          Flags                       ##########
 ##########------------------------------------------------------##########
 
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_DIR) -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_MODULE_KILOBOT)
+CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON) -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_MODULE_KILOBOT)
 CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99
 
 CFLAGS = -O1 -g -std=gnu99 -Wall

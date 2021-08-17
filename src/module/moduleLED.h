@@ -34,6 +34,7 @@ void init_module_LED(void);
 
 void set_LED(cell_num_t, color_t);
 void set_all_LEDs(color_t);
+void set_all_LEDs_hex(uint8_t c[]);
 
 void set_LED_with_brightness(cell_num_t, color_t, brightness_t);
 void set_all_LEDs_with_brightness(color_t, brightness_t);

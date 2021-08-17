@@ -26,8 +26,8 @@ AVRAR = avr-ar
 
 TARGET = build/kilolib.a
 
-COMMON_DIR = ../common
-COMMON_MODULE_KILOBOT = $(COMMON_DIR)/module_kilobot
+COMMON_MODULE_KILOBOT = ../communication/module_kilobot
+COMMON = ../communication
 
 SOURCES=$(wildcard *.c)
 SOURCES += $(wildcard $(COMMON_MODULE_KILOBOT)/*.c)
@@ -35,7 +35,7 @@ SOURCES += $(wildcard $(COMMON_MODULE_DISPATCHER)/*.c)
 OBJECTS=$(SOURCES:.c=.o)
 HEADERS=$(wildcard *.h)
 
-ASM_FILES_DIR = $(COMMON_MODULE_KILOBOT)
+ASM_FILES_DIR = ../communication/module_kilobot
 
 OBJECTS += $(ASM_FILES_DIR)/message_send.o
 
@@ -43,13 +43,13 @@ OBJECTS += $(ASM_FILES_DIR)/message_send.o
 ##########                          Flags                       ##########
 ##########------------------------------------------------------##########
 
-CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_DIR) -I$(COMMON_MODULE_KILOBOT)
-CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99
+CPPFLAGS = -DF_CPU=$(F_CPU) -DBAUD=$(BAUD) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON) -I$(COMMON_MODULE_KILOBOT) 
+CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99 
 
 CFLAGS = -O1 -g -std=gnu99 -Wall
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
-CFLAGS += -ffunction-sections -fdata-sections
-CFLAGS$ += -I$(COMMON_DIR) -I$(COMMON_MODULE_KILOBOT)
+CFLAGS += -ffunction-sections -fdata-sections 
+CFLAGS$ += -I$(COMMON) -I$(COMMON_MODULE_KILOBOT) 
 
 LDFLAGS += -Wl,--start-group  -Wl,--end-group -Wl,--gc-sections
 

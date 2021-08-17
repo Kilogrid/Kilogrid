@@ -11,6 +11,10 @@ F_CPU = 8000000UL
 ## Toolchain install directory
 TOOLCHAIN_DIR = /Users/brni/dev/lib/avr8-gnu-toolchain-darwin_x86_64/avr/include
 
+## Directory to create the output and documentation
+OUT_DIR = build
+DOC_DIR = doc
+
 ## Programmer
 PROGRAMMER_ARGS = -p m328p -P usb -c avrispmkII
 FUSES = -U lfuse:w:0xff:m -U hfuse:w:0xd1:m
@@ -30,30 +34,26 @@ AVRSIZE = avr-size
 ##########            Target, sources, objects, headers         ##########
 ##########------------------------------------------------------##########
 
-TARGET = build/dispatcher
+TARGET = build/Dispatcher
 
-COMMON_DIR = ../common
-COMMON_MODULE_DISPATCHER = $(COMMON_DIR)/dispatcher_module
-COMMON_DISPATCHER_KILOGUI = $(COMMON_DIR)/kilogui_dispatcher
+COMMON_MODULE = ../communication/dispatcher_module
+COMMON_KILOGUI = ../communication/kilogui_dispatcher
+COMMON = ../communication
 
 
 SOURCES = $(wildcard *.c)
-SOURCES += $(wildcard $(COMMON_MODULE_DISPATCHER)/*.c)
+SOURCES += $(wildcard $(COMMON_MODULE)/*.c)
 
 OBJECTS = $(SOURCES:.c=.o)
 HEADERS = $(wildcard *.h)
-
-## Directory to create the output and documentation
-OUT_DIR = build
-DOC_DIR = doc
 
 ##########------------------------------------------------------##########
 ##########                          Flags                       ##########
 ##########------------------------------------------------------##########
 
 
-CPPFLAGS = -DF_CPU=$(F_CPU) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_MODULE_DISPATCHER) -I$(COMMON_DISPATCHER_KILOGUI) -I$(COMMON_DIR)
-CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99
+CPPFLAGS = -DF_CPU=$(F_CPU) -I. -I$(TOOLCHAIN_DIR) -I$(COMMON_MODULE) -I$(COMMON_KILOGUI) -I$(COMMON)
+CPPFLAGS_ASSEMBLY = -x assembler-with-cpp -gdwarf-2 -std=gnu99 
 
 CFLAGS = -O1 -g -std=gnu99 -Wall
 CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
@@ -89,7 +89,7 @@ $(TARGET).hex: $(TARGET).elf
 fuses:
 	$(AVRDUDE) $(PROGRAMMER_ARGS) $(FUSES)
 
-flash: $(TARGET).hex
+flash: $(TARGET).hex 
 	$(AVRDUDE) $(PROGRAMMER_ARGS) -U flash:w:$<:i
 
 ##########------------------------------------------------------##########

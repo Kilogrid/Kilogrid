@@ -8,5 +8,5 @@
 
 // Baud rate : corresponds to communication speed
 #define BAUD 256000
-
+//#define BAUD 38400
 #endif

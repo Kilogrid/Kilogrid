@@ -1,4 +1,5 @@
-/** \file I2C_master.h */
+//this file comes from the I2C master library available at https://github.com/g4lvanix/I2C-master-lib
+
 
 #ifndef I2C_MASTER_H
 #define I2C_MASTER_H

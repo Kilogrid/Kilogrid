@@ -27,7 +27,7 @@ CAN_message_t CAN_rx_message;
  * @brief Compute CAN ID based on the type of addressing, destination type (type of node to reach) and coordinates of the CAN node in Kilogrid.
  * The ID field of a CAN message encodes the coordinates of the module in Kilogrid in the following manner: ID<10:0> = [y<4:0> + 1][x<4:0> + 1][destination_type_t]
  * For example, when accessing module with coordinates (x = 0, y = 0) with individual addressing, ID<10:0> = 00001 00001 0.
- * Zeros in the ID field are reserved for broadcasting to allmodules (00000 00000 0), modules in a row (yyyyy 00000 0), or modules in a column (00000 xxxxx 0).
+ * Zeros in the ID field are reserved for broadcasting to all modules (00000 00000 0), modules in a row (yyyyy 00000 0), or modules in a column (00000 xxxxx 0).
  * @param m
  * @param coord
  * @param dest_type
@@ -63,7 +63,7 @@ uint16_t get_CAN_ID_from_Kilogrid_address(kilogrid_address_t coord, destination_
 			ID_MSB = 0; // y ignored, broadcast to all rows for column x
 			break;
 
-		// Individual addressing and messages to the dispatcher are processed in the same way. When a module  wants to send a message to the dispatcher, it appends its x and y coordinates to the message to be sent. Only the dest_type differs (appended at the LSB of the CAN_ID)
+		// Individual addressing and messages to the dispatcher are processed in the same way. When a modules wants to send a message to the dispatcher, it appends its x and y coordinates to the message to be sent. Only the dest_type differs (appended at the LSB of the CAN_ID)
 		case ADDR_INDIVIDUAL:
 		case ADDR_DISPATCHER:
 			ID_LSB = coord.x + 1;
@@ -89,7 +89,7 @@ void init_CAN_message(CAN_message_t *m){
 	for(d = 0; d < 8; d++) m->data[d] = 0; // initialize all data bytes
 }
 
-void init_module_CAN(uint8_t x_coord, uint8_t y_coord){
+void init_ModuleCAN(uint8_t x_coord, uint8_t y_coord){
 
 	// variables
 	init_CAN_message(&CAN_rx_message);
@@ -129,10 +129,10 @@ void init_module_CAN(uint8_t x_coord, uint8_t y_coord){
 
 		// setting filters 4 and 5 as well to a valid ID (not used, but have to be set properly)
 		module_address.type = ADDR_BROADCAST;
-		mcp2515_set_filter(4, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) ); // receive messages to be sent to the modules, on the basis of the coordinates of current module
+		mcp2515_set_filter(4, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) ); // receive messages to be sent to the modules, on the basis of the coordinates of current modules
 
 		module_address.type = ADDR_BROADCAST;
-		mcp2515_set_filter(5, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) ); // receive messages to be sent to the modules, on the basis of the coordinates of current module
+		mcp2515_set_filter(5, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) ); // receive messages to be sent to the modules, on the basis of the coordinates of current modules
 
 	#elif defined(DISPATCHER)
 

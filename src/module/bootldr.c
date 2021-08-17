@@ -67,11 +67,11 @@ void CAN_rx(CAN_message_t *m){
 
 	switch(CAN_msg_type){
 
-		case CAN_CELL_BOOT:
+		case CAN_MODULE_BOOT:
 			asm volatile ("jmp 0x7000"); // jump to bootloader code
 			break;
 
-		case CAN_CELL_BOOTPAGE:
+		case CAN_MODULE_BOOTPAGE:
 			// current_CAN_msg_number is the bootpage data offset, in bytes
 			page_offset = (current_CAN_msg_number * 6) >> 1; // offset of the current data according to the bootpage, in words
 
@@ -120,7 +120,7 @@ void CAN_rx(CAN_message_t *m){
 
 			break;
 
-		case CAN_CELL_BOOTPAGE_SIZE:
+		case CAN_MODULE_BOOTPAGE_SIZE:
 
 			page_total = CAN_msg_rx.data[2];
 
@@ -130,11 +130,11 @@ void CAN_rx(CAN_message_t *m){
 
 			break;
 
-		case CAN_CELL_BOOTPAGE_NUMBER:
+		case CAN_MODULE_BOOTPAGE_NUMBER:
 			page_address = CAN_msg_rx.data[2]; // store the address of the bootpage in memory
 			break;
 
-		case CAN_CELL_IDLE:
+		case CAN_MODULE_IDLE:
 			// return to the application code
 			if(eeprom_read_byte(EEPROM_VALID_APPLICATION_BIT_ADDR) == 1){
 				fBootload_finished = 1;
@@ -142,14 +142,14 @@ void CAN_rx(CAN_message_t *m){
 			break;
 
 		// we also want to go back to user application mode when the user presses on the RUN or SETUP buttons
-		case CAN_CELL_SETUP:
+		case CAN_MODULE_SETUP:
 			// return to the application code
 			if(eeprom_read_byte(EEPROM_VALID_APPLICATION_BIT_ADDR) == 1){
 				goto_program();
 			}
 			break;
 
-		case CAN_CELL_RUN:
+		case CAN_MODULE_RUN:
 			// return to the application code
 			if(eeprom_read_byte(EEPROM_VALID_APPLICATION_BIT_ADDR) == 1){
 				goto_program();
@@ -192,7 +192,7 @@ int main() {
 
 	sei(); // enable interrupts
 
-	cell_CAN_message_rx = CAN_rx;
+	module_CAN_message_rx = CAN_rx;
 
 #ifdef ERASE_FLASH
 	// erase FLASH application code (only when debugging)

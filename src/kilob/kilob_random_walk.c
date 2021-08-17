@@ -47,19 +47,19 @@ void kilob_random_walk() {
 	switch(behavior_state) {
 		case KILOB_RANDOM_WALK_STRAIGHT:
 			if(kilo_ticks > kilob_rw_timer) { // time to end straight motion
-				
+
 				tmp = INT_GAUSSIAN_TICKS(rotation_const_sec, rotation_span_sec);
-				
+
 				tmp_uniform = g_ran_uniform(); // between 0 and 1
-				
-				//double time_span_sec = RW_ROTATION_MAX_TIME_SEC - RW_ROTATION_MIN_TIME_SEC; // e.g. max = 5s, min = 1s: time_span = 4s, and the actual time of rotation will go from 1s to (1+4) = 5s depending on the outcome of g_ran_uniform(). 
-				
+
+				//double time_span_sec = RW_ROTATION_MAX_TIME_SEC - RW_ROTATION_MIN_TIME_SEC; // e.g. max = 5s, min = 1s: time_span = 4s, and the actual time of rotation will go from 1s to (1+4) = 5s depending on the outcome of g_ran_uniform().
+
 				//tmp = (uint32_t)( time_span_sec*tmp_uniform + RW_ROTATION_MIN_TIME_SEC ); // compute actual time of rotation, in seconds
-				
+
 				//tmp = SEC_TO_TICKS(tmp); // convert to the Kilobot scale
-				
+
 				kilob_rw_timer = kilo_ticks + tmp; // update timer variable
-				
+
 				if (tmp_uniform > 0.5) {
 					#ifdef ENABLE_LIGHTS_RW_WA
 					set_color(RGB(0,1,0)); // green
@@ -72,7 +72,7 @@ void kilob_random_walk() {
 					#endif
 					turn_right();
 				}
-			
+
 				behavior_state = KILOB_RANDOM_WALK_ROTATION;
 			}
 			break;
@@ -85,16 +85,16 @@ void kilob_random_walk() {
 
 		case KILOB_RANDOM_WALK_INIT:
 		default:
-			
+
 			tmp = INT_GAUSSIAN_TICKS(forward_mu_sec, forward_sigma_sec);
-			
+
 			kilob_rw_timer = kilo_ticks + tmp;
-			
+
 			move_straight();
 			#ifdef ENABLE_LIGHTS_RW_WA
-			set_color(RGB(0,0,0)); 
+			set_color(RGB(0,0,0));
 			#endif
-			
+
 			behavior_state = KILOB_RANDOM_WALK_STRAIGHT;
 			break;
 	}
@@ -113,4 +113,11 @@ void kilob_random_walk_init(double _forward_mu_sec, double _forward_sigma_sec,
 	rotation_span_sec = _rotation_span_sec;
 
 	behavior_state = KILOB_RANDOM_WALK_INIT;
+}
+
+/**
+ * @brief Reset random walk state
+ */
+void kilob_random_walk_reset() {
+    behavior_state = KILOB_RANDOM_WALK_INIT;
 }

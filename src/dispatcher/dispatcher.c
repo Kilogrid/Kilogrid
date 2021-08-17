@@ -1,21 +1,21 @@
-#include <bootldr.h>
-#include <kilogrid.h>
-#include <debug.h>
-#include <CAN.h>
-#include <serial_packet.h>
-#include <tracking.h>
-#include <ringbuffer.h>
+// TODO credits to Kilolib v2
 
+#include "bootldr.h"
 #include "IO.h"
-#include "dispatcher.h"
+#include "Dispatcher.h"
+#include "kilogrid.h"
+#include "debug.h"
+#include "CAN.h"
+#include "serial_packet.h"
+#include "stdint.h"
+#include "tracking.h"
+#include "ringbuffer.h"
 
-#include <stdint.h>
-#include <string.h>        // for memcpy
 #include <avr/io.h>        // for port and register definitions
 #include <avr/interrupt.h> // for ISR
 #include <util/setbaud.h>
 #include <util/delay.h>    // for _delay_ms
-
+#include <string.h>        // for memcpy
 
 volatile uint8_t packet_head = 0;
 volatile uint8_t packet_checksum = 0;
@@ -115,7 +115,7 @@ void dispatcher_init(void){
 	SET_AS_OUTPUT(DEBUG_1);
 	SET_AS_OUTPUT(DEBUG_2);
 
-	init_module_CAN(0,0); // don't care: the dispatcher does not have a row and column number assigned
+	init_ModuleCAN(0,0); // don't care: the dispatcher does not have a row and column number assigned
 
 	SET_AS_OUTPUT(nCAN_EN1);
 	SET_AS_OUTPUT(nCAN_EN2);
@@ -130,13 +130,13 @@ void dispatcher_init(void){
 
 void CAN_rx(CAN_message_t *m){
 	uint8_t type = m->data[0] & 0b00111111;
-	uint8_t sc = (m->data[0] & 0b11000000) >> 6;
+	uint8_t c = (m->data[0] & 0b11000000) >> 6;
 	kilogrid_address_t address = get_coord_from_CAN_ID(m);
 	fNew_CAN_Msg = 1;
 
 	switch(type) {
 		case CAN_TRACKING_KILOBOT:
-			tracking_message_received(address, sc, (tracking_user_data_t*)(m->data+1));
+			tracking_message_received(address, c, (tracking_user_data_t*)(m->data+1));
 			module_messages_received += 1;
 			break;
 
@@ -153,7 +153,7 @@ void CAN_rx(CAN_message_t *m){
 	else{
 		PIN_LOW(DEBUG_2);
 	}
-
+	
 	CAN_message_rx = *m; // copy content of received message into internal message struct
 
 }
@@ -256,7 +256,7 @@ void CAN_send_bootpage(bootpage_data_bytes_t *bootpage, uint8_t bootpage_number)
 
 void send_bootpage_req(serial_packet_type_t type, uint8_t bootpage_number) {
 	uint8_t checksum = SERIAL_PACKET_HEADER ^ type ^ bootpage_number;
-
+	
 	USART_SEND(SERIAL_PACKET_HEADER);
 	USART_SEND(type);
 	USART_SEND(bootpage_number);
@@ -307,14 +307,14 @@ int main() {
 		if(experiment_running) {
         	//module finished sending all messages it has
         	if(module_messages_received >= module_messages_total) {
-
+				
 				tracking_try_send(0); // no force dump, rely on the trigger
-
-				if(current_module_address.x == 0 &&
+				
+				if(current_module_address.x == 0 && 
 				   current_module_address.y == 0 &&
 				   polling_counter >= polling_counter_limit) {
 						polling_counter = 0;
-
+					   
 					// send notification to KiloGUI that the dispatcher is available
 					send_bootpage_req(SERIAL_PACKET_DISPATCHER_AVAILABLE, 0xFF);
 					waiting_for_kilogui = 1;
@@ -348,7 +348,7 @@ int main() {
 					can_msg.header.length = 1;
 					CAN_message_tx(&can_msg, current_module_address);
 					module_message_send_timer = disp_ticks + MS_TO_TICKS(module_message_send_timeout);
-        		}
+        		}					
 			}
 			/*
 			else if(disp_ticks > module_message_send_timer) {
@@ -370,7 +370,7 @@ int main() {
         }
 
         if (has_new_packet) { // received another packet on the serial
-            has_new_packet = 0;
+            has_new_packet = 0; 
 
             switch(serial_packet.type) {
             	case SERIAL_PACKET_DISPATCHER_CONTINUE:
@@ -428,14 +428,14 @@ int main() {
 					can_msg.data[0] = CAN_KILO_BOOTPAGE_SIZE;
 					can_msg.data[1] = 0; // CAN message number
 					can_msg.data[2] = kilobot_bootpages;
-
+					
 					kilogrid_addr.type = ADDR_BROADCAST; // default: broadcast message to all modules
-
+					
 					CAN_message_tx(&can_msg, kilogrid_addr);
 
     				//request the first bootpage
     				send_bootpage_req(SERIAL_PACKET_KILO_BOOTLOAD_GET_PAGE, kilobot_bootpage_number);
-
+					
 					PIN_HIGH(DEBUG_2);
 					_delay_ms(10);
 					PIN_LOW(DEBUG_2);
@@ -469,7 +469,7 @@ int main() {
 					#endif // test routine
 
 					CAN_send_bootpage(&current_bootpage, serial_packet.data[0]);
-
+					
 					//request next bootpage from KiloGUI
 					if(kilobot_bootpage_number < kilobot_bootpages-1) {
 						kilobot_bootpage_number += 1;
@@ -477,10 +477,10 @@ int main() {
 					else{
 						kilobot_bootpage_number = 0;
 					}
-
+					
 					_delay_ms(100);
 					send_bootpage_req(SERIAL_PACKET_KILO_BOOTLOAD_GET_PAGE, kilobot_bootpage_number);
-
+					
 					break;
 
 				case SERIAL_PACKET_MODULE_CONFIGURATION:
@@ -549,7 +549,7 @@ int main() {
 
 						case KILOGRID_IDLE:
 							buffered_msg->data[0] = CAN_MODULE_IDLE;
-
+							
 							// send second IDLE message for the bootloader
 							// this will be ignored by the module, because type > 64
 							// only recognized by the module bootloader
@@ -562,8 +562,8 @@ int main() {
 							if(experiment_running) {
 								experiment_running = 0;
 								tracking_try_send(1); // force dump of tracking data
-							}
-
+							}							
+							
 							break;
 
 						case KILOGRID_SETUP:
@@ -605,21 +605,21 @@ int main() {
 					can_msg.data[0] = CAN_MODULE_BOOTPAGE_SIZE + 0x9F;
 					can_msg.data[1] = 0; // CAN message number
 					can_msg.data[2] = module_bootpages;
-
+					
 					kilogrid_addr.type = ADDR_BROADCAST; // default: broadcast message to all modules
-
+					
 					CAN_message_tx(&can_msg, kilogrid_addr);
 
 					//request the first bootpage
 					send_bootpage_req(SERIAL_PACKET_MODULE_BOOTLOAD_GET_PAGE, module_bootpage_number);
-
+					
 					if(IS_SET(DEBUG_1)){
 						PIN_LOW(DEBUG_1);
 					}
 					else{
 						PIN_HIGH(DEBUG_1);
-					}
-
+					}		
+					
 					break;
 
 				case SERIAL_PACKET_MODULE_BOOTPAGE:
@@ -692,7 +692,7 @@ int main() {
 					break;
             } // switch serial packet type
         } // if has new packet
-
+		
     } // while 1
 
     return 0;
