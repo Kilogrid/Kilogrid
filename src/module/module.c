@@ -207,6 +207,9 @@ volatile uint8_t sent_tracking_header = 0;
 
 kilogrid_address_t CAN_address_to_dispatcher;
 
+// DEBUG feature/can_broadcast_between_modules: separating tracking data code with new feature
+kilogrid_address_t broadcast_to_modules;
+
 volatile uint8_t poll_debug_led_toggle = 0;
 
 CAN_message_t poll_response_message;
@@ -269,6 +272,16 @@ IR_message_tx_success_t module_IR_message_tx_success = IR_message_tx_success_dum
 uint8_t send_next_CAN_message(){
 	if(!RB_empty(CAN_message_tx_buffer)){
 		CAN_message_tx(&RB_front(CAN_message_tx_buffer), CAN_address_to_dispatcher);
+		return 1;
+	}
+	return 0;
+}
+
+// DEBUG feature/can_broadcast_between_modules: separating tracking data code with new feature
+// Only the kilogrid address differs here. It needs to be initialized properly to work.
+uint8_t send_next_CAN_message_broadcast_to_modules(){
+	if(!RB_empty(CAN_message_tx_buffer)){
+		CAN_message_tx(&RB_front(CAN_message_tx_buffer), broadcast_to_modules);
 		return 1;
 	}
 	return 0;
@@ -600,7 +613,11 @@ void module_init(void){
 	// initialized reused address descriptor in the direction of the dispatcher
 	CAN_address_to_dispatcher.x = module_uid_x_coord;
 	CAN_address_to_dispatcher.y = module_uid_y_coord;
-	CAN_address_to_dispatcher.type = ADDR_DISPATCHER;
+	CAN_address_to_dispatcher.type = ADDR_DISPATCHER;	
+	
+	broadcast_to_modules.x = module_uid_x_coord;
+	broadcast_to_modules.y = module_uid_y_coord;
+	broadcast_to_modules.type = ADDR_BROADCAST;
 
 	init_CAN_message(&poll_response_message);
 	poll_response_message.data[0] = CAN_TRACKING_KILOBOT_START;
@@ -835,6 +852,14 @@ void module_start(void (*setup)(void), void (*loop)(void)) {
 				poll_debug_led_toggle = !poll_debug_led_toggle;
 			}
 		}
+		
+		// DEBUG feature/can_broadcast_between_modules: separating tracking data code with new feature
+		if(messages_to_send > 0) {
+			messages_to_send -= 1;
+
+			send_next_CAN_message_broadcast_to_modules();
+			RB_popfront(CAN_message_tx_buffer);
+		}
 
 		// reset has_started flag if state is not equal to MODULE_RUNNING
 		if(module_state != MODULE_RUNNING){
@@ -859,6 +884,21 @@ inline CAN_message_t* next_CAN_message() {
 		ret = &RB_back(CAN_message_tx_buffer);
 		RB_pushback(CAN_message_tx_buffer); // move internal pointer to the next element
 	}
+
+	return ret;
+}
+
+// DEBUG feature/can_broadcast_between_modules
+// Duplicate function not to break tracking code (here we increment messages_to_send)
+inline CAN_message_t* next_CAN_message_to_modules() {
+	CAN_message_t* ret = NULL;
+
+	if(!RB_full(CAN_message_tx_buffer)) {
+		ret = &RB_back(CAN_message_tx_buffer);
+		RB_pushback(CAN_message_tx_buffer); // move internal pointer to the next element
+	}
+	
+	messages_to_send += 1; // this will trigger the send through the main loop (while(1))
 
 	return ret;
 }

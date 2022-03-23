@@ -29,6 +29,17 @@ void send_tracking(IR_message_t *m, cell_num_t c)
     }
 }
 
+// DEBUG feature/can_broadcast_between_modules: test broadcast between modules
+void send_message_to_modules(){
+	CAN_message_t *msg = next_CAN_message_to_modules();
+	
+	msg->type = CAN_MODULE_DATA; // we put it explicitly here for debugging purposes (maybe through external debugger)
+	
+	// modify message data
+	msg->data[0] = 0xAB; // magic number to recognize this message
+	
+}
+
 
 /**
  * Callback function called when IR message is received
@@ -51,6 +62,18 @@ void IR_rx(IR_message_t *m, cell_num_t c, distance_measurement_t *d,
     /* [TODO] Put your message handling code */
 }
 
+/**
+ * Callback function called when a CAN message is received.
+ * It is forbidden to put blocking calls or LEDs functionalities in this function (fast code only).
+ *
+ * @param m  Received CAN message
+ * Also see CAN.h.
+ */
+CAN_message_rx_t CAN_rx(CAN_message_t *m){
+	if(m->data[0] == 0xAB){
+		// do something
+	}
+}
 
 /**
  * Setup module controller
@@ -78,6 +101,7 @@ int main() {
     // [option] register message receiving callback
     // This code should be put before calling module_start
     module_IR_message_rx = IR_rx;
+	module_CAN_message_rx = CAN_rx;
 
     // [required] start module controller
     module_start(setup, loop);
