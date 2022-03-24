@@ -1,0 +1,18 @@
+#ifndef COMMUNICATION_H
+#define COMMUNICATION_H
+
+
+enum {
+  MESSAGE_GRADIENT = 0x21,
+  MESSAGE_PHEROMONE = 0x22,
+  MESSAGE_PHEROMONE_DROP = 0x23,
+  MESSAGE_PHEROMONE_REINFORCE = 0x24,
+  MESSAGE_TRACKING = 0x10   
+};
+
+const double RW_FORWARD_MU		  		= 20.0;
+const double RW_FORWARD_SIGMA				= 1.5;
+const double RW_ROTATION_CONST				= 0.5;
+const double RW_ROTATION_SPAN				= 3.0;
+
+#endif

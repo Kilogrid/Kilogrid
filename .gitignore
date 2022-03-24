@@ -1,13 +1,69 @@
-# Directories
-build/
-
-# Binaries
-*.o
-*.a
-*.elf
-*.hex
-!CellBootloader.hex
-
-# Cache files
-*.pro.user
+# Prerequisites
 *.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+# because of mac
+.DS_Store
+
+# folders we should not touch
+kilogrid_software/src/build-kilogui-Desktop_Qt_5_12_5_MinGW_32_bit-Debug/
+kilogrid_software/src/build-kilogui-Desktop_Qt_5_12_5_MinGW_32_bit-Release/
+kilogrid_software/src/KiloGUI/
+
+# do not track experiment data 
+*.kilodat
+data/
+
+# do not track log data 
+log/
+
+*.R

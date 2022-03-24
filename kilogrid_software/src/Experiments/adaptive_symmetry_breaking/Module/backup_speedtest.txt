@@ -1,0 +1,51 @@
+    some_cycle_counter += 1; 
+    some_send_counter += 1;
+    bool is_node = false; 
+    for (int i = 0; i < 4; ++i){
+        for (int mod_it = 0; mod_it < 20; mod_it++){
+            if (cell_x[i] == 3 && cell_y[i] == (int)(mod_it*2)){
+                is_node = true;
+                if (some_send_counter % (105 + (int)(5*mod_it)) == 0){ // 
+                    current_colour[i] = (current_colour[i] + 1) % 3;
+                
+                    init_CAN_message(&tmp_can_msg);
+                    tmp_can_msg.id = 55;  // dont know if id is important - maybe to check if msg arrived twice or so - max 65,535
+                    tmp_can_msg.data[0] = 55; // maybe this is the msg type (must be larger than 25 to dont overwrite something and less than 64 see communication/CAN.h)
+                    tmp_can_msg.data[5] = current_colour[i];
+                    tmp_can_msg.data[4] = some_cycle_counter - last_cycle_counter;
+                    last_cycle_counter = some_cycle_counter;
+
+                
+                    cell_address.type = ADDR_INDIVIDUAL; // see communication/kilogrid.h for further information
+                    cell_address.x = 5;  // is the position of a module imo??
+                    cell_address.y = 0 + mod_it;
+                    CAN_message_tx(&tmp_can_msg, cell_address);    
+                }
+            }
+        }
+        if (!is_node){
+            if (some_colour_counter != 0){
+                current_colour[i] = some_colour_counter % 3; 
+            }else{
+                    current_colour[i] = 10;
+            }
+        }   
+        switch(current_colour[i]){
+            case 0:
+                set_LED_with_brightness(cell_id[i], RED, HIGH);
+                break;
+            case 1:
+                set_LED_with_brightness(cell_id[i], GREEN, HIGH);
+                break;
+            case 2:
+                set_LED_with_brightness(cell_id[i], BLUE, HIGH);
+                break;
+            case 3:
+                set_LED_with_brightness(cell_id[i], MAGENTA, HIGH);
+                break;
+            default:
+                set_LED_with_brightness(cell_id[i], WHITE, HIGH);
+                break;
+        }
+    }
+    _delay_ms(5);
