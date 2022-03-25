@@ -120,29 +120,33 @@ void init_ModuleCAN(uint8_t x_coord, uint8_t y_coord){
 		module_address.x = x_coord;
 		module_address.y = y_coord;
 
-		// mask for filters: 0, 1 00000 10000 1
+		// Note: Manual p.25 explains how the mask, filters are layouted. 
+		//  Mask 0 corresponds to filter 0 and filter 1, thus we only need to set it once 
+		//  Mask 1 corresponds to filters 2, 3, 4 and 5, thus we need to set it once  
+
+		// mask for filters: 0, 1
 		mcp2515_set_mask(0, 0b00000100001);
 		
-		// filter 0
+		// filter 0 - should let through: ----- 1---- 0 (- means dont care)
 		module_address.type = ADDR_BROADCAST_TO_MODULE;
-		mcp2515_set_filter(0, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE));
-		// filter 1, ATTENTION: ADDR_COLUMN will not work !!!!!!!
+		mcp2515_set_filter(0, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
+		// filter 1 - ATTENTION: ADDR_ROW will not work - i dont know why  
 		// module_address.type = ADDR_ROW;
 		mcp2515_set_filter(1, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
 		
 		// mask for the filters: 2, 3, 4, 5
-		mcp2515_set_mask(1, 0x7FF); // compare all bits of received message ID to the filter bits (no mask filtering)
+		mcp2515_set_mask(1, 0b11111111111); // compare all bits of received message ID to the filter bits (no mask filtering)
 
-		// filter 2
+		// filter 2 - should let through: 00000 00000 0 (broadcast by the dispatcher)
 		module_address.type = ADDR_BROADCAST;
 		mcp2515_set_filter(2, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
-		// filter 3
+		// filter 3 - should let through: qqqqq rrrrr 0 (individual address x+1 y+1 0, used by the dispatcher)
 		module_address.type = ADDR_INDIVIDUAL;
 		mcp2515_set_filter(3, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
-		// filter 4
-		// module_address.type = ADDR_COLUMN;
+		// filter 4 - not used probably broken
+		module_address.type = ADDR_COLUMN;
 		mcp2515_set_filter(4, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
-		// filter 5
+		// filter 5 - same as ADDR_INDIVIDUAL probably not needed ?
 		module_address.type = ADDR_DISPATCHER;
 		mcp2515_set_filter(5, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
 
@@ -150,15 +154,20 @@ void init_ModuleCAN(uint8_t x_coord, uint8_t y_coord){
 
 		// Note: does not seem to filter out addresses to the attention of the modules.
 
+		// Note: the masks and filters here should let through all messages with the following 
+		//  address ----- ----- 1 (- means dont care) 
+
  		kilogrid_address_t disp_address;
 
 		disp_address.type = ADDR_BROADCAST; // 0's in x and y fields
 
+		// TODO: mask as 0b00000000001 
 		mcp2515_set_mask(0, TO_DISPATCHER); // sets LSB of mask to 1 --> accept all messages which ID LSB is 1
 		mcp2515_set_mask(1, TO_DISPATCHER); // sets LSB of mask to 1 --> accept all messages which ID LSB is 1
 
 		// setup the 6 filters to the dispatcher address (no filter should be left zero!!!)
 		for(uint8_t k = 0; k <= 5; k++){
+			// mcp2515_set_filter(k, 0b00000000001); // is this more understandable?
 			mcp2515_set_filter(k, get_CAN_ID_from_Kilogrid_address(disp_address, TO_DISPATCHER)); // set filter for buffer 0 (filter RXF0): only last bit
 		}
 

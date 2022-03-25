@@ -11,6 +11,8 @@
 #include "tracking.h"
 #include "ringbuffer.h"
 
+#include "utils.h"  // needed for BIT_IS_SET
+
 #include <avr/io.h>        // for port and register definitions
 #include <avr/interrupt.h> // for ISR
 #include <util/setbaud.h>
@@ -18,6 +20,10 @@
 #include <string.h>        // for memcpy
 #include <stdlib.h>         // for rand()
 #include <time.h>
+
+// do we need to tell them that this is the dispatcher 
+#include "platform.h"
+
 
 volatile uint8_t packet_head = 0;
 volatile uint8_t packet_checksum = 0;
@@ -86,6 +92,8 @@ bootpage_data_bytes_t current_bootpage;
 
 kilogrid_address_t kilogrid_addr; // will be used to forward the information to the modules
 volatile uint32_t disp_ticks;
+
+uint8_t status;
 
 /**
  *  @brief Empty dummy callback for the CAN tx success handling.
@@ -754,10 +762,17 @@ int main() {
  */
 ISR(INT0_vect) {
 	// get message from the CAN controller and pass its address to CAN_message_rx
-	mcp2515_get_message(&can_msg);
+	status = mcp2515_get_message(&can_msg);
 
 	// call callback function and pass message to the main
 	module_CAN_message_rx(&can_msg);
+
+	if (BIT_IS_SET(status, 6)) {
+		mcp2515_bit_modify(CANINTF, (1<<RX0IF), 0);
+	}
+	else {
+		mcp2515_bit_modify(CANINTF, (1<<RX1IF), 0);
+	}
 }
 
 ISR(TIMER0_COMPA_vect) {

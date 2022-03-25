@@ -449,7 +449,7 @@ void loop() {
 	for(cell_it = 0; cell_it < 4; cell_it++){  // todo: delete, only for debugging 
 		// logging requirement 
 		//if (cell_x[cell_it] == 10 && cell_y[cell_it] == 10){
-		if (some_cycle_counter % 2000 == 0 && !debug_till()){
+		if (some_cycle_counter % 200 == 0){  // TODO maybe we need to introduce a lock, while sending tracking ? -> but shouldnt be a problem
 			// setting logging data 
 	        CAN_message_t* msg = next_CAN_message();
 	        tracking_user_data_t usr_data; 

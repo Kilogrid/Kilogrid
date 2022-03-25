@@ -178,13 +178,12 @@ uint8_t init_mcp2515(uint8_t speed)
 	// set TXnRTS as inputs
 	mcp2515_write_register(TXRTSCTRL, 0);
 	
-	//mcp2515_write_register(RXB0CTRL, (1<<RXM1)|(1<<RXM0)); // turn off filtering for buffer 0 => receive any message
-	//mcp2515_write_register(RXB1CTRL, (1<<RXM1)|(1<<RXM0)); // turn off filtering for buffer 1 => receive any message
+	// mcp2515_write_register(RXB0CTRL, (1<<RXM1)|(1<<RXM0)); // turn off filtering for buffer 0 => receive any message
+	// mcp2515_write_register(RXB1CTRL, (1<<RXM1)|(1<<RXM0)); // turn off filtering for buffer 1 => receive any message
 	
-	// TODO if you look in the documentation of mcp2515 youll find that you should use either 11 or 00 for [RXM1, RXM0] using 01 10 is not recommanded? 
-	//  so what are you doing here? this shouldnt work! see p. 23/27/28
-	mcp2515_write_register(RXB0CTRL, (0<<RXM0), (0<<RXM1)); // receive only standard messages in receive buffer 0
-	mcp2515_write_register(RXB1CTRL, (0<<RXM0), (0<<RXM1)); // receive only standard messages in receive buffer 1
+	// Filtering activated, see p. 23/27/28
+	mcp2515_write_register(RXB0CTRL, (0<<RXM0) | (0<<RXM1)); // receive only standard messages in receive buffer 0
+	mcp2515_write_register(RXB1CTRL, (0<<RXM0) | (0<<RXM1)); // receive only standard messages in receive buffer 1
 
 	// reset device to normal mode
 	mcp2515_write_register(CANCTRL, 0);
@@ -258,18 +257,23 @@ uint8_t mcp2515_get_message(CAN_message_t *message)
 	
 	SPI_RELEASE_CAN(); // interrupt bits should be cleared by releasing the nCS_CAN signal
 	
-	status = mcp2515_read_status(SPI_RX_STATUS);
+	status = mcp2515_read_status(SPI_RX_STATUS);  // maybe omit this because it takes long
 	
+	// Note: see manual p. 23, 4.1.3 It states that we need to reset RX0IF/RX1IF in the mcu in
+	//  order to receive new messages. Why is it commented out? This should be there, right?
+	//  Does not work if we put it in, why?
+
 	// clear interrupt flag
 	// at this point, we know that either BIT(status, 6) == 1 or BIT(status, 7) == 1
-// 	if (BIT_IS_SET(status, 6)) {
-// 		mcp2515_bit_modify(CANINTF, (1<<RX0IF), 0);
-// 	}
-// 	else {
-// 		mcp2515_bit_modify(CANINTF, (1<<RX1IF), 0);
-// 	}
+	// if (BIT_IS_SET(status, 6)) {
+	// 	mcp2515_bit_modify(CANINTF, (1<<RX0IF), 0);
+	// }
+	// else {
+	// 	mcp2515_bit_modify(CANINTF, (1<<RX1IF), 0);
+	// }
 	
-	return (status & 0x07) + 1;
+	//return (status & 0x07) + 1;
+	return status;
 }
 
 // ----------------------------------------------------------------------------

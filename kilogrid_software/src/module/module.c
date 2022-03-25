@@ -1,3 +1,6 @@
+// TODO do we need to initialisie it here ?
+#define MODULE
+
 #include <stdlib.h>         // for rand()
 #include <time.h>
 #include <string.h>         // for memcpy
@@ -5,6 +8,8 @@
 #include <avr/interrupt.h>
 #include <avr/eeprom.h>     // read eeprom values
 #include <util/delay.h>     // delay macros
+
+#include "utils.h"  // needed for BIT_IS_SET
 
 #include "module.h"
 #include "moduleIR.h"
@@ -265,6 +270,7 @@ kilogrid_address_t CAN_buffer_address_tx;
 // flag for signaling that the user wants to send a message 
 uint8_t send_module_to_module_msg_flag;
 uint8_t debug_till_var = 0; 
+uint8_t status;
 
 
 
@@ -959,8 +965,14 @@ ISR(INT0_vect) {
 	// 	mcp2515_bit_modify(CANINTF, (1<<RX1IF), 0);
 	// 	mcp2515_bit_modify(EFLG, (1<<RX1OVR), 0);
 	// }else{  // just received a new can msg
-		mcp2515_get_message(&CAN_message_rx_buffer); // retrieve CAN message
+		status = mcp2515_get_message(&CAN_message_rx_buffer); // retrieve CAN message
 		process_CAN_message();
+	if (BIT_IS_SET(status, 6)) {
+		mcp2515_bit_modify(CANINTF, (1<<RX0IF), 0);
+	}
+	else {
+		mcp2515_bit_modify(CANINTF, (1<<RX1IF), 0);
+	}
 	// }
 }
 #endif
