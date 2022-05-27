@@ -100,8 +100,24 @@ Either close and open calibration again or put them on a tray.
 Copy a existing Project. 
 Then you have to adjust the .kconf file, Kilobot/KiloMain (robot controller) and Module/ModuleMain the module controller.  
 
-TODO
+The structure of a new experiment should look something like this:
+```
+cd Experiments 
+mkdir my_experiment
+cd my_experiment 
+```
 
+structure:
+- *.kconf
+- communication.h
+- Module/
+-- ModuleMain.c
+-- Makefile
+-- build/
+- Kilobot/
+-- KiloMain.c
+-- Makefile
+-- build/
 
 
 ## Other usefull actions 
