@@ -905,14 +905,14 @@ void module_start(void (*setup)(void), void (*loop)(void)) {
 				poll_debug_led_toggle = !poll_debug_led_toggle;
 			}
 		}
-		else {  // if there is no tracking data to be send, send my stuff, dirty hack i know 
-			if (send_module_to_module_msg_flag){
-				send_module_to_module_msg_flag = 0;
-				CAN_message_tx(&CAN_buffer_message_tx, CAN_address_to_modules);
-				_delay_ms(1);
+		// else {  // if there is no tracking data to be send, send my stuff, dirty hack i know 
+		// 	if (send_module_to_module_msg_flag){
+		// 		send_module_to_module_msg_flag = 0;
+		// 		CAN_message_tx(&CAN_buffer_message_tx, CAN_address_to_modules);
+		// 		_delay_ms(1);
 				
-			}
-		}
+		// 	}
+		// }
 
 		// reset has_started flag if state is not equal to MODULE_RUNNING
 		if(module_state != MODULE_RUNNING){

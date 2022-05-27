@@ -125,13 +125,13 @@ void init_ModuleCAN(uint8_t x_coord, uint8_t y_coord){
 		//  Mask 1 corresponds to filters 2, 3, 4 and 5, thus we need to set it once  
 
 		// mask for filters: 0, 1
-		mcp2515_set_mask(0, 0b00000100001);
+		mcp2515_set_mask(0, 0b00000100001); 
 		
 		// filter 0 - should let through: ----- 1---- 0 (- means dont care)
 		module_address.type = ADDR_BROADCAST_TO_MODULE;
 		mcp2515_set_filter(0, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
-		// filter 1 - ATTENTION: ADDR_ROW will not work - i dont know why  
-		// module_address.type = ADDR_ROW;
+		// filter 1 - ATTENTION: ADDR_ROW will not work - checks basically only for to module, would disable direct sending to the module   
+		//module_address.type = ADDR_ROW;  // TODO: as smart persons has told many times we need to initialise all filters so we get no side effects!
 		mcp2515_set_filter(1, get_CAN_ID_from_Kilogrid_address(module_address, TO_MODULE) );
 		
 		// mask for the filters: 2, 3, 4, 5

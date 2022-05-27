@@ -73,6 +73,7 @@ uint32_t wallAvoidanceCounter = 0; // to decide when the robot is stuck...
 bool stuck = false;  // needed if the robot gets stuck
 bool hit_wall = false;
 
+
 tracking_user_data_t tracking_data;
 
 
@@ -90,8 +91,8 @@ bool received_msg_kilogrid = false;
 
 // dirty hack
 bool init = true;
-bool finished = false;
-
+uint32_t colour_counter = 0;
+uint32_t current_coulor = 0;
 
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -330,6 +331,27 @@ void update_robot_state(){
     received_msg_kilogrid = false;
 }
 
+unsigned int GetRandomNumber(unsigned int range_rnd){
+    int randomInt = RAND_MAX;
+    while (randomInt > 30000){
+        randomInt = rand();
+    }
+    unsigned int random = randomInt % range_rnd + 1;
+    return random;
+}
+
+void random_walk_waypoint_model(){
+    do {
+        // getting a random number in the range [1,GPS_maxcell-1] to avoid the border cells (upper bound is -2 because index is from 0)
+        Goal_GPS_X = GetRandomNumber(10000)%( 20 - 4 ) + 2;
+        Goal_GPS_Y = GetRandomNumber(10000)%( 40 - 4 ) + 2;
+        if(abs(Robot_GPS_X - Goal_GPS_X) >= 4 || abs(Robot_GPS_Y - Goal_GPS_Y) >= 4){
+            // if the selected cell is enough distant from the current location, it's good
+            break;
+        }
+    } while(true);
+}
+
 /*-----------------------------------------------------------------------------------------------*/
 /* Init function                                                                                 */
 /*-----------------------------------------------------------------------------------------------*/
@@ -338,13 +360,13 @@ void setup(){
     tracking_data.byte[0] = kilo_uid;
     // Initialise motors
     set_motors(0,0);
-
+    random_walk_waypoint_model();
     set_motion(FORWARD);
 
     // Initialise motion variables
     last_motion_ticks = rand() % MAX_STRAIGHT_TICKS + 1;
 
-    set_color(RGB(3,3,3));
+    set_color(RGB(0,0,0));
 
     // init robot state
     Robot_GPS_X_last = GPS_MAX_CELL_X/2;
@@ -396,13 +418,8 @@ void tx_message_success() {
 /*-----------------------------------------------------------------------------------------------*/
 void loop() {
     // goal reached
-    if(received_y >= 18 || finished){
-        finished = true;
-        set_motors(0,0);
-        set_color(RGB(3,3,3));
-        delay(100);
-        set_color(RGB(0,0,0));
-        delay(100);
+    if(Goal_GPS_X == Robot_GPS_X && Goal_GPS_Y == Robot_GPS_Y){
+        random_walk_waypoint_model();
     }else{
         // main loop
         if(received_msg_kilogrid){
@@ -414,36 +431,46 @@ void loop() {
 
         // move towards random location
         GoToGoalLocation();
-        /*
-        if(hit_wall){
-            set_color(RGB(0,3,0));
-        }else{
-            set_color(RGB(3,3,3));
-        }
         
-        switch(current_motion_type){
-            case FORWARD:
-                set_color(RGB(0,3,0));
-                break;
-            case TURN_RIGHT_MY:
-                set_color(RGB(3,0,0));
-                break;
-            case TURN_LEFT_MY:
-                set_color(RGB(0,0,3));
-                break;
-            case STOP:
-            default:
-                set_color(RGB(3,3,3));
+        // if(hit_wall){
+        //     set_color(RGB(0,3,0));
+        // }else{
+        //     set_color(RGB(3,3,3));
+        // }
+        
+        // switch(current_motion_type){
+        //     case FORWARD:
+        //         set_color(RGB(0,3,0));
+        //         break;
+        //     case TURN_RIGHT_MY:
+        //         set_color(RGB(3,0,0));
+        //         break;
+        //     case TURN_LEFT_MY:
+        //         set_color(RGB(0,0,3));
+        //         break;
+        //     case STOP:
+        //     default:
+        //         set_color(RGB(3,3,3));
 
+        // }
+        if (colour_counter % 2000 == 0) {
+            current_coulor = current_coulor + 1;
+            if (current_coulor % 2 == 0) {
+                set_color(RGB(0,3,0));
+            }else{
+                set_color(RGB(3,0,0));
+            }
         }
-*/
+        colour_counter = colour_counter + 1;
+        
+
         //set_color(RGB(3,3,3));
     }
     tracking_data.byte[1] = received_x;
     tracking_data.byte[2] = received_y;
     tracking_data.byte[3] = Robot_GPS_X;
     tracking_data.byte[4] = Robot_GPS_Y;
-    kilob_tracking(&tracking_data);
+    // kilob_tracking(&tracking_data);
 
 }
 

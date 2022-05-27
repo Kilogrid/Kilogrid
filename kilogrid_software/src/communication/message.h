@@ -33,7 +33,6 @@ typedef enum {
     GPS,
 	TEST = 0x0A, // reserved for tests
 	/**** Module to Kilobot range ****/
-    VIRTUAL_AGENT_MSG = 0x0B,  // msg type 11, TODO: this is introduced by till aust for his experiments - if it interferes with something feel free to delete, but should be fine 
     TRACKING = 0x10,
 
     GO_STRAIGHT = 0x7D,

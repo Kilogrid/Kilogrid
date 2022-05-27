@@ -32,25 +32,40 @@ void IR_rx(IR_message_t *m, cell_num_t c, distance_measurement_t *d, uint8_t CRC
 }
 
 void setup(){
-    cell_x[0] = (configuration[0]);
-    cell_x[1] = (configuration[0]);
-    cell_x[2] = (configuration[0]);
-    cell_x[3] = (configuration[0]);
+    cell_x[0] = (configuration[0] * 2);
+    cell_x[1] = (configuration[0] * 2 + 1);
+    cell_x[2] = (configuration[0] * 2);
+    cell_x[3] = (configuration[0] * 2 + 1);
 
-    cell_y[0] = (configuration[1]);
-    cell_y[1] = (configuration[1]);
-    cell_y[2] = (configuration[1]);
-    cell_y[3] = (configuration[1]);
+    cell_y[0] = (configuration[1] * 2 + 1);
+    cell_y[1] = (configuration[1] * 2 + 1);
+    cell_y[2] = (configuration[1] * 2);
+    cell_y[3] = (configuration[1] * 2);
 
     cell_role[0] = (configuration[2]);
-    cell_role[1] = (configuration[2]);
-    cell_role[2] = (configuration[2]);
-    cell_role[3] = (configuration[2]);
+    cell_role[1] = (configuration[3]);
+    cell_role[2] = (configuration[4]);
+    cell_role[3] = (configuration[5]);
 
-    cell_colour[0] = (configuration[3]);
-    cell_colour[1] = (configuration[4]);
-    cell_colour[2] = (configuration[5]);
-    cell_colour[3] = (configuration[6]);
+    cell_colour[0] = (configuration[6]);
+    cell_colour[1] = (configuration[7]);
+    cell_colour[2] = (configuration[8]);
+    cell_colour[3] = (configuration[9]);
+
+    for (int i_it = 0; i_it < 4; i_it++){
+        switch(cell_colour[i_it]){
+            case 1:
+                set_LED_with_brightness(cell_id[i_it], BLUE, HIGH);
+                break;
+            case 2:
+                set_LED_with_brightness(cell_id[i_it], YELLOW, HIGH);
+                break;
+            default:
+                set_LED_with_brightness(cell_id[i_it], WHITE, HIGH);
+        }        
+    }
+
+
 }
 
 void loop(){
@@ -65,10 +80,10 @@ void loop(){
 
         switch(cell_colour[i]){
             case 1:
-                set_LED_with_brightness(cell_id[i], BLUE, HIGH);
+                set_LED_with_brightness(cell_id[i], GREEN, HIGH);
                 break;
             case 2:
-                set_LED_with_brightness(cell_id[i], GREEN, HIGH);
+                set_LED_with_brightness(cell_id[i], WHITE, ADJUSTED);
                 break;
             case 3:
                 set_LED_with_brightness(cell_id[i], RED, HIGH);
